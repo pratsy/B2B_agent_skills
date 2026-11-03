@@ -265,6 +265,34 @@ def _run_playbook_case(playbook: str, case: dict[str, Any], provider: Provider) 
                 csv_path, case["icp"], provider=provider, workspace=ws, top=case.get("top", 50), output=csv_path.with_suffix(".out.csv")
             )
             data = {"rows": lr.rows, "counts": lr.counts, "report": lr.report}
+        elif kind == "review":
+            import datetime as _dt
+            import tempfile
+
+            from .review import deals_from_csv, monday_review
+            from .workspace import Workspace
+
+            root = Path(tempfile.mkdtemp(prefix="b2b-eval-"))
+            (root / "company.md").write_text(case.get("context", "# Eval company"), encoding="utf-8")
+            for slug, text in case.get("deal_notes", {}).items():
+                (root / "gtm" / "deals").mkdir(parents=True, exist_ok=True)
+                (root / "gtm" / "deals" / f"{slug}.md").write_text(text, encoding="utf-8")
+            deals = deals_from_csv(_temp_csv(case["deals"]))
+            rr = monday_review(deals, provider=provider, workspace=Workspace(root), today=_dt.date.fromisoformat(case["today"]))
+            data = {
+                "deals": [
+                    {
+                        "deal": r.deal,
+                        "deal_name": r.deal.get("deal_name"),
+                        "flags": r.flags,
+                        "notes_file": r.notes_file,
+                        "risk": r.risk,
+                        "priority": r.priority,
+                    }
+                    for r in rr.deals
+                ],
+                "report": rr.report,
+            }
         else:
             from .icp import find_icp
 

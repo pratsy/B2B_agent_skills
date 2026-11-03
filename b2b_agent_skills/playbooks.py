@@ -165,17 +165,28 @@ def run_playbook(
     )
 
     report = ""
-    for _ in range(2):
-        completion = provider.complete(system=_report_prompt(spec), user=user, schema=None, skill=f"{name}:report")
+    message = user
+    for _ in range(3):
+        completion = provider.complete(system=_report_prompt(spec), user=message, schema=None, skill=f"{name}:report")
         report = _clean_markdown(completion.text)
-        if all(f"## {h}".lower() in report.lower() for h in spec["report"]["headings"]):
+        problems = [f"missing heading '## {h}'" for h in spec["report"]["headings"] if f"## {h}".lower() not in report.lower()]
+        problems += consistency_problems(report, steps)
+        if not problems:
             break
+        message = (
+            user
+            + "\n\nYour previous draft contradicted the skill results or broke the format:\n- "
+            + "\n- ".join(problems)
+            + "\nRewrite the report so it matches the skill results exactly."
+        )
 
     result = PlaybookResult(playbook=name, steps=steps, report=report, missing=missing)
     if workspace and save:
         subject = subject or _subject_from(results, spec) or "untitled"
         target = workspace.root / spec["report"]["save_to"].format(subject=re.sub(r"[^a-z0-9]+", "-", subject.lower()).strip("-"))
-        workspace.append_note(target, spec["title"], report)
+        # Keep the raw notes with the debrief: later re-scoring (e.g. monday-review) needs primary evidence, not a summary.
+        sources = "\n\n---\n\n".join(t.strip() for t in texts)
+        workspace.append_note(target, spec["title"], f"{report}\n\n<details><summary>Source notes</summary>\n\n{sources}\n\n</details>")
         workspace.log_run(
             {
                 "type": "playbook",
@@ -187,6 +198,31 @@ def run_playbook(
         )
         result.saved_to = str(target.relative_to(workspace.root))
     return result
+
+
+def consistency_problems(report: str, steps: dict[str, StepResult]) -> list[str]:
+    """Facts the report must state the same way the skills computed them (checked in code, not trusted to the prompt)."""
+    problems = []
+    risk = (steps.get("risk") or StepResult("", "", "")).output or {}
+    total = risk.get("total_score")
+    if isinstance(total, (int, float)):
+        found = re.findall(r"\b(\d{1,2})\s*/\s*24\b", report)
+        if not found:
+            problems.append(f"state the MEDDPICC total as {total:g}/24")
+        elif any(abs(float(n) - float(total)) > 0.5 for n in found):
+            problems.append(f"the MEDDPICC total is {total:g}/24 (the report says {', '.join(sorted(set(found)))}/24)")
+    if re.search(r"/\s*40\b", report):
+        problems.append("MEDDPICC is out of 24, not 40")
+    stakeholders = (steps.get("stakeholders") or StepResult("", "", "")).output or {}
+    single = stakeholders.get("single_threading_risk")
+    claim = re.search(r"single.threading risk\W{0,6}(yes|no|not|true|false|high|low|none)", report, re.I)
+    if isinstance(single, bool) and claim:
+        says_yes = claim.group(1).lower() in {"yes", "true", "high"}
+        if says_yes != single:
+            problems.append(
+                f"the stakeholder skill found single-threading risk = {'yes' if single else 'no'}; the report says the opposite"
+            )
+    return problems
 
 
 def _subject_from(results: list[StepResult], spec: dict[str, Any]) -> str | None:

@@ -56,6 +56,10 @@ This folder is the go-to-market workspace for the company described in `company.
 - `gtm/accounts/<account>.md`: notes per account.
 - `gtm/icp.json`: the structured ICP. Propose changes; apply them only after the user agrees.
 - `gtm/runs/`: one line per run (what was run, on what, the result).
+- `gtm/inbox/`: drop call transcripts here; `b2b-skills inbox` debriefs them.
+- `gtm/reviews/`: weekly pipeline reviews.
+- `gtm/pending/`: proposed CRM changes waiting for approval (`b2b-skills pending`, `approve`, `reject`).
+- `gtm/outcomes.csv`: won/lost outcomes (`b2b-skills outcome`).
 
 ## Actions
 
@@ -67,6 +71,48 @@ This folder is the go-to-market workspace for the company described in `company.
 MCP_JSON = {"mcpServers": {"b2b-agent-skills": {"command": "b2b-skills", "args": ["mcp"]}}}
 
 GITIGNORE = ".env\n"
+
+WEEKLY_WORKFLOW = """name: GTM weekly
+
+# Every Monday: debrief new transcripts in gtm/inbox/, run the pipeline review, post both to Slack,
+# and commit the updated notes. Runs on your Claude subscription through the Claude Code CLI:
+# create a token with `claude setup-token` and save it as the CLAUDE_CODE_OAUTH_TOKEN secret.
+# Optional secrets: HUBSPOT_ACCESS_TOKEN (pipeline from HubSpot), SLACK_WEBHOOK_URL.
+# HubSpot write-backs are only proposed here; approve them locally with `b2b-skills approve`.
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    env:
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      HUBSPOT_ACCESS_TOKEN: ${{ secrets.HUBSPOT_ACCESS_TOKEN }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      PROVIDER: claude-code
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install b2b-agent-skills && npm install -g @anthropic-ai/claude-code
+      - name: Debrief new transcripts
+        run: b2b-skills inbox $([ -n "$SLACK_WEBHOOK_URL" ] && echo --slack) || true
+      - name: Pipeline review
+        run: |
+          if [ -n "$HUBSPOT_ACCESS_TOKEN" ]; then SRC=--hubspot; elif [ -f pipeline.csv ]; then SRC="--csv pipeline.csv"; else echo "no pipeline source"; exit 0; fi
+          b2b-skills playbook monday-review $SRC $([ -n "$SLACK_WEBHOOK_URL" ] && echo --slack)
+      - name: Commit updated notes
+        run: |
+          git config user.name "gtm-bot" && git config user.email "gtm-bot@users.noreply.github.com"
+          git add gtm && git diff --cached --quiet || git commit -m "GTM weekly: $(date +%F)" && git push
+"""
 
 
 def fetch_website_text(url: str, limit: int = 15000) -> str:
@@ -145,6 +191,10 @@ def create_workspace(
     (root / ".mcp.json").write_text(json.dumps(MCP_JSON, indent=2) + "\n", encoding="utf-8")
     if not (root / ".gitignore").exists():
         (root / ".gitignore").write_text(GITIGNORE, encoding="utf-8")
-    for sub in ("deals", "accounts", "runs"):
+    for sub in ("deals", "accounts", "runs", "inbox"):
         (root / "gtm" / sub).mkdir(parents=True, exist_ok=True)
+    workflow = root / ".github" / "workflows" / "gtm-weekly.yml"
+    if not workflow.exists():
+        workflow.parent.mkdir(parents=True, exist_ok=True)
+        workflow.write_text(WEEKLY_WORKFLOW, encoding="utf-8")
     return {"root": str(root), "answered": sum(1 for v in final.values() if v), "drafted_from_website": sorted(drafted)}

@@ -173,7 +173,7 @@ def test_playbook_golden_suite_is_well_formed():
 
     suites = load_playbook_golden()
     assert {s["playbook"] for s in suites} == set(list_playbooks())
-    inputs = {"notes": "notes", "list": "rows", "icp": "customers"}
+    inputs = {"notes": "notes", "list": "rows", "icp": "customers", "review": "deals"}
     for s in suites:
         kind = load_playbook(s["playbook"])["kind"]
         for c in s["cases"]:
@@ -183,3 +183,42 @@ def test_playbook_golden_suite_is_well_formed():
 def test_cli_playbook_list(capsys):
     assert main(["playbook", "list"]) == 0
     assert "call-debrief" in capsys.readouterr().out
+
+
+def test_consistency_problems_catch_contradictions():
+    from b2b_agent_skills.playbooks import StepResult, consistency_problems
+
+    steps = {
+        "risk": StepResult("risk", "deal-risk-assessor", "ok", output={"total_score": 12}),
+        "stakeholders": StepResult("stakeholders", "stakeholder-map-builder", "ok", output={"single_threading_risk": False}),
+    }
+    assert consistency_problems("## Verdict\n12/24, high. Single-threading risk: no.", steps) == []
+    problems = consistency_problems("## Verdict\n10/40. Single-threading risk: yes", steps)
+    assert (
+        any("out of 24" in p for p in problems) and any("single-threading" in p for p in problems) and any("12/24" in p for p in problems)
+    )
+    assert consistency_problems("8/24", steps) == ["the MEDDPICC total is 12/24 (the report says 8/24)"]
+
+
+def test_playbook_retries_when_report_contradicts_skills(tmp_path):
+    from b2b_agent_skills.providers import Completion
+
+    class Contradicts(Scripted):
+        reports = 0
+
+        def complete(self, *, system, user, schema, skill):
+            if skill.endswith(":report"):
+                Contradicts.reports += 1
+                st = "yes" if Contradicts.reports == 1 else "no"
+                body = "\n\n".join(
+                    f"## {h}\n\nx"
+                    for h in ["Verdict", "Next 3 actions", "Missing evidence", "Stakeholders", "Objection", "Draft follow-up email"]
+                )
+                return Completion(text=body.replace("## Verdict\n\nx", f"## Verdict\n\n14/24. Single-threading risk: {st}."), model="x")
+            return super().complete(system=system, user=user, schema=schema, skill=skill)
+
+    provider = Contradicts(
+        {"stakeholder-map-builder": {**get_skill("stakeholder-map-builder").example_output, "single_threading_risk": False}}
+    )
+    result = run_playbook("call-debrief", NOTES, provider=provider, save=False)
+    assert Contradicts.reports == 2 and "Single-threading risk: no" in result.report

@@ -17,6 +17,8 @@ For each of the 8 pillars, ask the user (or infer from what they've shared) for 
 - **2** — confirmed by the champion, but not by the economic buyer or in writing
 - **3** — confirmed by the economic buyer directly, or documented in a mutual action plan / buyer-shared artifact
 
+Who counts as confirming: a contact's own first-hand statement about their role or actions ("I'm sponsoring this evaluation", "I set up the internal review") confirms that contact's Champion evidence at 2 when they are the one acting for you internally. Their guess about someone else ("I think the CFO probably signs") stays at 1 for that other pillar.
+
 Sum the 8 scores (0-24):
 
 - **24-19** Low risk — Commit-eligible

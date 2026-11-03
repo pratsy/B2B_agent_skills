@@ -54,10 +54,16 @@ def read_csv(path: str | Path) -> tuple[list[str], list[dict[str, str]]]:
         return [h.strip() for h in (reader.fieldnames or [])], rows
 
 
-def map_columns(headers: list[str], overrides: dict[str, str] | None = None, fields: list[str] | None = None) -> dict[str, str]:
+def map_columns(
+    headers: list[str],
+    overrides: dict[str, str] | None = None,
+    fields: list[str] | None = None,
+    aliases: dict[str, list[str]] | None = None,
+) -> dict[str, str]:
     """Map canonical field -> CSV header. Exact alias match first, then 'alias contained in header'."""
     overrides = overrides or {}
-    wanted = fields or list(ALIASES)
+    table = {**ALIASES, **(aliases or {})}
+    wanted = fields or list(table)
     mapping: dict[str, str] = {}
     used: set[str] = set()
     for field, header in overrides.items():
@@ -70,7 +76,7 @@ def map_columns(headers: list[str], overrides: dict[str, str] | None = None, fie
         for field in wanted:
             if field in mapping:
                 continue
-            for alias in ALIASES.get(field, [_norm(field)]):
+            for alias in table.get(field, [_norm(field)]):
                 hit = next(
                     (
                         h

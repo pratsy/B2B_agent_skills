@@ -155,6 +155,8 @@ def cmd_playbook(args: argparse.Namespace) -> int:
         return _playbook_list(args)
     if spec["kind"] == "icp":
         return _playbook_icp(args)
+    if spec["kind"] == "review":
+        return _playbook_review(args)
     if not args.notes:
         raise SkillsError(f"give the material to work from, e.g. b2b-skills playbook {args.name} --notes call.txt")
     ws = _workspace(args)
@@ -215,6 +217,131 @@ def _playbook_icp(args: argparse.Namespace) -> int:
         print(f"(saved {kind}: {path})", file=sys.stderr)
     if result.saved.get("icp", "").endswith("icp.proposed.json"):
         print("Review gtm/icp.proposed.json; re-run with --apply (or rename it to icp.json) to use it for list scoring.", file=sys.stderr)
+    return 0
+
+
+def _require_workspace(args: argparse.Namespace) -> Any:
+    ws = _workspace(args)
+    if not ws:
+        raise SkillsError("run this inside a workspace (create one with `b2b-skills init`)")
+    return ws
+
+
+def _playbook_review(args: argparse.Namespace) -> int:
+    from .review import deals_from_csv, monday_review
+    from .tables import parse_overrides
+
+    if args.hubspot:
+        from .connectors.hubspot import HubSpot
+
+        deals = HubSpot().open_deals()
+    elif args.csv:
+        deals = deals_from_csv(args.csv, parse_overrides(args.map))
+    else:
+        raise SkillsError("give the pipeline: --hubspot, or --csv pipeline.csv (an open-deals export)")
+    ws = _workspace(args)
+    result = monday_review(
+        deals,
+        provider=_provider(args),
+        workspace=ws,
+        max_scored=args.max_scored,
+        propose_writebacks=bool(args.hubspot and ws),
+        concurrency=args.concurrency,
+    )
+    print(result.report)
+    if result.saved_to:
+        print(f"\n(saved to {result.saved_to})", file=sys.stderr)
+    if result.proposed:
+        print(
+            f"{len(result.proposed)} HubSpot update(s) proposed. Review with `b2b-skills pending`, apply with `b2b-skills approve all`.",
+            file=sys.stderr,
+        )
+    if args.slack:
+        from .notify import post_slack
+
+        post_slack(result.report)
+        print("(posted to Slack)", file=sys.stderr)
+    return 0
+
+
+def cmd_inbox(args: argparse.Namespace) -> int:
+    from .inbox import process_inbox
+
+    ws = _require_workspace(args)
+    items = process_inbox(ws, _provider(args))
+    if not items:
+        print(f"Inbox empty. Drop transcripts into {ws.gtm / 'inbox'} (name them after the deal).")
+        return 0
+    for item in items:
+        if item.error:
+            print(f"✗ {item.file}: {item.error}")
+            continue
+        assert item.result is not None
+        verdict = item.result.report.split("## Next 3 actions")[0].replace("## Verdict", "").strip()
+        print(f"✓ {item.file} -> {item.result.saved_to}\n  {verdict[:300]}")
+        if args.slack:
+            from .notify import post_slack
+
+            post_slack(f"*Call debrief: {item.subject}*\n\n{item.result.report}")
+    return 1 if any(i.error for i in items) else 0
+
+
+def cmd_pending(args: argparse.Namespace) -> int:
+    from .approvals import describe, pending
+
+    items = pending(_require_workspace(args))
+    print("\n".join(describe(c) for c in items) if items else "Nothing pending.")
+    return 0
+
+
+def _appliers() -> dict[str, Any]:
+    def hubspot(change: dict[str, Any]) -> None:
+        from .connectors.hubspot import HubSpot
+
+        HubSpot().update_deal(change["object_id"], change["changes"])
+
+    return {"hubspot": hubspot}
+
+
+def cmd_approve(args: argparse.Namespace) -> int:
+    from .approvals import approve
+
+    results = approve(_require_workspace(args), args.which, _appliers(), dry_run=args.dry_run)
+    for r in results:
+        print(f"{r['status']:>12}  [{r['id']}] {r['target']} {r['label']}" + (f"  ({r['error']})" if r.get("error") else ""))
+    return 1 if any(r["status"] == "failed" for r in results) else 0
+
+
+def cmd_reject(args: argparse.Namespace) -> int:
+    from .approvals import reject
+
+    for r in reject(_require_workspace(args), args.which):
+        print(f"rejected  [{r['id']}] {r['label']}")
+    return 0
+
+
+def cmd_outcome(args: argparse.Namespace) -> int:
+    from .approvals import record_outcome
+
+    ws = _require_workspace(args)
+    path = record_outcome(ws, args.subject, args.result, args.value, args.reason or "")
+    ws.log_run({"type": "outcome", "subject": args.subject, "outcome": args.result, "value": args.value, "reason": args.reason})
+    print(f"Recorded {args.subject}: {args.result} ({path.relative_to(ws.root)})")
+    return 0
+
+
+def cmd_hubspot(args: argparse.Namespace) -> int:
+    from .connectors.hubspot import HubSpot
+
+    hs = HubSpot()
+    if args.action == "setup":
+        created = hs.ensure_writeback_properties()
+        print("Created deal properties: " + ", ".join(created) if created else "Write-back properties already exist.")
+    else:
+        for d in hs.open_deals(limit=args.limit):
+            print(
+                f"{d['deal_id']:>12}  {d['deal_name']}  ({d['company'] or 'no company'})  {d['amount'] or ''}  stage={d['stage']}  close={d['close_date']}"
+            )
     return 0
 
 
@@ -365,9 +492,39 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--customers", help="find-icp: account list with an outcome column (won/lost)")
     p.add_argument("--apply", action="store_true", help="find-icp: write gtm/icp.json directly instead of icp.proposed.json")
     p.add_argument("--map", action="append", help="field=Column Name, when a column isn't recognized (repeatable)")
+    p.add_argument("--hubspot", action="store_true", help="monday-review: read open deals from HubSpot")
+    p.add_argument("--max-scored", type=int, default=15, help="monday-review: re-score at most this many deals from notes")
+    p.add_argument("--slack", action="store_true", help="monday-review: post the review to SLACK_WEBHOOK_URL")
     p.add_argument("--concurrency", type=int, default=2)
     _provider_args(p)
     p.set_defaults(func=cmd_playbook)
+
+    p = sub.add_parser("inbox", help="debrief every new transcript in gtm/inbox/")
+    p.add_argument("--slack", action="store_true", help="post each debrief to SLACK_WEBHOOK_URL")
+    _provider_args(p)
+    p.set_defaults(func=cmd_inbox)
+
+    p = sub.add_parser("pending", help="list proposed changes waiting for approval")
+    p.set_defaults(func=cmd_pending)
+    p = sub.add_parser("approve", help="apply proposed changes (an id, or all)")
+    p.add_argument("which")
+    p.add_argument("--dry-run", action="store_true")
+    p.set_defaults(func=cmd_approve)
+    p = sub.add_parser("reject", help="discard proposed changes (an id, or all)")
+    p.add_argument("which")
+    p.set_defaults(func=cmd_reject)
+
+    p = sub.add_parser("outcome", help="record a won/lost outcome (for calibration later)")
+    p.add_argument("subject", help="deal or lead name")
+    p.add_argument("result", choices=["won", "lost", "no-decision"])
+    p.add_argument("--value", type=float)
+    p.add_argument("--reason")
+    p.set_defaults(func=cmd_outcome)
+
+    p = sub.add_parser("hubspot", help="HubSpot connector: `setup` creates write-back properties, `deals` lists open deals")
+    p.add_argument("action", choices=["setup", "deals"])
+    p.add_argument("--limit", type=int, default=50)
+    p.set_defaults(func=cmd_hubspot)
 
     p = sub.add_parser("eval", help="run the golden evals")
     _provider_args(p)

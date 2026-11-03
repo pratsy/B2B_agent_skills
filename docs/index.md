@@ -1,6 +1,6 @@
 # B2B Agent Skills
 
-**46 AI skills for B2B sales, marketing, RevOps and GTM.** Each one encodes a named methodology an experienced operator would use, such as MEDDPICC, SPIN, Dunford positioning or TAM/SAM/SOM, as an explicit scoring model with a JSON Schema output contract. You get decisions you can check and wire into a pipeline, not generic AI prose.
+**An open-source GTM workspace for founder-led sales.** Connect your call notes, lead lists, and CRM, and it does the go-to-market work with tested methods: debriefs calls, finds your real ICP, ranks your lead list, and runs your Monday pipeline review. Runs on your Claude subscription (no API key) or on the Anthropic or OpenAI APIs.
 
 ![Demo: scoring a deal with deal-risk-assessor](assets/demo.gif)
 
@@ -38,4 +38,4 @@ b2b-skills run deal-risk-assessor -i deal.json --provider anthropic     # or an 
 | Call skills from Python, a notebook, or a cron job | [Python SDK & CLI](sdk.md) |
 | Call skills from another service (CRM webhook, n8n, Zapier) | [HTTP API](http-api.md) |
 
-Browse the [skill catalog](skills.md) to find the skill that matches your problem.
+Start with the [playbooks](playbooks.md) and set up your [workspace](workspace.md). Browse the [skill catalog](skills.md) for the 46 skills underneath.

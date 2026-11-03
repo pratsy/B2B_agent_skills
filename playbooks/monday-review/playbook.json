@@ -1,0 +1,12 @@
+{
+  "name": "monday-review",
+  "kind": "review",
+  "title": "Monday pipeline review",
+  "description": "Weekly pipeline review from your CRM (HubSpot or a CSV export) plus the workspace's deal notes: flags stale, overdue, and stuck deals, re-scores risk from debrief evidence, and names this week's focus. HubSpot write-backs wait for approval.",
+  "inputs": "--csv pipeline.csv or --hubspot",
+  "stage": "early",
+  "skills_used": ["deal-risk-assessor"],
+  "report": {
+    "headings": ["This week's focus", "Deals at risk", "No evidence on file", "Pipeline snapshot"]
+  }
+}

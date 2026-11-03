@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.0] - Unreleased
+
+Connect the tools founders work in: HubSpot, call transcripts, Slack, a weekly review, and approvals for every outside change.
+
+### Added
+
+- **`monday-review` playbook**: `b2b-skills playbook monday-review --hubspot` (or `--csv pipeline.csv`). Code flags overdue, silent, and stuck deals and deals with no evidence on file. Deals with debrief notes are re-scored with `deal-risk-assessor` from the raw notes. Priority is computed in code, and the report is checked against it and retried if it re-orders. Writes `gtm/reviews/<date>.md`.
+- **HubSpot connector**: reads open deals with their companies (CRM v3 API, private app token). `b2b-skills hubspot setup` creates four write-back deal properties; `b2b-skills hubspot deals` lists open deals. Tested against a simulated API, not yet a live portal.
+- **Approvals**: playbooks propose outside changes into `gtm/pending/`; `b2b-skills pending`, `approve <id|all> [--dry-run]`, and `reject` act on them. Failed writes stay pending; decisions are kept in `gtm/applied/` and `gtm/rejected/`.
+- **Transcript inbox**: `b2b-skills inbox` debriefs every new file in `gtm/inbox/` (any recorder's text export) and moves it to `processed/`. Deal name comes from the file name.
+- **Webhook**: `POST /v1/playbooks/{name}/run` on `b2b-skills serve`, for Zapier/Make or recorder webhooks.
+- **Slack digests**: `--slack` on `inbox` and `monday-review` (incoming webhook).
+- **Outcomes**: `b2b-skills outcome <deal> won|lost` appends to `gtm/outcomes.csv`, the data future calibration will learn from.
+- **Weekly automation**: `init` writes `.github/workflows/gtm-weekly.yml`, which debriefs the inbox, reviews the pipeline, posts to Slack, and commits notes every Monday, on a Claude subscription token.
+- Docs: Playbooks and Workspace & connectors pages; the README now leads with the founder workspace.
+
+### Changed
+
+- Debriefs now save the raw notes (collapsed) with each report, so later reviews re-score from primary evidence, not a summary.
+
 ## [0.4.0] - Unreleased
 
 Lists and ICP: score a lead list, find who to sell to, measure product-market fit.
