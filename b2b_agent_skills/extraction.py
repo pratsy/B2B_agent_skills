@@ -40,9 +40,22 @@ def _normalize(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+_FRAGMENT_SPLIT = re.compile(r"\s*(?:\u2026|\.\.\.|;|\||\n)\s*|,\s+")
+
+
 def quote_in_source(quote: str, source: str) -> bool:
+    """True if the quote appears verbatim (after normalizing case, punctuation, and spacing).
+
+    Evidence gathered from several places ("Gabriel Peal OpenAI, Nik Koblov Ramp") is accepted
+    when every fragment appears verbatim on its own; a fragment that doesn't fails the whole quote.
+    """
+    src = _normalize(source)
     q = _normalize(quote).strip(".\"' ")
-    return bool(q) and q in _normalize(source)
+    if q and q in src:
+        return True
+    fragments = [_normalize(f).strip(".\"' ") for f in _FRAGMENT_SPLIT.split(quote)]
+    fragments = [f for f in fragments if f]
+    return len(fragments) > 1 and all(len(f) >= 4 and f in src for f in fragments)
 
 
 def _delete_path(data: dict[str, Any], path: str) -> None:

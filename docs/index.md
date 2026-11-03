@@ -1,11 +1,12 @@
 # B2B Agent Skills
 
-**An open-source GTM workspace for early-stage B2B teams: sales, marketing, and RevOps.** Connect your website, call notes, lead lists, and CRM, and it does the go-to-market work with tested methods: fixes your messaging, finds your real ICP, ranks your lead list, debriefs calls, and runs your Monday pipeline review. Runs on your Claude subscription (no API key) or on the Anthropic or OpenAI APIs.
+**Your AI GTM team, before you can hire one.** An open-source tool for early-stage B2B founders across sales, marketing, GTM, and RevOps. Start with a [GTM checkup](checkup.md): answer 10 questions, add your website, and get an honest scorecard of your go-to-market with the top 3 fixes. Then the [playbooks](playbooks.md) do the work: fix your messaging, find your ICP, score your leads, debrief calls, review your pipeline.
 
 ![Demo: scoring a deal with deal-risk-assessor](assets/demo.gif)
 
 ```bash
 pip install b2b-agent-skills
+b2b-skills checkup yourcompany.com --provider claude-code   # start here
 b2b-skills run deal-risk-assessor -i deal.json --provider claude-code   # your Claude login, no API key
 b2b-skills run deal-risk-assessor -i deal.json --provider anthropic     # or an API key
 ```
@@ -38,4 +39,4 @@ b2b-skills run deal-risk-assessor -i deal.json --provider anthropic     # or an 
 | Call skills from Python, a notebook, or a cron job | [Python SDK & CLI](sdk.md) |
 | Call skills from another service (CRM webhook, n8n, Zapier) | [HTTP API](http-api.md) |
 
-Start with the [playbooks](playbooks.md) and set up your [workspace](workspace.md). Browse the [skill catalog](skills.md) for the 46 skills underneath.
+Start with the [playbooks](playbooks.md) and set up your [workspace](workspace.md). Browse the [skill catalog](skills.md) for the 48 skills underneath.

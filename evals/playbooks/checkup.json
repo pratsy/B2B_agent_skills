@@ -1,0 +1,114 @@
+{
+  "playbook": "checkup",
+  "cases": [
+    {
+      "id": "strong-icp-weak-demand-and-pricing",
+      "description": "The founder knows the ICP and keeps customers, but demand depends on their network, they discount constantly, pipeline can't hit target, and the homepage is generic with no proof.",
+      "answers": {
+        "q1": "Seed stage, 12 paying customers.",
+        "q2": "Mid-market fintech companies, the VP Sales buys after a forecast miss in front of the board.",
+        "q3": "Two agencies who never set it up.",
+        "q4": "Mostly from my network and a few LinkedIn posts.",
+        "q5": "I run every call, no set process.",
+        "q6": "No idea, maybe a third. About 6 weeks.",
+        "q7": "$500/month flat, I discount for almost everyone.",
+        "q8": "11 of 12 renewed.",
+        "q9": "Maybe $40K, target is $60K this quarter.",
+        "q10": "Getting enough good leads without me doing everything."
+      },
+      "website_text": "Headline: The all-in-one revenue platform.\nSubhead: Our platform empowers revenue teams to unlock their full potential with AI-powered insights.\nSupporting points: Real-time CRM sync. Explainable AI risk scoring. No-code rule builder. 15-minute setup.\n\n\nNorthwind Forecasting. Flag at-risk deals from your CRM. Book a demo. Pricing: $500 per month. About us: we are a small team building forecasting tools for sales leaders.",
+      "assertions": [
+        {
+          "path": "areas[key=pmf].score",
+          "gte": 40,
+          "why": "11 of 12 renewed"
+        },
+        {
+          "path": "areas[key=demand].score",
+          "lte": 40,
+          "why": "leads come mostly from the founder's network"
+        },
+        {
+          "path": "areas[key=pricing].score",
+          "lte": 45,
+          "why": "flat price, discounts for almost everyone"
+        },
+        {
+          "path": "areas[key=pipeline].score",
+          "lte": 30,
+          "why": "$40K against $60K with a ~1/3 win rate"
+        },
+        {
+          "path": "areas[key=positioning].score",
+          "lte": 50,
+          "why": "generic 'all-in-one' homepage"
+        },
+        {
+          "path": "areas[key=proof].score",
+          "lte": 20,
+          "why": "no logos, numbers, or case studies"
+        },
+        {
+          "path": "areas[key=icp].score",
+          "gte": 40,
+          "why": "clear pattern and trigger in the answers, even though the site is vague"
+        },
+        {
+          "path": "scored",
+          "equals": 8
+        },
+        {
+          "path": "fixes",
+          "length": 3
+        },
+        {
+          "path": "report",
+          "matches": "## Top 3 fixes"
+        },
+        {
+          "path": "report",
+          "matches": "^(?![\\s\\S]*(?i:\\bmost\\s+(?:[a-z0-9-]+\\s+){0,4}(?:teams|companies|orgs|founders|startups)\\b|tell us\\b))[\\s\\S]*$",
+          "why": "no unsupported generalizations"
+        }
+      ]
+    },
+    {
+      "id": "answers-only-partial",
+      "description": "Only three answers and no website: those areas are scored, the rest are unknown with what unlocks them, not zero.",
+      "answers": {
+        "q4": "Mostly from my network.",
+        "q7": "$500/month flat, I discount for almost everyone.",
+        "q8": "11 of 12 renewed."
+      },
+      "assertions": [
+        {
+          "path": "areas[key=positioning].band",
+          "equals": "unknown"
+        },
+        {
+          "path": "areas[key=sales_motion].band",
+          "equals": "unknown"
+        },
+        {
+          "path": "areas[key=positioning].unlock",
+          "matches": "website"
+        },
+        {
+          "path": "areas[key=demand].band",
+          "one_of": [
+            "missing",
+            "weak"
+          ]
+        },
+        {
+          "path": "areas[key=pmf].band",
+          "one_of": [
+            "decent",
+            "strong",
+            "weak"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "gtm-website-audit",
+  "description": "Output of the gtm-website-audit skill. Generated from b2b-agent-skills-gtm/skills/gtm-website-audit/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "website": {
+      "type": "string"
+    },
+    "headline": {
+      "type": "string"
+    },
+    "icp_clarity": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "criterion",
+              "points",
+              "max",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "score",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "positioning": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "criterion",
+              "points",
+              "max",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "score",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "differentiation": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "criterion",
+              "points",
+              "max",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "score",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "proof": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "criterion",
+              "points",
+              "max",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "score",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "biggest_gap": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "website",
+    "headline",
+    "icp_clarity",
+    "positioning",
+    "differentiation",
+    "proof",
+    "biggest_gap"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "website": "northwind.example",
+      "headline": "The all-in-one revenue platform",
+      "icp_clarity": {
+        "score": 10,
+        "items": [
+          {
+            "criterion": "buyer_role_named",
+            "points": 10,
+            "max": 20,
+            "evidence": "empowers revenue teams"
+          },
+          {
+            "criterion": "target_customer_named",
+            "points": 0,
+            "max": 30,
+            "evidence": ""
+          }
+        ]
+      },
+      "positioning": {
+        "score": 30,
+        "items": [
+          {
+            "criterion": "category_clear",
+            "points": 10,
+            "max": 20,
+            "evidence": "The all-in-one revenue platform"
+          },
+          {
+            "criterion": "unique_attributes_stated",
+            "points": 20,
+            "max": 20,
+            "evidence": "Explainable AI risk scoring"
+          }
+        ]
+      },
+      "differentiation": {
+        "score": 30,
+        "items": [
+          {
+            "criterion": "swap_test",
+            "points": 0,
+            "max": 40,
+            "evidence": ""
+          },
+          {
+            "criterion": "differentiators_specific",
+            "points": 30,
+            "max": 30,
+            "evidence": "Explainable AI risk scoring"
+          }
+        ]
+      },
+      "proof": {
+        "score": 0,
+        "items": [
+          {
+            "criterion": "quantified_results",
+            "points": 0,
+            "max": 40,
+            "evidence": ""
+          }
+        ]
+      },
+      "biggest_gap": "the page never says who it's for or what it replaces"
+    }
+  ]
+}

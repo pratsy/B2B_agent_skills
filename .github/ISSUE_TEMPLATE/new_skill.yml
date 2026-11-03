@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Check the [existing 46 skills](https://github.com/pratsy/B2B_agent_skills/tree/main/.claude/skills) first. If yours is a variation of one, propose an improvement to that skill instead.
+        Check the [existing 48 skills](https://github.com/pratsy/B2B_agent_skills/tree/main/.claude/skills) first. If yours is a variation of one, propose an improvement to that skill instead.
   - type: input
     id: name
     attributes:

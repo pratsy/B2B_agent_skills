@@ -10,17 +10,25 @@ pip install "b2b-agent-skills[all]"           # every provider + MCP + HTTP serv
 
 Python 3.10+. The core package depends only on `jsonschema`. Providers and servers are optional extras.
 
-## 2. Try it offline
+## 2. Run a GTM checkup
+
+```bash
+b2b-skills checkup yourcompany.com --provider claude-code
+```
+
+Ten quick questions plus your website give you a scorecard across ICP, product-market fit, positioning, proof, demand, pricing, sales motion, and pipeline, with the top 3 fixes. See [GTM checkup](checkup.md).
+
+## 3. Try it offline
 
 The `mock` provider returns each skill's documented worked-example output, so you can explore without an API key:
 
 ```bash
-b2b-skills list -v                         # all 46 skills, with when to use each
+b2b-skills list -v                         # all 48 skills, with when to use each
 b2b-skills show pipeline-health-monitor    # methodology and output fields
 b2b-skills run pipeline-health-monitor -i examples/fixtures/renewal_input.json
 ```
 
-## 3. Run it for real
+## 4. Run it for real
 
 **No API key: use your Claude subscription.** If you have [Claude Code](https://code.claude.com) installed and logged in (Pro, Max, Team, or Enterprise), the `claude-code` provider runs skills through it:
 
@@ -49,7 +57,7 @@ b2b-skills run pipeline-health-monitor -i pipeline.json --provider anthropic
 
 Each skill's page in the [catalog](skills.md) lists the inputs it expects. Send only the fields it needs: everything in the input is sent to the model provider (see [Security](https://github.com/pratsy/B2B_agent_skills/blob/main/SECURITY.md)).
 
-## 4. Configure
+## 5. Configure
 
 | Variable | Default | Purpose |
 |---|---|---|

@@ -1,0 +1,373 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "gtm-founder-diagnostic",
+  "description": "Output of the gtm-founder-diagnostic skill. Generated from b2b-agent-skills-gtm/skills/gtm-founder-diagnostic/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "stage": {
+      "type": "string"
+    },
+    "icp": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number"
+        },
+        "fix": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "criterion",
+              "points",
+              "max",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "score",
+        "fix",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "pmf": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number"
+        },
+        "fix": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "criterion",
+              "points",
+              "max",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "score",
+        "fix",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "demand": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number"
+        },
+        "fix": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "criterion",
+              "points",
+              "max",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "score",
+        "fix",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "pricing": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number"
+        },
+        "fix": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "criterion",
+              "points",
+              "max",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "score",
+        "fix",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "sales_motion": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number"
+        },
+        "fix": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "criterion",
+              "points",
+              "max",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "score",
+        "fix",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "pipeline": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number"
+        },
+        "fix": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "criterion": {
+                "type": "string"
+              },
+              "points": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "criterion",
+              "points",
+              "max",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "score",
+        "fix",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "biggest_risk": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "stage",
+    "icp",
+    "pmf",
+    "demand",
+    "pricing",
+    "sales_motion",
+    "pipeline",
+    "biggest_risk"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "stage": "first customers",
+      "icp": {
+        "score": 85,
+        "fix": "write the ICP down and use it to disqualify",
+        "items": [
+          {
+            "criterion": "best_customer_pattern",
+            "points": 40,
+            "max": 40,
+            "evidence": "mid-market fintech companies"
+          },
+          {
+            "criterion": "loss_reasons_known",
+            "points": 15,
+            "max": 30,
+            "evidence": "two agencies who never set it up"
+          }
+        ]
+      },
+      "pmf": {
+        "score": 55,
+        "fix": "ask churned and active users the Sean Ellis question",
+        "items": [
+          {
+            "criterion": "retention",
+            "points": 40,
+            "max": 40,
+            "evidence": "11 of 12 renewed"
+          }
+        ]
+      },
+      "demand": {
+        "score": 15,
+        "fix": "test one channel beyond your network for 30 days",
+        "items": [
+          {
+            "criterion": "repeatable_channel",
+            "points": 0,
+            "max": 40,
+            "evidence": "mostly from my network"
+          }
+        ]
+      },
+      "pricing": {
+        "score": 15,
+        "fix": "stop default discounting; tie price to the cost of a forecast miss",
+        "items": [
+          {
+            "criterion": "discount_discipline",
+            "points": 0,
+            "max": 40,
+            "evidence": "I discount for almost everyone"
+          }
+        ]
+      },
+      "sales_motion": {
+        "score": 29,
+        "fix": "write down your stages and qualification questions",
+        "items": [
+          {
+            "criterion": "defined_process",
+            "points": 0,
+            "max": 30,
+            "evidence": "I run every call, no set process"
+          }
+        ]
+      },
+      "pipeline": {
+        "score": 0,
+        "fix": "build roughly 3x pipeline coverage before the quarter ends",
+        "items": [
+          {
+            "criterion": "coverage",
+            "points": 0,
+            "max": 40,
+            "evidence": "maybe $40K, target is $60K"
+          }
+        ]
+      },
+      "biggest_risk": "growth depends on the founder's network and discounted, low-priced deals"
+    }
+  ]
+}
