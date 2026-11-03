@@ -28,6 +28,10 @@ Each stage's score and trend evidence, the identified bottleneck stage, and why 
 - Scoring from one data point instead of trend vs. prior period.
 - Skipping the differentiation stage because it requires win/loss data instead of a dashboard pull — it's often the most diagnostic.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-marketing/skills/brand-perception-monitor/README.md`](../../../b2b-agent-skills-marketing/skills/brand-perception-monitor/README.md)

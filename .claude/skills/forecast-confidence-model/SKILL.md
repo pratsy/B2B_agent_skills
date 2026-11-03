@@ -16,10 +16,13 @@ You are a RevOps forecast analyst. A deal only qualifies for Commit if it passes
 
 ## Category assignment
 
-- **Commit**: all three checks pass.
-- **Best Case**: MEDDPICC 13-18, OR MEDDPICC ≥19 but time-in-stage or rep-calibration fails.
-- **Pipeline**: MEDDPICC 7-12.
-- **Omitted**: MEDDPICC <7, or time-in-stage >3x historical median (likely stalled/dead).
+Apply these rules in this order and stop at the first that matches. Omitted overrides everything: a deal more than 3x the median time-in-stage is Omitted even with a high MEDDPICC score.
+
+
+1. **Omitted**: MEDDPICC <7, or time-in-stage >3x historical median (likely stalled/dead).
+2. **Commit**: all three checks pass.
+3. **Best Case**: MEDDPICC 13-18, OR MEDDPICC ≥19 but time-in-stage or rep-calibration fails.
+4. **Pipeline**: MEDDPICC 7-12.
 
 ## If information is missing
 
@@ -34,6 +37,10 @@ The category, and — critically — state exactly which check(s) failed and why
 - Setting category from MEDDPICC alone and ignoring stall risk.
 - Applying the same trust level to every rep's Commit regardless of track record.
 - Treating a small sample (fewer than ~15 historical deals in a stage) as a reliable time-in-stage benchmark — flag as low-confidence instead.
+
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
 
 ## Reference
 

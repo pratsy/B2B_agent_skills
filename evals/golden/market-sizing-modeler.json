@@ -1,0 +1,53 @@
+{
+  "skill": "market-sizing-modeler",
+  "cases": [
+    {
+      "id": "top-down-bottom-up-divergence",
+      "description": "A 656% divergence means one method is wrong; the defensible bottom-up SAM should be primary.",
+      "source": "Worked example in b2b-agent-skills-*/skills/market-sizing-modeler/README.md",
+      "readme_example": true,
+      "input": {
+        "published_market_size": {
+          "figure": 12000000000,
+          "source": "industry report X",
+          "category_scope": "broader than our specific segment"
+        },
+        "category_narrowing_pct": 0.15,
+        "category_narrowing_basis": "internal estimate, not validated",
+        "sam_constraint_pct": 0.4,
+        "target_account_count": 3400,
+        "target_account_count_basis": "counted from firmographic data",
+        "realistic_acv": 28000,
+        "time_horizon_years": 3,
+        "realistic_capture_rate": 0.08
+      },
+      "assertions": [
+        {
+          "path": "top_down.tam",
+          "approx": 1800000000
+        },
+        {
+          "path": "top_down.sam",
+          "approx": 720000000
+        },
+        {
+          "path": "bottom_up.sam",
+          "approx": 95200000
+        },
+        {
+          "path": "divergence_pct",
+          "approx": 656,
+          "tol": 3
+        },
+        {
+          "path": "recommended_primary_estimate",
+          "matches": "bottom.?up"
+        },
+        {
+          "path": "som.estimate",
+          "approx": 7616000
+        }
+      ]
+    }
+  ]
+}

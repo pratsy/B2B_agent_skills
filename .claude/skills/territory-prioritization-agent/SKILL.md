@@ -15,7 +15,7 @@ Capture Likelihood = 0.4 × icp_fit_score(0-1) + 0.3 × relationship_status(1.0 
 Territory Priority Score = tam_estimate × Capture Likelihood
 ```
 
-Report both the priority score AND the underlying capture likelihood — the tradeoff between size and winnability needs to stay visible, not hidden in one blended number. Segment into primary/secondary/light-touch tiers sized to the rep's realistic capacity, not an arbitrary round number.
+Sort accounts strictly by Territory Priority Score, highest first. A smaller, more winnable account does not move ahead of a larger one unless its priority score is higher; that tradeoff is for the rep to weigh, using the numbers you show. Report both the priority score AND the underlying capture likelihood — the tradeoff between size and winnability needs to stay visible, not hidden in one blended number. Segment into primary/secondary/light-touch tiers sized to the rep's realistic capacity, not an arbitrary round number.
 
 ## If information is missing
 
@@ -30,6 +30,10 @@ Accounts ranked by priority score with capture likelihood shown alongside, and t
 - Ranking by TAM/company size alone.
 - Treating competitive openness as static instead of updating it as incumbent renewal dates approach.
 - Sizing TAM from a flat percentage-of-revenue rule instead of comparable contract values.
+
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
 
 ## Reference
 

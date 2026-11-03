@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "competitive-differentiation-coach",
+  "description": "Output of the competitive-differentiation-coach skill. Generated from b2b-agent-skills-sales/skills/competitive-differentiation-coach/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "competitor": {
+      "type": "string"
+    },
+    "differentiators_ranked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claim": {
+            "type": "string"
+          },
+          "evidence_tier": {
+            "type": "number"
+          },
+          "citations": {
+            "type": "number"
+          },
+          "matches_buyer_priority": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "claim",
+          "evidence_tier",
+          "citations",
+          "matches_buyer_priority"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "recommended_lead_claim": {
+      "type": "string"
+    },
+    "response_framing": {
+      "type": "string"
+    },
+    "held_in_reserve": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "competitor",
+    "differentiators_ranked",
+    "recommended_lead_claim",
+    "response_framing",
+    "held_in_reserve"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "competitor": "Clari",
+      "differentiators_ranked": [
+        {
+          "claim": "explainable AI scoring",
+          "evidence_tier": 1,
+          "citations": 5,
+          "matches_buyer_priority": true
+        },
+        {
+          "claim": "lower price point",
+          "evidence_tier": 2,
+          "citations": 1,
+          "matches_buyer_priority": false
+        }
+      ],
+      "recommended_lead_claim": "explainable AI scoring",
+      "response_framing": "...",
+      "held_in_reserve": [
+        "lower price point",
+        "better UI"
+      ]
+    }
+  ]
+}

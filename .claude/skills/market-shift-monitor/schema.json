@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "market-shift-monitor",
+  "description": "Output of the market-shift-monitor skill. Generated from b2b-agent-skills-gtm/skills/market-shift-monitor/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "signal_description": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "breadth_score": {
+      "type": "number"
+    },
+    "velocity_score": {
+      "type": "number"
+    },
+    "durability_score": {
+      "type": "number"
+    },
+    "shift_materiality": {
+      "type": "number"
+    },
+    "shift_band": {
+      "type": "string"
+    },
+    "recommended_response": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "signal_description",
+    "category",
+    "breadth_score",
+    "velocity_score",
+    "durability_score",
+    "shift_materiality",
+    "shift_band",
+    "recommended_response"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "signal_description": "new data-privacy regulation affecting buyer engagement data processing",
+      "category": "regulatory",
+      "breadth_score": 0.9,
+      "velocity_score": 0.8,
+      "durability_score": 1.0,
+      "shift_materiality": 89.5,
+      "shift_band": "structural",
+      "recommended_response": "add to strategic planning agenda; coordinate product/legal roadmap given fixed 18-month implementation timeline"
+    }
+  ]
+}

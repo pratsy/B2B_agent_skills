@@ -30,6 +30,10 @@ Touchpoints ranked by Friction Priority Score, the specific effort driver behind
 - Treating every drop-off as a friction problem instead of checking if it's a targeting/fit problem.
 - Auditing only the online journey and ignoring sales-process friction (scheduling, redlines, security review).
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-marketing/skills/customer-journey-friction-audit/README.md`](../../../b2b-agent-skills-marketing/skills/customer-journey-friction-audit/README.md)

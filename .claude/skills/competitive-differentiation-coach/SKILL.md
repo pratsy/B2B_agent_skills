@@ -30,6 +30,10 @@ Differentiators ranked by tier and match to the buyer's priority, the recommende
 - Presenting a Tier 3 claim with Tier 1 confidence — buyers doing reference calls will find the gap.
 - Using a generic differentiator instead of matching to what this buyer specifically said they care about.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-sales/skills/competitive-differentiation-coach/README.md`](../../../b2b-agent-skills-sales/skills/competitive-differentiation-coach/README.md)

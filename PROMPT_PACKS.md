@@ -52,7 +52,7 @@ These are ready-to-use prompt patterns for non-technical people. They are writte
 
 1. Pick the prompt that matches your current problem.
 2. Add the relevant business context or data.
-3. Run it through your AI tool of choice, or through `sdk` if it's one of the five skills wired into the SDK (see the root [README](README.md)).
+3. Run it through your AI tool of choice. For a structured, validated answer, use the matching skill instead: in Claude Code via the plugin, or with `b2b-skills run <skill>` (see the root [README](README.md)).
 4. Review the result with your team before acting on it — these prompts are a starting point, not a substitute for judgment on a specific deal or account.
 
 For the fuller, formula-driven version of any of these (explicit scoring model, worked example, output schema), go to the matching skill's README in the relevant pack — these quick prompts are a faster on-ramp, not a replacement for it.

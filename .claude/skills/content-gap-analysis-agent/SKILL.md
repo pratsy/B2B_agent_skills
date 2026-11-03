@@ -30,6 +30,10 @@ The matrix scores, overall coverage %, and priority gaps — for each, whether i
 - Scoring an asset high because it's well-produced rather than because it fits the persona's specific concern.
 - Treating every 0-score cell as equally urgent instead of weighting vendor-aware gaps and sales-confirmed gaps higher.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-marketing/skills/content-gap-analysis-agent/README.md`](../../../b2b-agent-skills-marketing/skills/content-gap-analysis-agent/README.md)

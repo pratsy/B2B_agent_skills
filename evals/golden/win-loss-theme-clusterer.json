@@ -1,0 +1,65 @@
+{
+  "skill": "win-loss-theme-clusterer",
+  "cases": [
+    {
+      "id": "decisive-beats-frequent",
+      "description": "Pricing ranks above implementation complexity: similar frequency, but more decisive and more predictive.",
+      "source": "Worked example in b2b-agent-skills-*/skills/win-loss-theme-clusterer/README.md",
+      "readme_example": true,
+      "input": {
+        "sample": {
+          "wins": 18,
+          "losses": 22
+        },
+        "theme_stats": [
+          {
+            "theme": "implementation complexity concern",
+            "side": "loss",
+            "frequency_in_losses": 0.6,
+            "times_primary_reason": 3,
+            "times_raised_in_losses": 13,
+            "win_rate_when_present": 0.3,
+            "win_rate_when_absent": 0.5
+          },
+          {
+            "theme": "pricing objection",
+            "side": "loss",
+            "frequency_in_losses": 0.55,
+            "decisiveness": 0.65,
+            "win_rate_when_present": 0.2,
+            "win_rate_when_absent": 0.55
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "top_priority_theme",
+          "matches": "pricing"
+        },
+        {
+          "path": "themes_ranked[0].theme",
+          "matches": "pricing"
+        },
+        {
+          "path": "themes_ranked[theme=pricing objection].impact_score",
+          "approx": 0.125,
+          "tol": 0.003
+        },
+        {
+          "path": "themes_ranked[theme=implementation complexity concern].decisiveness",
+          "approx": 0.23,
+          "tol": 0.01
+        },
+        {
+          "path": "themes_ranked[theme=implementation complexity concern].impact_score",
+          "approx": 0.028,
+          "tol": 0.002
+        },
+        {
+          "path": "sample_size.wins",
+          "equals": 18
+        }
+      ]
+    }
+  ]
+}

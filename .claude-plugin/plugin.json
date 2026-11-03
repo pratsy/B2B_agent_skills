@@ -1,0 +1,14 @@
+{
+  "name": "b2b-agent-skills",
+  "version": "0.2.0",
+  "description": "45 evidence-grounded skills for B2B sales, marketing, RevOps and GTM: MEDDPICC deal risk, pipeline health, forecast bias, ICP refinement, market sizing, positioning and more.",
+  "author": {
+    "name": "pratsy",
+    "url": "https://github.com/pratsy"
+  },
+  "homepage": "https://pratsy.github.io/skills-AI/",
+  "repository": "https://github.com/pratsy/skills-AI",
+  "license": "MIT",
+  "keywords": ["sales", "marketing", "revops", "gtm", "meddpicc", "forecasting", "b2b"],
+  "skills": ["./.claude/skills/"]
+}

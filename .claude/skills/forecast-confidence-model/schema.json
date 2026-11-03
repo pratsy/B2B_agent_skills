@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "forecast-confidence-model",
+  "description": "Output of the forecast-confidence-model skill. Generated from b2b-agent-skills-sales/skills/forecast-confidence-model/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "deal_id": {
+      "type": "string"
+    },
+    "meddpicc_score": {
+      "type": "number"
+    },
+    "time_in_stage_ratio": {
+      "type": "number"
+    },
+    "rep_commit_accuracy": {
+      "type": "number"
+    },
+    "checks": {
+      "type": "object",
+      "properties": {
+        "meddpicc_pass": {
+          "type": "boolean"
+        },
+        "time_in_stage_pass": {
+          "type": "boolean"
+        },
+        "rep_calibration_pass": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "meddpicc_pass",
+        "time_in_stage_pass",
+        "rep_calibration_pass"
+      ],
+      "additionalProperties": false
+    },
+    "forecast_category": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "deal_id",
+    "meddpicc_score",
+    "time_in_stage_ratio",
+    "rep_commit_accuracy",
+    "checks",
+    "forecast_category",
+    "reason"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "deal_id": "opp_5521",
+      "meddpicc_score": 20,
+      "time_in_stage_ratio": 1.89,
+      "rep_commit_accuracy": 0.55,
+      "checks": {
+        "meddpicc_pass": true,
+        "time_in_stage_pass": false,
+        "rep_calibration_pass": false
+      },
+      "forecast_category": "best case",
+      "reason": "qualification is strong, but stage velocity is 1.89x historical median and rep's trailing Commit accuracy is 55%"
+    }
+  ]
+}

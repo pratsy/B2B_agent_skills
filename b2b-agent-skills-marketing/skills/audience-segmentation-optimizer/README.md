@@ -73,11 +73,11 @@ ICP definition: Financial Services or SaaS, 100–1000 employees, US/Canada, Sal
 
 | Account | Industry | Size | Firmographic | Tech | RFM (90d) | Intent | **Score** | **Tier** |
 |---|---|---|---|---|---|---|---|---|
-| Meridian Capital | Financial Services | 340 | 100 | 100 (Salesforce, no competitor) | 3 touches, last 5d, one demo page → 40+9+16=65 | 2-week surge on "RevOps automation" → 100 | **86.75** | **Tier 1** |
+| Meridian Capital | Financial Services | 340 | 100 | 100 (Salesforce, no competitor) | 3 touches (demo, product, blog pages), last 5d → 40+9+18=67 | 2-week surge on "RevOps automation" → 100 | **91.75** | **Tier 1** |
 | Vantage SaaS Co | SaaS | 80 | 65 (below size band) | 100 | 1 touch, last 40d, blog only → 10+3+2=15 | no data → unscored (excluded from denominator) | **~65** (reweighted) | **Tier 2** |
 | Ferrow Logistics | Logistics | 500 | 0 (industry mismatch) | 50 (neutral) | 6 touches, last 2d → 40+18+24=82 | single-week spike → 60 | **41.05** | **Tier 3** |
 
-Output for Meridian Capital: `0.35(100) + 0.25(100) + 0.25(65) + 0.15(100) = 35 + 25 + 16.25 + 15 = 91.25` — *(table above rounds for readability; ship the unrounded value)*.
+Output for Meridian Capital: `0.35(100) + 0.25(100) + 0.25(67) + 0.15(100) = 35 + 25 + 16.75 + 15 = 91.75`.
 
 ## Common failure patterns
 
@@ -95,16 +95,16 @@ Output for Meridian Capital: `0.35(100) + 0.25(100) + 0.25(65) + 0.15(100) = 35 
       "account_id": "acct_4821",
       "firmographic_fit": 100,
       "technographic_fit": 100,
-      "engagement_intensity": 65,
+      "engagement_intensity": 67,
       "intent_signal": 100,
       "intent_data_available": true,
-      "segment_fit_score": 91.25,
+      "segment_fit_score": 91.75,
       "tier": 1,
       "recommended_motion": "named-account ABM",
       "rationale": "Full ICP match, active Salesforce user, sustained 2-week intent surge on RevOps automation, engaged within last 5 days."
     }
   ],
-  "tier_summary": { "tier_1": 0, "tier_2": 0, "tier_3": 0, "deprioritized": 0 },
+  "tier_summary": { "tier_1": 1, "tier_2": 0, "tier_3": 0, "deprioritized": 0 },
   "data_quality_flags": ["accounts_missing_intent_data"]
 }
 ```

@@ -1,0 +1,58 @@
+{
+  "skill": "icp-refinement-agent",
+  "cases": [
+    {
+      "id": "revops-assumption-contradicted",
+      "description": "Lift says companies WITHOUT dedicated RevOps are the better fit, contradicting the current ICP.",
+      "source": "Worked example in b2b-agent-skills-*/skills/icp-refinement-agent/README.md",
+      "readme_example": true,
+      "input": {
+        "best_account_definition": {
+          "metric": "nrr",
+          "threshold": "top 50%"
+        },
+        "current_icp_definition": {
+          "industries": [
+            "Financial Services",
+            "SaaS"
+          ],
+          "must_have": [
+            "dedicated RevOps function"
+          ]
+        },
+        "summary_counts": {
+          "best_accounts_n": 42,
+          "pipeline_n": 310,
+          "industry_fs_or_saas": {
+            "best_accounts_with": 30,
+            "pipeline_with": 109
+          },
+          "has_dedicated_revops": {
+            "best_accounts_with": 8,
+            "pipeline_with": 68
+          }
+        }
+      },
+      "assertions": [
+        {
+          "path": "attribute_lift_ranking[0].lift",
+          "approx": 2.03,
+          "tol": 0.05
+        },
+        {
+          "path": "attribute_lift_ranking[1].lift",
+          "approx": 0.86,
+          "tol": 0.05
+        },
+        {
+          "path": "attribute_lift_ranking[1].signal",
+          "equals": "negative"
+        },
+        {
+          "path": "contradictions_with_current_icp[0].current_assumption",
+          "matches": "revops"
+        }
+      ]
+    }
+  ]
+}

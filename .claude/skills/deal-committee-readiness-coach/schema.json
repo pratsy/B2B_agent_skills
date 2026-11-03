@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "deal-committee-readiness-coach",
+  "description": "Output of the deal-committee-readiness-coach skill. Generated from b2b-agent-skills-sales/skills/deal-committee-readiness-coach/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "deal_id": {
+      "type": "string"
+    },
+    "readiness_score_pct": {
+      "type": "number"
+    },
+    "readiness_band": {
+      "type": "string"
+    },
+    "unanswered_questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pillar": {
+            "type": "string"
+          },
+          "committee_question": {
+            "type": "string"
+          },
+          "current_answer_quality": {
+            "type": "string"
+          },
+          "prep_action": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "pillar",
+          "committee_question",
+          "current_answer_quality",
+          "prep_action"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "deal_id",
+    "readiness_score_pct",
+    "readiness_band",
+    "unanswered_questions"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "deal_id": "opp_5521",
+      "readiness_score_pct": 62.5,
+      "readiness_band": "prep needed",
+      "unanswered_questions": [
+        {
+          "pillar": "economic_buyer",
+          "committee_question": "Who signs, and have you spoken to them directly?",
+          "current_answer_quality": "weak - named by champion only",
+          "prep_action": "complete step 1-2 of the multi-threading plan before the review"
+        },
+        {
+          "pillar": "paper_process",
+          "committee_question": "Has legal/procurement seen this?",
+          "current_answer_quality": "none",
+          "prep_action": "ask champion directly before the review; treat as highest priority"
+        }
+      ]
+    }
+  ]
+}

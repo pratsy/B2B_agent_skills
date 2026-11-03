@@ -32,6 +32,10 @@ Ask for: known competitive alternatives, what's genuinely unique about the produ
 - Listing shared features as "unique attributes."
 - Choosing the category you wish buyers searched for instead of the one they actually do.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-marketing/skills/brand-positioning-synthesizer/README.md`](../../../b2b-agent-skills-marketing/skills/brand-positioning-synthesizer/README.md)

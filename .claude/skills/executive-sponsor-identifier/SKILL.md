@@ -31,6 +31,10 @@ Each candidate's authority score, engagement score, and Sponsor Likelihood, plus
 - Treating "named by the champion" as equivalent to direct engagement evidence.
 - Picking the highest raw score when the top candidate's authority is only adjacent — authority fit should win over engagement volume.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-sales/skills/executive-sponsor-identifier/README.md`](../../../b2b-agent-skills-sales/skills/executive-sponsor-identifier/README.md)

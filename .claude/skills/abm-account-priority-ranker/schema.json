@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "abm-account-priority-ranker",
+  "description": "Output of the abm-account-priority-ranker skill. Generated from b2b-agent-skills-marketing/skills/abm-account-priority-ranker/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "accounts_ranked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string"
+          },
+          "opportunity_value_score": {
+            "type": "number"
+          },
+          "reachability_score": {
+            "type": "number"
+          },
+          "tier": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "account_id",
+          "opportunity_value_score",
+          "reachability_score",
+          "tier",
+          "rationale"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "tier_counts": {
+      "type": "object",
+      "properties": {
+        "tier_1": {
+          "type": "number"
+        },
+        "tier_1_pending": {
+          "type": "number"
+        },
+        "tier_2": {
+          "type": "number"
+        },
+        "tier_3": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "tier_1",
+        "tier_1_pending",
+        "tier_2",
+        "tier_3"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "accounts_ranked",
+    "tier_counts"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "accounts_ranked": [
+        {
+          "account_id": "acct_1190",
+          "opportunity_value_score": 50,
+          "reachability_score": 77.1,
+          "tier": "Tier 2 (1:few)",
+          "rationale": "confirmed champion and recent engagement, but deal value below Tier 1 threshold"
+        }
+      ],
+      "tier_counts": {
+        "tier_1": 0,
+        "tier_1_pending": 0,
+        "tier_2": 1,
+        "tier_3": 0
+      }
+    }
+  ]
+}

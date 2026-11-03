@@ -1,0 +1,70 @@
+{
+  "skill": "campaign-performance-diagnostician",
+  "cases": [
+    {
+      "id": "volume-not-conversion",
+      "description": "Every stage converts in range; the real problem is low CTR at the top.",
+      "source": "Worked example in b2b-agent-skills-*/skills/campaign-performance-diagnostician/README.md",
+      "readme_example": true,
+      "input": {
+        "campaign_name": "Q3 RevOps LinkedIn ABM",
+        "channel": "paid social - LinkedIn",
+        "spend": 18500,
+        "funnel_counts": {
+          "impressions": 82000,
+          "clicks": 1400,
+          "leads": 58,
+          "mqls": 21,
+          "sqls": 9,
+          "opportunities": 5,
+          "closed_won": 1
+        },
+        "internal_benchmark_rates": {
+          "impression_to_click": [
+            0.02,
+            0.03
+          ],
+          "click_to_lead": [
+            0.02,
+            0.05
+          ],
+          "lead_to_mql": [
+            0.25,
+            0.45
+          ],
+          "mql_to_sql": [
+            0.3,
+            0.5
+          ],
+          "sql_to_opportunity": [
+            0.4,
+            0.6
+          ],
+          "opportunity_to_closed_won": [
+            0.15,
+            0.3
+          ]
+        }
+      },
+      "assertions": [
+        {
+          "path": "primary_bottleneck.stage",
+          "matches": "impression.*click"
+        },
+        {
+          "path": "primary_bottleneck.rate",
+          "approx": 0.017,
+          "tol": 0.001
+        },
+        {
+          "path": "diagnosis_type",
+          "matches": "volume"
+        },
+        {
+          "path": "recommended_action",
+          "matches": "creative|targeting|CTR"
+        }
+      ]
+    }
+  ]
+}

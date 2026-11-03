@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "account-priority-matrix-builder",
+  "description": "Output of the account-priority-matrix-builder skill. Generated from b2b-agent-skills-gtm/skills/account-priority-matrix-builder/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "segments_scored": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "segment": {
+            "type": "string"
+          },
+          "value_score": {
+            "type": "number"
+          },
+          "effort_score": {
+            "type": "number"
+          },
+          "quadrant": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "segment",
+          "value_score",
+          "effort_score",
+          "quadrant",
+          "action"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "planning_cycle": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "segments_scored",
+    "planning_cycle"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "segments_scored": [
+        {
+          "segment": "mid-market FinTech",
+          "value_score": 87,
+          "effort_score": 64,
+          "quadrant": "high value / moderate effort",
+          "action": "invest now"
+        }
+      ],
+      "planning_cycle": "Q1 2027"
+    }
+  ]
+}

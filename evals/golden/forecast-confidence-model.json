@@ -1,0 +1,74 @@
+{
+  "skill": "forecast-confidence-model",
+  "cases": [
+    {
+      "id": "qualified-but-stalled",
+      "description": "MEDDPICC 20 is not enough for Commit when time-in-stage and rep calibration both fail.",
+      "source": "Worked example in b2b-agent-skills-*/skills/forecast-confidence-model/README.md",
+      "readme_example": true,
+      "input": {
+        "deal_id": "opp_5521",
+        "meddpicc_score": 20,
+        "current_stage": "negotiation",
+        "days_in_current_stage": 34,
+        "historical_median_days_in_stage": {
+          "discovery": 21,
+          "proposal": 25,
+          "negotiation": 18
+        },
+        "rep_id": "rep_882",
+        "rep_trailing_commit_accuracy": 0.55
+      },
+      "assertions": [
+        {
+          "path": "time_in_stage_ratio",
+          "approx": 1.89,
+          "tol": 0.02
+        },
+        {
+          "path": "checks.meddpicc_pass",
+          "equals": true
+        },
+        {
+          "path": "checks.time_in_stage_pass",
+          "equals": false
+        },
+        {
+          "path": "checks.rep_calibration_pass",
+          "equals": false
+        },
+        {
+          "path": "forecast_category",
+          "equals": "best case"
+        }
+      ]
+    },
+    {
+      "id": "stalled-past-3x",
+      "description": "Over 3x the historical time-in-stage is Omitted regardless of qualification.",
+      "source": "Worked example in b2b-agent-skills-*/skills/forecast-confidence-model/README.md",
+      "input": {
+        "deal_id": "opp_7710",
+        "meddpicc_score": 21,
+        "current_stage": "negotiation",
+        "days_in_current_stage": 60,
+        "historical_median_days_in_stage": {
+          "negotiation": 18
+        },
+        "rep_id": "rep_123",
+        "rep_trailing_commit_accuracy": 0.85
+      },
+      "assertions": [
+        {
+          "path": "time_in_stage_ratio",
+          "approx": 3.33,
+          "tol": 0.02
+        },
+        {
+          "path": "forecast_category",
+          "equals": "omitted"
+        }
+      ]
+    }
+  ]
+}

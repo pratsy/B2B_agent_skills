@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "executive-sponsor-identifier",
+  "description": "Output of the executive-sponsor-identifier skill. Generated from b2b-agent-skills-sales/skills/executive-sponsor-identifier/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "candidates_ranked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "authority_score": {
+            "type": "number"
+          },
+          "engagement_score": {
+            "type": "number"
+          },
+          "sponsor_likelihood": {
+            "type": "number"
+          },
+          "recommended_action": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "title",
+          "authority_score",
+          "engagement_score",
+          "sponsor_likelihood",
+          "recommended_action"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "primary_eb_target": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "candidates_ranked",
+    "primary_eb_target",
+    "rationale"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "candidates_ranked": [
+        {
+          "name": "J. Alvarez",
+          "title": "VP Sales Ops",
+          "authority_score": 5,
+          "engagement_score": 1,
+          "sponsor_likelihood": 5,
+          "recommended_action": "request champion-brokered introduction"
+        },
+        {
+          "name": "M. Torres",
+          "title": "Director IT",
+          "authority_score": 3,
+          "engagement_score": 4,
+          "sponsor_likelihood": 12,
+          "recommended_action": "engage as influencer, not primary EB target"
+        }
+      ],
+      "primary_eb_target": "J. Alvarez",
+      "rationale": "correct authority profile for deal size despite low current engagement; engagement is buildable, budget authority is not"
+    }
+  ]
+}

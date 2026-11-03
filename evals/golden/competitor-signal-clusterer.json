@@ -1,0 +1,100 @@
+{
+  "skill": "competitor-signal-clusterer",
+  "cases": [
+    {
+      "id": "accelerating-plg-theme",
+      "description": "An accelerating down-market theme outranks a fading theme, whatever the raw counts.",
+      "source": "Worked example in b2b-agent-skills-*/skills/competitor-signal-clusterer/README.md",
+      "input": {
+        "lookback_quarters": 2,
+        "signals": [
+          {
+            "signal_id": "s1",
+            "competitor": "Competitor X",
+            "description": "self-serve signup launch",
+            "materiality_score": 58,
+            "move_type": "product",
+            "date": "2026-02-10"
+          },
+          {
+            "signal_id": "s2",
+            "competitor": "Competitor X",
+            "description": "free-tier pricing change",
+            "materiality_score": 72,
+            "move_type": "product",
+            "date": "2026-04-20"
+          },
+          {
+            "signal_id": "s3",
+            "competitor": "Competitor X",
+            "description": "simplified onboarding flow",
+            "materiality_score": 65,
+            "move_type": "product",
+            "date": "2026-05-15"
+          },
+          {
+            "signal_id": "s4",
+            "competitor": "Competitor X",
+            "description": "reduced minimum contract size",
+            "materiality_score": 70,
+            "move_type": "product",
+            "date": "2026-06-01"
+          },
+          {
+            "signal_id": "s5",
+            "competitor": "Competitor X",
+            "description": "enterprise security whitepaper",
+            "materiality_score": 50,
+            "move_type": "messaging",
+            "date": "2026-01-12"
+          },
+          {
+            "signal_id": "s6",
+            "competitor": "Competitor X",
+            "description": "SOC2 campaign",
+            "materiality_score": 45,
+            "move_type": "messaging",
+            "date": "2026-02-05"
+          },
+          {
+            "signal_id": "s7",
+            "competitor": "Competitor X",
+            "description": "security webinar",
+            "materiality_score": 40,
+            "move_type": "messaging",
+            "date": "2026-03-01"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "themes[0].avg_materiality",
+          "approx": 66.25,
+          "tol": 0.1
+        },
+        {
+          "path": "themes[0].trajectory",
+          "equals": "accelerating"
+        },
+        {
+          "path": "themes[0].strategic_weight",
+          "approx": 99.4,
+          "tol": 0.2
+        },
+        {
+          "path": "themes[0].signal_count",
+          "equals": 4
+        },
+        {
+          "path": "themes[1].trajectory",
+          "equals": "fading"
+        },
+        {
+          "path": "themes[1].strategic_weight",
+          "approx": 22.5,
+          "tol": 0.2
+        }
+      ]
+    }
+  ]
+}

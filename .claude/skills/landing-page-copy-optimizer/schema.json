@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "landing-page-copy-optimizer",
+  "description": "Output of the landing-page-copy-optimizer skill. Generated from b2b-agent-skills-marketing/skills/landing-page-copy-optimizer/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "message_match_score": {
+      "type": "number"
+    },
+    "message_match_status": {
+      "type": "string"
+    },
+    "on_page_checklist": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "item",
+          "score",
+          "note"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "on_page_score": {
+      "type": "number"
+    },
+    "priority_fix": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "message_match_score",
+    "message_match_status",
+    "on_page_checklist",
+    "on_page_score",
+    "priority_fix"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "message_match_score": 1,
+      "message_match_status": "fail - fix before on-page changes",
+      "on_page_checklist": [
+        {
+          "item": "value_prop_above_fold",
+          "score": 1,
+          "note": "present but generic, doesn't carry the ad's specific claim"
+        }
+      ],
+      "on_page_score": 0,
+      "priority_fix": "headline does not match referring ad's specific claim"
+    }
+  ]
+}

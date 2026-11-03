@@ -26,7 +26,7 @@ Capture_Likelihood =
   + 0.3 x competitive_openness (1.0 no entrenched incumbent or known dissatisfaction with one, 0.5 incumbent present but contract nearing renewal, 0.1 recently-signed entrenched incumbent)
 ```
 
-Rank accounts by Territory Priority Score, not TAM alone. Segment the ranked list into tiers (e.g., top 20% = primary focus, next 30% = secondary, remainder = light-touch/inbound-only) rather than treating the list as strictly sequential — this mirrors the ABM tiering logic in [`abm-account-priority-ranker`](../../b2b-agent-skills-marketing/skills/abm-account-priority-ranker/README.md) but applied to an individual rep's full territory rather than a curated named-account list.
+Rank accounts by Territory Priority Score, not TAM alone. Segment the ranked list into tiers (e.g., top 20% = primary focus, next 30% = secondary, remainder = light-touch/inbound-only) rather than treating the list as strictly sequential — this mirrors the ABM tiering logic in [`abm-account-priority-ranker`](../../../b2b-agent-skills-marketing/skills/abm-account-priority-ranker/README.md) but applied to an individual rep's full territory rather than a curated named-account list.
 
 ## Inputs
 

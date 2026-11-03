@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "multi-threading-plan-builder",
+  "description": "Output of the multi-threading-plan-builder skill. Generated from b2b-agent-skills-sales/skills/multi-threading-plan-builder/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "plan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "number"
+          },
+          "target_role": {
+            "type": "string"
+          },
+          "target_name": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "prerequisite": {
+            "type": "string"
+          },
+          "success_signal": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "step",
+          "target_role",
+          "target_name",
+          "action",
+          "method",
+          "prerequisite",
+          "success_signal"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "sequencing_rationale": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "plan",
+    "sequencing_rationale"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "plan": [
+        {
+          "step": 1,
+          "target_role": "champion",
+          "target_name": "M. Chen",
+          "action": "ask for warm intro to EB",
+          "method": "direct ask",
+          "prerequisite": "none",
+          "success_signal": "champion agrees and sets a date"
+        },
+        {
+          "step": 2,
+          "target_role": "economic_buyer",
+          "target_name": "J. Alvarez",
+          "action": "champion-brokered introduction",
+          "method": "champion-brokered",
+          "prerequisite": "step 1 complete",
+          "success_signal": "EB takes the meeting"
+        }
+      ],
+      "sequencing_rationale": "champion has some internal credibility (3 scheduled meetings) - warrants brokered intro over cold outreach"
+    }
+  ]
+}

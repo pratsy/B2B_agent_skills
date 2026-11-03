@@ -1,9 +1,0 @@
-#!/usr/bin/env python3
-"""CLI wrapper to run skills locally.
-Usage: bin/skills-ai <skill_module_name> --input examples/fixtures/renewal_input.json
-"""
-from sdk.runner import _cli
-
-
-if __name__ == "__main__":
-    _cli()

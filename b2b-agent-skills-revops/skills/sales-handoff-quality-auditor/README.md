@@ -14,7 +14,7 @@ Define the required context fields for each handoff type — these should reflec
 
 **SDR → AE handoff**, typical required fields: qualification evidence (BANT/MEDDPICC basics gathered), stated pain in the buyer's words, known stakeholders and roles, objections already raised, competitive context if mentioned, timeline/urgency signal.
 
-**AE → CS/Implementation handoff**, typical required fields: promises made during the sales cycle (explicit or implied), success criteria the buyer defined, key stakeholders and their roles (see [`stakeholder-map-builder`](../../b2b-agent-skills-sales/skills/stakeholder-map-builder/README.md)), known risks or reservations raised pre-close, technical requirements or constraints discussed.
+**AE → CS/Implementation handoff**, typical required fields: promises made during the sales cycle (explicit or implied), success criteria the buyer defined, key stakeholders and their roles (see [`stakeholder-map-builder`](../../../b2b-agent-skills-sales/skills/stakeholder-map-builder/README.md)), known risks or reservations raised pre-close, technical requirements or constraints discussed.
 
 ## Scoring model
 

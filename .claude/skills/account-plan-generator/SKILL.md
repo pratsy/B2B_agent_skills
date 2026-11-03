@@ -20,13 +20,17 @@ Ask for: current owned products by business unit (with usage health), candidate 
 
 ## Output
 
-Owned footprint summary, whitespace areas ranked by priority score (not raw size), and the specific next action per top-ranked area.
+Owned footprint summary, whitespace areas ranked by priority score (not raw size), and the specific next action per top-ranked area. Sort `whitespace_ranked` strictly by `priority_score`, highest first: the multiplier already accounts for relationship warmth, so don't move a warm area above a higher-scoring cold one (e.g. $500K × 0.2 = 100,000 ranks above $40K × 1.0 = 40,000).
 
 ## Common failure patterns to avoid
 
 - Ranking whitespace by raw dollar opportunity alone.
 - Sizing whitespace from generic assumptions instead of a comparable customer's actual adoption.
 - Pursuing expansion in a business unit while an owned product elsewhere in the account is unhealthy — stabilize first.
+
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
 
 ## Reference
 

@@ -31,6 +31,10 @@ Themes ranked by Impact Score with their component scores, and the top-priority 
 - Computing frequency from loss interviews only, with no win-side comparison.
 - Taking every stated reason at face value — buyers sometimes cite an easier reason (price) over a harder truth (weak champion).
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-gtm/skills/win-loss-theme-clusterer/README.md`](../../../b2b-agent-skills-gtm/skills/win-loss-theme-clusterer/README.md)

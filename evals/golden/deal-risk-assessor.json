@@ -1,0 +1,61 @@
+{
+  "skill": "deal-risk-assessor",
+  "cases": [
+    {
+      "id": "strong-pain-unconfirmed-eb",
+      "description": "Strong Metrics and Pain cannot make a deal Commit when the Economic Buyer is unconfirmed.",
+      "source": "Worked example in b2b-agent-skills-*/skills/deal-risk-assessor/README.md",
+      "input": {
+        "deal_id": "opp_5521",
+        "stage": "proposal",
+        "close_date": "2026-12-15",
+        "pillar_evidence": {
+          "metrics": "The CFO (economic buyer) stated the target on a recorded call: cut forecast variance 20%.",
+          "economic_buyer": "A procurement analyst (not the champion) said the CFO 'probably' signs. Neither the champion nor the CFO has confirmed it.",
+          "decision_criteria": "The champion shared the evaluation criteria document. The economic buyer has not reviewed or confirmed it.",
+          "decision_process": "The rep believes it is a 2-step approval. Nobody at the buyer has said so.",
+          "paper_process": "Legal and procurement steps are unknown; not discussed with anyone at the buyer.",
+          "identify_pain": "The CFO described the pain directly on a call and it is in the call notes.",
+          "champion": "The VP RevOps champion confirmed in writing that she is sponsoring the evaluation; she has not championed a purchase here before.",
+          "competition": "The champion named the competitor in the evaluation; not independently verified."
+        }
+      },
+      "assertions": [
+        {
+          "path": "pillar_scores.metrics",
+          "equals": 3
+        },
+        {
+          "path": "pillar_scores.economic_buyer",
+          "equals": 1
+        },
+        {
+          "path": "pillar_scores.paper_process",
+          "equals": 0
+        },
+        {
+          "path": "pillar_scores.decision_process",
+          "equals": 0,
+          "why": "rep belief only = 0 on the rubric"
+        },
+        {
+          "path": "total_score",
+          "approx": 13,
+          "tol": 1
+        },
+        {
+          "path": "single_point_of_failure",
+          "contains": "economic_buyer"
+        },
+        {
+          "path": "forecast_recommendation",
+          "matches": "best case|pipeline"
+        },
+        {
+          "path": "priority_action",
+          "matches": "economic.buyer|CFO"
+        }
+      ]
+    }
+  ]
+}

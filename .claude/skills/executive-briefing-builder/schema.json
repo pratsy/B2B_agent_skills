@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "executive-briefing-builder",
+  "description": "Output of the executive-briefing-builder skill. Generated from b2b-agent-skills-sales/skills/executive-briefing-builder/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "audience": {
+      "type": "string"
+    },
+    "governing_thought": {
+      "type": "string"
+    },
+    "supporting_arguments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "argument": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "argument",
+          "evidence"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "mece_check": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "audience",
+    "governing_thought",
+    "supporting_arguments",
+    "mece_check"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "audience": "buyer's CFO",
+      "governing_thought": "Approving this investment addresses a $180K/year cost at roughly a third of that price, with no IT burden.",
+      "supporting_arguments": [
+        {
+          "argument": "The cost of the status quo is quantified and material.",
+          "evidence": [
+            "$45K x 4 occurrences/year, per VP Sales estimate"
+          ]
+        },
+        {
+          "argument": "Expected improvement is evidenced by comparable customers, not a vendor claim.",
+          "evidence": [
+            "3 reference accounts, 20-25% variance reduction"
+          ]
+        },
+        {
+          "argument": "Implementation risk is minimal.",
+          "evidence": [
+            "15-minute setup, no IT resourcing required"
+          ]
+        }
+      ],
+      "mece_check": "pass - cost, proof, and risk are independent angles with no overlap"
+    }
+  ]
+}

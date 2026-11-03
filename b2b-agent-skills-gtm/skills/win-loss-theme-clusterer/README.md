@@ -1,6 +1,6 @@
 # Win-Loss Theme Clusterer
 
-Cluster win/loss interview data into frequency-weighted themes and correlate each theme with actual win rate impact — using the same evidence-frequency discipline as [`persona-insight-extractor`](../../b2b-agent-skills-marketing/skills/persona-insight-extractor/README.md), applied to why deals are won or lost rather than to persona attributes.
+Cluster win/loss interview data into frequency-weighted themes and correlate each theme with actual win rate impact — using the same evidence-frequency discipline as [`persona-insight-extractor`](../../../b2b-agent-skills-marketing/skills/persona-insight-extractor/README.md), applied to why deals are won or lost rather than to persona attributes.
 
 ## When to use this
 
@@ -60,7 +60,7 @@ Compare to theme "pricing objection": appears in 55% of losses, decisiveness 65%
 Theme Impact Score = 0.55 x 0.65 x 0.35 ≈ 0.125
 ```
 
-Pricing objection ranks far higher despite similar frequency to implementation complexity, because it's both more decisive and more strongly correlated with the loss outcome. The recommended priority is addressing the pricing/value conversation (see [`pricing-justification-builder`](../../b2b-agent-skills-sales/skills/pricing-justification-builder/README.md)), not implementation complexity, even though both "came up" at similar rates.
+Pricing objection ranks far higher despite similar frequency to implementation complexity, because it's both more decisive and more strongly correlated with the loss outcome. The recommended priority is addressing the pricing/value conversation (see [`pricing-justification-builder`](../../../b2b-agent-skills-sales/skills/pricing-justification-builder/README.md)), not implementation complexity, even though both "came up" at similar rates.
 
 ## Common failure patterns
 

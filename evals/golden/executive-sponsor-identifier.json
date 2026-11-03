@@ -1,0 +1,62 @@
+{
+  "skill": "executive-sponsor-identifier",
+  "cases": [
+    {
+      "id": "authority-over-engagement",
+      "description": "Pick the budget owner at the right seniority, not the most engaged contact.",
+      "source": "Worked example in b2b-agent-skills-*/skills/executive-sponsor-identifier/README.md",
+      "readme_example": true,
+      "input": {
+        "deal_size": 180000,
+        "champion_notes": "Champion says the VP Sales Ops usually approves purchases of this size; Sales Ops owns the budget line.",
+        "candidates": [
+          {
+            "name": "J. Alvarez",
+            "title": "VP Sales Ops",
+            "function": "Sales Ops",
+            "seniority": "VP",
+            "engagement_evidence": "named by champion as likely approver; no direct contact"
+          },
+          {
+            "name": "M. Torres",
+            "title": "Director IT",
+            "function": "IT",
+            "seniority": "Director",
+            "engagement_evidence": "asked substantive technical questions on a call"
+          },
+          {
+            "name": "R. Kim",
+            "title": "CRO",
+            "function": "Revenue",
+            "seniority": "C-level",
+            "engagement_evidence": "none"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "candidates_ranked[name=J. Alvarez].authority_score",
+          "equals": 5
+        },
+        {
+          "path": "candidates_ranked[name=J. Alvarez].engagement_score",
+          "equals": 1
+        },
+        {
+          "path": "candidates_ranked[name=J. Alvarez].sponsor_likelihood",
+          "equals": 5
+        },
+        {
+          "path": "candidates_ranked[name=M. Torres].sponsor_likelihood",
+          "approx": 10,
+          "tol": 4,
+          "why": "authority 2-3 (adjacent function) x engagement 4"
+        },
+        {
+          "path": "primary_eb_target",
+          "equals": "J. Alvarez"
+        }
+      ]
+    }
+  ]
+}

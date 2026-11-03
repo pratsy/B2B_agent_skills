@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "competitor-signal-clusterer",
+  "description": "Output of the competitor-signal-clusterer skill. Generated from b2b-agent-skills-gtm/skills/competitor-signal-clusterer/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "themes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "theme": {
+            "type": "string"
+          },
+          "signal_count": {
+            "type": "number"
+          },
+          "avg_materiality": {
+            "type": "number"
+          },
+          "trajectory": {
+            "type": "string"
+          },
+          "strategic_weight": {
+            "type": "number"
+          },
+          "implication": {
+            "type": "string"
+          },
+          "recommended_response": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "theme",
+          "signal_count",
+          "avg_materiality",
+          "trajectory",
+          "strategic_weight",
+          "implication",
+          "recommended_response"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "themes"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "themes": [
+        {
+          "theme": "moving down-market toward PLG",
+          "signal_count": 4,
+          "avg_materiality": 66.25,
+          "trajectory": "accelerating",
+          "strategic_weight": 99.4,
+          "implication": "competitor is pursuing a new buyer segment with different pricing/adoption expectations",
+          "recommended_response": "assess whether our own down-market packaging needs a counter-response"
+        }
+      ]
+    }
+  ]
+}

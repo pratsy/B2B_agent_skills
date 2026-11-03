@@ -1,0 +1,58 @@
+{
+  "skill": "competitor-monitor",
+  "cases": [
+    {
+      "id": "overlapping-product-launch",
+      "description": "A broad launch overlapping a core differentiator, as part of a pattern, is High materiality.",
+      "source": "Worked example in b2b-agent-skills-*/skills/competitor-monitor/README.md",
+      "readme_example": true,
+      "input": {
+        "competitor": "Competitor X",
+        "signal_description": "launched explainable scoring feature, broad rollout",
+        "move_type": "product",
+        "overlap_with_icp": 0.9,
+        "confirmation_level": "confirmed_broad",
+        "related_moves_last_quarter": 3
+      },
+      "assertions": [
+        {
+          "path": "materiality_score",
+          "approx": 81,
+          "tol": 0.5
+        },
+        {
+          "path": "materiality_band",
+          "equals": "high"
+        },
+        {
+          "path": "recommended_action",
+          "matches": "48 hours|leadership"
+        }
+      ]
+    },
+    {
+      "id": "unconfirmed-rumor",
+      "description": "An isolated low-overlap rumor is Low materiality.",
+      "source": "Worked example in b2b-agent-skills-*/skills/competitor-monitor/README.md",
+      "input": {
+        "competitor": "Competitor Y",
+        "signal_description": "rumored price cut on SMB tier",
+        "move_type": "pricing",
+        "overlap_with_icp": 0.3,
+        "confirmation_level": "rumor",
+        "related_moves_last_quarter": 0
+      },
+      "assertions": [
+        {
+          "path": "materiality_score",
+          "approx": 12,
+          "tol": 0.5
+        },
+        {
+          "path": "materiality_band",
+          "equals": "low"
+        }
+      ]
+    }
+  ]
+}

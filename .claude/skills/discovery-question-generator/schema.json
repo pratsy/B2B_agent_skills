@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "discovery-question-generator",
+  "description": "Output of the discovery-question-generator skill. Generated from b2b-agent-skills-sales/skills/discovery-question-generator/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "persona": {
+      "type": "string"
+    },
+    "sequence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage",
+          "question"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "coaching_note": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "persona",
+    "sequence",
+    "coaching_note"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "persona": "VP Sales, mid-market SaaS",
+      "sequence": [
+        {
+          "stage": "situation",
+          "question": "...",
+          "purpose": "seed context from known research, not rediscover it"
+        },
+        {
+          "stage": "problem",
+          "question": "..."
+        },
+        {
+          "stage": "implication",
+          "question": "...",
+          "purpose": "quantify the cost - this is the critical stage"
+        },
+        {
+          "stage": "need_payoff",
+          "question": "..."
+        }
+      ],
+      "coaching_note": "ensure at least one implication question lands before the call midpoint"
+    }
+  ]
+}

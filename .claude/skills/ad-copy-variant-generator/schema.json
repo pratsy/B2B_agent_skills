@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ad-copy-variant-generator",
+  "description": "Output of the ad-copy-variant-generator skill. Generated from b2b-agent-skills-marketing/skills/ad-copy-variant-generator/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "structure": {
+            "type": "string"
+          },
+          "copy": {
+            "type": "string"
+          },
+          "hypothesis": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "structure",
+          "copy",
+          "hypothesis"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "test_design": {
+      "type": "object",
+      "properties": {
+        "baseline_rate": {
+          "type": "number"
+        },
+        "mde": {
+          "type": "number"
+        },
+        "required_sample_size_per_variant": {
+          "type": "number"
+        },
+        "do_not_call_before": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "baseline_rate",
+        "mde",
+        "required_sample_size_per_variant",
+        "do_not_call_before"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "variants",
+    "test_design"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "variants": [
+        {
+          "structure": "PAS",
+          "copy": "...",
+          "hypothesis": "pain-avoidance framing outperforms with this audience"
+        },
+        {
+          "structure": "AIDA",
+          "copy": "...",
+          "hypothesis": "aspirational framing outperforms"
+        },
+        {
+          "structure": "proof-led",
+          "copy": "...",
+          "hypothesis": "skeptical buyers need evidence before attention"
+        }
+      ],
+      "test_design": {
+        "baseline_rate": 0.018,
+        "mde": 0.2,
+        "required_sample_size_per_variant": 21700,
+        "do_not_call_before": "each variant reaches required sample size"
+      }
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "skill": "abm-account-priority-ranker",
+  "cases": [
+    {
+      "id": "reachable-but-small",
+      "description": "Strong reachability can't make a mid-sized deal Tier 1: Value 50 / Reach 77 is Tier 2.",
+      "source": "Worked example in b2b-agent-skills-*/skills/abm-account-priority-ranker/README.md",
+      "readme_example": true,
+      "input": {
+        "largest_deal_value_in_list": 400000,
+        "accounts": [
+          {
+            "account_id": "acct_1190",
+            "name": "Orion Health",
+            "potential_deal_value": 240000,
+            "win_probability_at_account": 35,
+            "known_buying_committee_contacts": 3,
+            "typical_buying_committee_size": 7,
+            "last_touch_days_ago": 18,
+            "champion_status": "confirmed"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "accounts_ranked[account_id=acct_1190].opportunity_value_score",
+          "approx": 50,
+          "tol": 0.5
+        },
+        {
+          "path": "accounts_ranked[account_id=acct_1190].reachability_score",
+          "approx": 77.1,
+          "tol": 0.3
+        },
+        {
+          "path": "accounts_ranked[account_id=acct_1190].tier",
+          "matches": "tier 2"
+        },
+        {
+          "path": "tier_counts.tier_2",
+          "equals": 1
+        }
+      ]
+    },
+    {
+      "id": "valuable-but-cold",
+      "description": "High value with no reachability is Tier 1-Pending: build reach before funding 1:1.",
+      "source": "Worked example in b2b-agent-skills-*/skills/abm-account-priority-ranker/README.md",
+      "input": {
+        "largest_deal_value_in_list": 400000,
+        "accounts": [
+          {
+            "account_id": "acct_2001",
+            "potential_deal_value": 400000,
+            "win_probability_at_account": 60,
+            "known_buying_committee_contacts": 0,
+            "typical_buying_committee_size": 6,
+            "last_touch_days_ago": 200,
+            "champion_status": "none"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "accounts_ranked[account_id=acct_2001].opportunity_value_score",
+          "approx": 84,
+          "tol": 0.5
+        },
+        {
+          "path": "accounts_ranked[account_id=acct_2001].reachability_score",
+          "approx": 0,
+          "tol": 0.5
+        },
+        {
+          "path": "accounts_ranked[account_id=acct_2001].tier",
+          "matches": "pending"
+        }
+      ]
+    }
+  ]
+}

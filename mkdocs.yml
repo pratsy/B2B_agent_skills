@@ -1,0 +1,53 @@
+site_name: B2B Agent Skills
+site_description: Evidence-grounded AI skills for B2B sales, marketing, RevOps and GTM teams.
+site_url: https://pratsy.github.io/skills-AI/
+repo_url: https://github.com/pratsy/skills-AI
+repo_name: pratsy/skills-AI
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle: { icon: material/brightness-7, name: Switch to dark mode }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle: { icon: material/brightness-4, name: Switch to light mode }
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc: { permalink: true }
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+not_in_nav: |
+  /b2b-agent-skills-*/**
+
+validation:
+  links:
+    absolute_links: relative_to_docs
+    anchors: warn
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Skill catalog: skills.md
+  - Use it:
+      - Claude Code plugin: claude-code.md
+      - MCP server: mcp.md
+      - Python SDK & CLI: sdk.md
+      - HTTP API: http-api.md
+  - Golden evals: evals.md
+  - Packs:
+      - Sales: b2b-agent-skills-sales/README.md
+      - Marketing: b2b-agent-skills-marketing/README.md
+      - RevOps: b2b-agent-skills-revops/README.md
+      - GTM: b2b-agent-skills-gtm/README.md
+  - Contributing: contributing.md

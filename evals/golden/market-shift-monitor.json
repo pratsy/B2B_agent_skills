@@ -1,0 +1,58 @@
+{
+  "skill": "market-shift-monitor",
+  "cases": [
+    {
+      "id": "regulatory-structural",
+      "description": "A category-wide, scheduled, durable regulatory change is structural.",
+      "source": "Worked example in b2b-agent-skills-*/skills/market-shift-monitor/README.md",
+      "readme_example": true,
+      "input": {
+        "signal_description": "new data-privacy regulation affecting buyer engagement data processing",
+        "category": "regulatory",
+        "breadth_evidence": "applies to every B2B vendor processing engagement data, across multiple jurisdictions",
+        "breadth_score": 0.9,
+        "velocity_evidence": "confirmed regulatory timeline, phased over 18 months",
+        "velocity_score": 0.8,
+        "durability_rationale": "regulation is structurally durable",
+        "durability_score": 1.0
+      },
+      "assertions": [
+        {
+          "path": "shift_materiality",
+          "approx": 89.5,
+          "tol": 0.1
+        },
+        {
+          "path": "shift_band",
+          "equals": "structural"
+        }
+      ]
+    },
+    {
+      "id": "single-data-point-noise",
+      "description": "One soft economic datapoint is noise.",
+      "source": "Worked example in b2b-agent-skills-*/skills/market-shift-monitor/README.md",
+      "input": {
+        "signal_description": "one survey shows a dip in SaaS budget sentiment",
+        "category": "economic",
+        "breadth_evidence": "single survey",
+        "breadth_score": 0.3,
+        "velocity_evidence": "single data point",
+        "velocity_score": 0.2,
+        "durability_rationale": "unconfirmed by trend",
+        "durability_score": 0.2
+      },
+      "assertions": [
+        {
+          "path": "shift_materiality",
+          "approx": 23.5,
+          "tol": 0.6
+        },
+        {
+          "path": "shift_band",
+          "equals": "noise"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "competitor-monitor",
+  "description": "Output of the competitor-monitor skill. Generated from b2b-agent-skills-gtm/skills/competitor-monitor/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "competitor": {
+      "type": "string"
+    },
+    "signal_description": {
+      "type": "string"
+    },
+    "move_type": {
+      "type": "string"
+    },
+    "overlap_with_icp": {
+      "type": "number"
+    },
+    "confirmation_level": {
+      "type": "string"
+    },
+    "related_moves_last_quarter": {
+      "type": "number"
+    },
+    "materiality_score": {
+      "type": "number"
+    },
+    "materiality_band": {
+      "type": "string"
+    },
+    "recommended_action": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "competitor",
+    "signal_description",
+    "move_type",
+    "overlap_with_icp",
+    "confirmation_level",
+    "related_moves_last_quarter",
+    "materiality_score",
+    "materiality_band",
+    "recommended_action"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "competitor": "Competitor X",
+      "signal_description": "launched explainable scoring feature, broad rollout",
+      "move_type": "product",
+      "overlap_with_icp": 0.9,
+      "confirmation_level": "confirmed_broad",
+      "related_moves_last_quarter": 3,
+      "materiality_score": 81,
+      "materiality_band": "high",
+      "recommended_action": "brief leadership within 48 hours; feed into competitive-differentiation-coach battlecard update"
+    }
+  ]
+}

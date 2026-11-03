@@ -28,6 +28,10 @@ A sequenced plan (numbered steps) with target, method, prerequisite, and success
 - Steps with no success signal, turning "multi-threading" into unconfirmed activity instead of confirmed relationship progress.
 - Treating all coverage gaps as equally urgent instead of sequencing around the one most likely to block the deal soonest.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-sales/skills/multi-threading-plan-builder/README.md`](../../../b2b-agent-skills-sales/skills/multi-threading-plan-builder/README.md)

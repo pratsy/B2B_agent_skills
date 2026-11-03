@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "customer-journey-friction-audit",
+  "description": "Output of the customer-journey-friction-audit skill. Generated from b2b-agent-skills-marketing/skills/customer-journey-friction-audit/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "touchpoints_ranked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "effort_score": {
+            "type": "number"
+          },
+          "drop_off_rate": {
+            "type": "number"
+          },
+          "downstream_value": {
+            "type": "number"
+          },
+          "friction_priority_score": {
+            "type": "number"
+          },
+          "diagnosis": {
+            "type": "string"
+          },
+          "recommended_fix": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "effort_score",
+          "drop_off_rate",
+          "downstream_value",
+          "friction_priority_score",
+          "diagnosis",
+          "recommended_fix"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "touchpoints_ranked"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "touchpoints_ranked": [
+        {
+          "name": "Demo request form",
+          "effort_score": 4,
+          "drop_off_rate": 0.45,
+          "downstream_value": 0.3,
+          "friction_priority_score": 0.54,
+          "diagnosis": "friction",
+          "recommended_fix": "reduce from 12 fields to 4; auto-fill company info from email domain"
+        }
+      ]
+    }
+  ]
+}

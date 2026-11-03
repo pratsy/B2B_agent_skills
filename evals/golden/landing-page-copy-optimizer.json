@@ -1,0 +1,37 @@
+{
+  "skill": "landing-page-copy-optimizer",
+  "cases": [
+    {
+      "id": "message-mismatch-first",
+      "description": "The headline doesn't carry the ad's claim; fix message match before any on-page work.",
+      "source": "Worked example in b2b-agent-skills-*/skills/landing-page-copy-optimizer/README.md",
+      "readme_example": true,
+      "input": {
+        "referring_creative": "Cut forecast variance by 22% — see how RevOps teams do it.",
+        "page_headline": "The all-in-one revenue platform.",
+        "page_elements": {
+          "hero_visual": "generic dashboard screenshot",
+          "cta": "Get started",
+          "social_proof": "logo bar",
+          "form": "8 fields",
+          "objection_copy": "none"
+        },
+        "known_top_objection": "security/compliance concerns"
+      },
+      "assertions": [
+        {
+          "path": "message_match_score",
+          "lte": 1
+        },
+        {
+          "path": "message_match_status",
+          "matches": "fail"
+        },
+        {
+          "path": "priority_fix",
+          "matches": "headline|match"
+        }
+      ]
+    }
+  ]
+}

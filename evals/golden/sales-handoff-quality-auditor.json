@@ -1,0 +1,66 @@
+{
+  "skill": "sales-handoff-quality-auditor",
+  "cases": [
+    {
+      "id": "placeholder-and-missing",
+      "description": "'n/a' doesn't count: 3 substantive of 5 required is 60%, poor.",
+      "source": "Worked example in b2b-agent-skills-*/skills/sales-handoff-quality-auditor/README.md",
+      "readme_example": true,
+      "input": {
+        "handoff_type": "ae_to_cs",
+        "required_fields": [
+          "promises_made",
+          "success_criteria",
+          "stakeholders",
+          "pre_close_risks",
+          "technical_requirements"
+        ],
+        "handoff_fields": [
+          {
+            "field": "promises_made",
+            "content": "n/a"
+          },
+          {
+            "field": "success_criteria",
+            "content": "reduce forecast variance by 20% within 2 quarters, per CFO"
+          },
+          {
+            "field": "stakeholders",
+            "content": "J. Alvarez (EB), M. Chen (champion)"
+          },
+          {
+            "field": "technical_requirements",
+            "content": "Salesforce integration required, SSO via Okta"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "completeness_score",
+          "approx": 60,
+          "tol": 0.5
+        },
+        {
+          "path": "quality_band",
+          "equals": "poor"
+        },
+        {
+          "path": "fields_scored[field=promises_made].status",
+          "matches": "placeholder"
+        },
+        {
+          "path": "fields_scored[field=pre_close_risks].status",
+          "equals": "missing"
+        },
+        {
+          "path": "critical_gaps",
+          "contains": "pre_close_risks"
+        },
+        {
+          "path": "critical_gaps",
+          "contains": "promises_made"
+        }
+      ]
+    }
+  ]
+}

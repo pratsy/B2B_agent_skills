@@ -1,0 +1,48 @@
+{
+  "skill": "ad-copy-variant-generator",
+  "cases": [
+    {
+      "id": "three-structures-and-sample-size",
+      "description": "Three genuinely different structures, plus the sample size needed before calling a winner.",
+      "source": "Worked example in b2b-agent-skills-*/skills/ad-copy-variant-generator/README.md",
+      "input": {
+        "product_value_prop": "AI deal-risk scoring that flags at-risk deals two weeks early",
+        "target_persona": "VP Sales",
+        "proof_points_available": [
+          "40+ RevOps teams",
+          "22% forecast variance reduction"
+        ],
+        "baseline_conversion_rate": 0.018,
+        "minimum_detectable_effect": 0.2
+      },
+      "assertions": [
+        {
+          "path": "variants",
+          "length": 3
+        },
+        {
+          "path": "variants[structure=PAS].structure",
+          "equals": "PAS"
+        },
+        {
+          "path": "variants[structure=AIDA].structure",
+          "equals": "AIDA"
+        },
+        {
+          "path": "variants[2].copy",
+          "matches": "22%|40\\+"
+        },
+        {
+          "path": "test_design.required_sample_size_per_variant",
+          "approx": 21800,
+          "tol": 400
+        },
+        {
+          "path": "test_design.baseline_rate",
+          "approx": 0.018,
+          "tol": 0.0001
+        }
+      ]
+    }
+  ]
+}

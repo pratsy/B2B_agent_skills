@@ -1,0 +1,57 @@
+{
+  "skill": "negotiation-readiness-coach",
+  "cases": [
+    {
+      "id": "lead-with-high-ratio",
+      "description": "Lead with the cheap, high-value concessions; the price cut goes last.",
+      "source": "Worked example in b2b-agent-skills-*/skills/negotiation-readiness-coach/README.md",
+      "readme_example": true,
+      "input": {
+        "our_batna": "weak - pipeline is thin this quarter and this deal is load-bearing",
+        "buyer_batna_signals": [
+          "evaluating one competitor",
+          "competitor's implementation timeline is ~3x longer than the buyer's stated go-live need"
+        ],
+        "possible_concessions": [
+          {
+            "concession": "reference call with a similar customer",
+            "actual_cost": "very low",
+            "perceived_buyer_value": "high (buyer stated trust/risk concern)"
+          },
+          {
+            "concession": "extended white-glove onboarding (2 extra weeks CS)",
+            "actual_cost": "low",
+            "perceived_buyer_value": "high (implementation risk is the buyer's top stated concern)"
+          },
+          {
+            "concession": "10% flat price cut",
+            "actual_cost": "high (below approved discount band)",
+            "perceived_buyer_value": "moderate (price never named as a top concern)"
+          }
+        ],
+        "deal_context": {
+          "current_ask": "buyer asked for a better deal",
+          "target_terms": "list price, close this quarter"
+        }
+      },
+      "assertions": [
+        {
+          "path": "our_batna.strength",
+          "equals": "weak"
+        },
+        {
+          "path": "buyer_batna.strength",
+          "matches": "weak"
+        },
+        {
+          "path": "concessions_ranked[0].concession",
+          "matches": "reference"
+        },
+        {
+          "path": "concessions_ranked[concession=10% flat price cut].sequence",
+          "equals": 3
+        }
+      ]
+    }
+  ]
+}

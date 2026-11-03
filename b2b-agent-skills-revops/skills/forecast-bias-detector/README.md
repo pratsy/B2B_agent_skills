@@ -6,7 +6,7 @@ Detect systematic forecast bias per rep or segment by comparing forecast calls t
 
 - One rep's forecast is consistently wrong in the same direction, quarter after quarter, and you want to quantify the pattern instead of relitigating it each cycle.
 - Aggregate forecast accuracy looks fine but you suspect it's masking offsetting biases (some reps sandbagging, others sniping) that cancel out at the team level.
-- Setting forecast trust/scrutiny levels per rep for the [`forecast-confidence-model`](../../b2b-agent-skills-sales/skills/forecast-confidence-model/README.md) rep-calibration input.
+- Setting forecast trust/scrutiny levels per rep for the [`forecast-confidence-model`](../../../b2b-agent-skills-sales/skills/forecast-confidence-model/README.md) rep-calibration input.
 
 ## Methodology
 

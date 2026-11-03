@@ -1,0 +1,53 @@
+{
+  "skill": "customer-journey-friction-audit",
+  "cases": [
+    {
+      "id": "form-beats-pricing-page",
+      "description": "Effort x drop-off x downstream value: the demo form outranks the pricing page.",
+      "source": "Worked example in b2b-agent-skills-*/skills/customer-journey-friction-audit/README.md",
+      "readme_example": true,
+      "input": {
+        "touchpoints": [
+          {
+            "name": "Demo request form",
+            "order": 2,
+            "effort_score": 4,
+            "entrants": 2000,
+            "completions": 1100,
+            "note": "12 fields"
+          },
+          {
+            "name": "Pricing page → Contact sales",
+            "order": 1,
+            "effort_score": 2,
+            "entrants": 3500,
+            "completions": 3200
+          }
+        ],
+        "downstream_outcomes": {
+          "Demo request form": 0.3,
+          "Pricing page → Contact sales": 0.52
+        },
+        "qualitative_notes": [
+          "Prospects complain the demo form asks for revenue and headcount they don't know"
+        ]
+      },
+      "assertions": [
+        {
+          "path": "touchpoints_ranked[0].name",
+          "equals": "Demo request form"
+        },
+        {
+          "path": "touchpoints_ranked[name=Demo request form].friction_priority_score",
+          "approx": 0.54,
+          "tol": 0.01
+        },
+        {
+          "path": "touchpoints_ranked[name=Demo request form].drop_off_rate",
+          "approx": 0.45,
+          "tol": 0.005
+        }
+      ]
+    }
+  ]
+}

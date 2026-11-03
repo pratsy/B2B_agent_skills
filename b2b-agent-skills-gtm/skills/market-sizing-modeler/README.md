@@ -17,7 +17,7 @@ Build a TAM/SAM/SOM market size estimate using both top-down and bottom-up metho
 **Two independent methods, always both computed:**
 
 - **Top-down**: start from a published industry market size figure, narrow by the % that matches your specific category/segment, narrow again by your SAM constraints.
-- **Bottom-up**: count actual target accounts (from firmographic data — see [`icp-refinement-agent`](../../b2b-agent-skills-marketing/skills/icp-refinement-agent/README.md)) × realistic average contract value, built up from your own comparable-customer data, not assumption.
+- **Bottom-up**: count actual target accounts (from firmographic data — see [`icp-refinement-agent`](../../../b2b-agent-skills-marketing/skills/icp-refinement-agent/README.md)) × realistic average contract value, built up from your own comparable-customer data, not assumption.
 
 ## Reconciliation logic
 

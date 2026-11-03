@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "brand-perception-monitor",
+  "description": "Output of the brand-perception-monitor skill. Generated from b2b-agent-skills-marketing/skills/brand-perception-monitor/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "trend": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage",
+          "score",
+          "trend",
+          "evidence"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "bottleneck_stage": {
+      "type": "string"
+    },
+    "diagnosis": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "stages",
+    "bottleneck_stage",
+    "diagnosis"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "stages": [
+        {
+          "stage": "awareness",
+          "score": 5,
+          "trend": "improving",
+          "evidence": "branded search +15% QoQ, SOV +3pts"
+        },
+        {
+          "stage": "consideration",
+          "score": 1,
+          "trend": "declining",
+          "evidence": "shortlist rate in closed-lost fell from 62% to 41%"
+        }
+      ],
+      "bottleneck_stage": "consideration",
+      "diagnosis": "brand is gaining awareness but not converting it into shortlist inclusion or differentiation"
+    }
+  ]
+}

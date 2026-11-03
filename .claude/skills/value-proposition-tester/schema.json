@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "value-proposition-tester",
+  "description": "Output of the value-proposition-tester skill. Generated from b2b-agent-skills-marketing/skills/value-proposition-tester/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "customer_profile": {
+      "type": "object",
+      "properties": {
+        "jobs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pains": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "pain": {
+                "type": "string"
+              },
+              "importance": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "pain",
+              "importance"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "gains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "jobs",
+        "pains",
+        "gains"
+      ],
+      "additionalProperties": false
+    },
+    "candidates_scored": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claim": {
+            "type": "string"
+          },
+          "fit_score": {
+            "type": "number"
+          },
+          "verdict": {
+            "type": "string"
+          },
+          "unmatched_high_importance_items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "claim",
+          "fit_score",
+          "verdict",
+          "unmatched_high_importance_items"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "recommended_lead_message": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "customer_profile",
+    "candidates_scored",
+    "recommended_lead_message"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "customer_profile": {
+        "jobs": [],
+        "pains": [
+          {
+            "pain": "",
+            "importance": "Extreme"
+          }
+        ],
+        "gains": []
+      },
+      "candidates_scored": [
+        {
+          "claim": "",
+          "fit_score": 3.0,
+          "verdict": "strong fit",
+          "unmatched_high_importance_items": []
+        }
+      ],
+      "recommended_lead_message": ""
+    }
+  ]
+}

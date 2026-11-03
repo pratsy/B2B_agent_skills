@@ -1,0 +1,63 @@
+{
+  "skill": "brand-positioning-synthesizer",
+  "cases": [
+    {
+      "id": "winnable-segment-over-big-segment",
+      "description": "Pick the segment where win/loss shows we win, not the biggest one.",
+      "source": "Worked example in b2b-agent-skills-*/skills/brand-positioning-synthesizer/README.md",
+      "input": {
+        "competitive_alternatives": [
+          "Manual spreadsheet tracking",
+          "Clari",
+          "Status quo / no tool"
+        ],
+        "product_attributes": [
+          "Real-time CRM sync",
+          "Explainable AI risk scoring",
+          "No-code rule builder",
+          "15-minute setup"
+        ],
+        "win_loss_notes": [
+          "40% of reps ignored the previous black-box tool's score because they couldn't see the reasoning.",
+          "Mid-market teams without a dedicated RevOps function cited setup complexity as the top reason for choosing us over Clari.",
+          "We lost 5 of 6 enterprise deals with dedicated RevOps teams to Clari on breadth of features."
+        ],
+        "customer_segments": [
+          {
+            "segment": "mid-market sales orgs, 50-300 reps, no dedicated RevOps",
+            "size": "large",
+            "current_alternative": "spreadsheets"
+          },
+          {
+            "segment": "enterprise sales orgs, 300+ reps, dedicated RevOps team",
+            "size": "largest",
+            "current_alternative": "Clari"
+          }
+        ],
+        "category_candidates": [
+          "AI deal risk scoring",
+          "Revenue intelligence"
+        ],
+        "category_search_evidence": "Buyers already search for 'AI deal risk scoring'; 'Revenue intelligence' is owned by Clari and Gong."
+      },
+      "assertions": [
+        {
+          "path": "selected_target_market",
+          "matches": "mid.market"
+        },
+        {
+          "path": "category",
+          "matches": "deal risk"
+        },
+        {
+          "path": "target_market_ranked[0].segment",
+          "matches": "mid.market"
+        },
+        {
+          "path": "positioning_statement",
+          "matches": "explain|reason"
+        }
+      ]
+    }
+  ]
+}

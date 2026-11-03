@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "pricing-justification-builder",
+  "description": "Output of the pricing-justification-builder skill. Generated from b2b-agent-skills-sales/skills/pricing-justification-builder/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "annual_cost_of_status_quo": {
+      "type": "number"
+    },
+    "expected_improvement_pct": {
+      "type": "number"
+    },
+    "improvement_source": {
+      "type": "string"
+    },
+    "expected_annual_value": {
+      "type": "number"
+    },
+    "annual_price": {
+      "type": "number"
+    },
+    "roi_ratio": {
+      "type": "number"
+    },
+    "payback_period_months": {
+      "type": "number"
+    },
+    "credibility_flag": {
+      "type": "string"
+    },
+    "interpretation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "annual_cost_of_status_quo",
+    "expected_improvement_pct",
+    "improvement_source",
+    "expected_annual_value",
+    "annual_price",
+    "roi_ratio",
+    "payback_period_months",
+    "credibility_flag",
+    "interpretation"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "annual_cost_of_status_quo": 180000,
+      "expected_improvement_pct": 0.22,
+      "improvement_source": "reference customer X, similar size/segment",
+      "expected_annual_value": 39600,
+      "annual_price": 60000,
+      "roi_ratio": 0.66,
+      "payback_period_months": 18.2,
+      "credibility_flag": "improvement_pct is sourced - full confidence",
+      "interpretation": "ROI ratio below 1 on hard numbers; recommend scoping conversation or explicit longer-payback framing rather than overselling"
+    }
+  ]
+}

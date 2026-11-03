@@ -21,7 +21,7 @@ Four criteria beyond raw deal size, because an executive sponsorship program exi
 | **Revenue value** | current + expansion-adjusted contract value |
 | **Reference-ability** | willingness and credibility to serve as a public reference, case study, or analyst reference — directly affects the ability to win other deals |
 | **Market influence** | this account's standing in its industry — do other companies in the category watch what this account does |
-| **Expansion optionality** | realistic whitespace within the account (see [`account-plan-generator`](../../b2b-agent-skills-sales/skills/account-plan-generator/README.md)), not just current contract size |
+| **Expansion optionality** | realistic whitespace within the account (see [`account-plan-generator`](../../../b2b-agent-skills-sales/skills/account-plan-generator/README.md)), not just current contract size |
 
 ## Scoring model
 

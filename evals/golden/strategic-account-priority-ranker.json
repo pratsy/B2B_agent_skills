@@ -1,0 +1,49 @@
+{
+  "skill": "strategic-account-priority-ranker",
+  "cases": [
+    {
+      "id": "reference-beats-revenue",
+      "description": "A public reference and category leader outranks a bigger but unremarkable account.",
+      "source": "Worked example in b2b-agent-skills-*/skills/strategic-account-priority-ranker/README.md",
+      "input": {
+        "available_executive_sponsors": 1,
+        "accounts": [
+          {
+            "account_id": "acct_A",
+            "revenue_value": 800000,
+            "referenceability": 0.5,
+            "market_influence": 0.3,
+            "expansion_optionality": 0.6
+          },
+          {
+            "account_id": "acct_B",
+            "revenue_value": 350000,
+            "referenceability": 1.0,
+            "market_influence": 0.9,
+            "expansion_optionality": 0.7
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "accounts_ranked[0].account_id",
+          "equals": "acct_B"
+        },
+        {
+          "path": "accounts_ranked[account_id=acct_B].strategic_value_score",
+          "approx": 72.4,
+          "tol": 0.3
+        },
+        {
+          "path": "accounts_ranked[account_id=acct_A].strategic_value_score",
+          "approx": 65.5,
+          "tol": 0.3
+        },
+        {
+          "path": "recommended_list_size",
+          "lte": 5
+        }
+      ]
+    }
+  ]
+}

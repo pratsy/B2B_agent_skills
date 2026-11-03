@@ -30,6 +30,10 @@ Pass/fail at each layer in order, the first failing layer as the diagnosis, and 
 - Comparing a win-back program's metrics to a welcome-series benchmark.
 - Judging only by open/click instead of the stage's actual lifecycle outcome metric.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-marketing/skills/lifecycle-email-optimizer/README.md`](../../../b2b-agent-skills-marketing/skills/lifecycle-email-optimizer/README.md)

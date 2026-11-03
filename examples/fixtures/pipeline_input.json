@@ -1,0 +1,22 @@
+{
+  "open_pipeline_value": 2400000,
+  "remaining_quota": 700000,
+  "historical_win_rate": 0.22,
+  "stage_conversion_rates": [
+    {
+      "transition": "discovery_to_proposal",
+      "current_rate": 0.28,
+      "historical_median": 0.45
+    },
+    {
+      "transition": "proposal_to_negotiation",
+      "current_rate": 0.58,
+      "historical_median": 0.6
+    },
+    {
+      "transition": "negotiation_to_closed_won",
+      "current_rate": 0.7,
+      "historical_median": 0.72
+    }
+  ]
+}

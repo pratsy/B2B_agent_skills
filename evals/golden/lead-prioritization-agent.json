@@ -1,0 +1,109 @@
+{
+  "skill": "lead-prioritization-agent",
+  "cases": [
+    {
+      "id": "high-fit-demo-request",
+      "description": "A strong-fit lead with a demo request 2 days ago routes to a rep now.",
+      "source": "Worked example in b2b-agent-skills-*/skills/lead-prioritization-agent/README.md",
+      "readme_example": true,
+      "input": {
+        "lead_id": "lead_9182",
+        "as_of_date": "2026-09-10",
+        "lead_profile": {
+          "title": "Director of RevOps",
+          "industry": "FinTech",
+          "employee_count": 400,
+          "tech_stack": [
+            "Salesforce"
+          ]
+        },
+        "icp_weights": {
+          "industry": 30,
+          "company_size": 25,
+          "role_seniority": 25,
+          "tech_stack": 20
+        },
+        "icp_attribute_match": {
+          "industry": 1.0,
+          "company_size": 1.0,
+          "role_seniority": 0.6,
+          "tech_stack": 0.6
+        },
+        "engagement_events": [
+          {
+            "date": "2026-09-08",
+            "type": "pricing_page",
+            "weight": 10
+          },
+          {
+            "date": "2026-09-08",
+            "type": "demo_request",
+            "weight": 10
+          }
+        ],
+        "explicit_high_intent_action": true
+      },
+      "assertions": [
+        {
+          "path": "fit_score",
+          "approx": 82,
+          "tol": 2
+        },
+        {
+          "path": "intent_score",
+          "gte": 75
+        },
+        {
+          "path": "quadrant",
+          "matches": "high fit.*high intent"
+        },
+        {
+          "path": "routing",
+          "matches": "rep"
+        }
+      ]
+    },
+    {
+      "id": "high-fit-no-engagement",
+      "description": "Same fit, no recent engagement: nurture, not a rep call.",
+      "source": "Worked example in b2b-agent-skills-*/skills/lead-prioritization-agent/README.md",
+      "input": {
+        "lead_id": "lead_9183",
+        "as_of_date": "2026-09-10",
+        "icp_weights": {
+          "industry": 30,
+          "company_size": 25,
+          "role_seniority": 25,
+          "tech_stack": 20
+        },
+        "icp_attribute_match": {
+          "industry": 1.0,
+          "company_size": 1.0,
+          "role_seniority": 0.8,
+          "tech_stack": 0.75
+        },
+        "engagement_events": [],
+        "explicit_high_intent_action": false
+      },
+      "assertions": [
+        {
+          "path": "fit_score",
+          "approx": 90,
+          "tol": 2
+        },
+        {
+          "path": "intent_score",
+          "lte": 20
+        },
+        {
+          "path": "quadrant",
+          "matches": "high fit.*low intent"
+        },
+        {
+          "path": "routing",
+          "matches": "nurture"
+        }
+      ]
+    }
+  ]
+}

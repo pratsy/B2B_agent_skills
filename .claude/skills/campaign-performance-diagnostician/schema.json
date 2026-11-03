@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "campaign-performance-diagnostician",
+  "description": "Output of the campaign-performance-diagnostician skill. Generated from b2b-agent-skills-marketing/skills/campaign-performance-diagnostician/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "funnel_conversion_rates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "transition": {
+            "type": "string"
+          },
+          "rate": {
+            "type": "number"
+          },
+          "benchmark_range": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "transition",
+          "rate",
+          "benchmark_range",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "primary_bottleneck": {
+      "type": "object",
+      "properties": {
+        "stage": {
+          "type": "string"
+        },
+        "rate": {
+          "type": "number"
+        },
+        "benchmark_range": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "likely_cause": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "rate",
+        "benchmark_range",
+        "likely_cause",
+        "confidence"
+      ],
+      "additionalProperties": false
+    },
+    "diagnosis_type": {
+      "type": "string"
+    },
+    "recommended_action": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "funnel_conversion_rates",
+    "primary_bottleneck",
+    "diagnosis_type",
+    "recommended_action"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "funnel_conversion_rates": [
+        {
+          "transition": "click_to_lead",
+          "rate": 0.041,
+          "benchmark_range": [
+            0.02,
+            0.05
+          ],
+          "status": "in range"
+        }
+      ],
+      "primary_bottleneck": {
+        "stage": "impression_to_click",
+        "rate": 0.017,
+        "benchmark_range": [
+          0.02,
+          0.03
+        ],
+        "likely_cause": "creative/targeting - low CTR",
+        "confidence": "high"
+      },
+      "diagnosis_type": "volume, not conversion",
+      "recommended_action": "revise ad creative/targeting to lift CTR; downstream funnel is converting normally"
+    }
+  ]
+}

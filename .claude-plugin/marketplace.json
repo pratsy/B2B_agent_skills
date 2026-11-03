@@ -1,0 +1,25 @@
+{
+  "name": "b2b-agent-skills",
+  "description": "Evidence-grounded AI skills for B2B revenue teams.",
+  "metadata": {
+    "description": "Evidence-grounded AI skills for B2B revenue teams."
+  },
+  "owner": {
+    "name": "pratsy",
+    "url": "https://github.com/pratsy"
+  },
+  "plugins": [
+    {
+      "name": "b2b-agent-skills",
+      "source": "./",
+      "description": "45 skills for B2B sales, marketing, RevOps and GTM.",
+      "category": "business",
+      "tags": [
+        "sales",
+        "marketing",
+        "revops",
+        "gtm"
+      ]
+    }
+  ]
+}

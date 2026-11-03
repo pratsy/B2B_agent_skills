@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "negotiation-readiness-coach",
+  "description": "Output of the negotiation-readiness-coach skill. Generated from b2b-agent-skills-sales/skills/negotiation-readiness-coach/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "our_batna": {
+      "type": "object",
+      "properties": {
+        "strength": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "strength",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "buyer_batna": {
+      "type": "object",
+      "properties": {
+        "strength": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "strength",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "concessions_ranked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "concession": {
+            "type": "string"
+          },
+          "ratio": {
+            "type": "number"
+          },
+          "sequence": {
+            "type": "number"
+          },
+          "pair_with_ask": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "concession",
+          "ratio",
+          "sequence"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "our_batna",
+    "buyer_batna",
+    "concessions_ranked"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "our_batna": {
+        "strength": "weak",
+        "note": "deal is load-bearing for quarter - do not reveal"
+      },
+      "buyer_batna": {
+        "strength": "weaker than posture suggests",
+        "evidence": "competitor implementation timeline 3x longer than buyer's stated need"
+      },
+      "concessions_ranked": [
+        {
+          "concession": "reference call with similar customer",
+          "ratio": 3.0,
+          "sequence": 1,
+          "pair_with_ask": "verbal commitment to timeline"
+        },
+        {
+          "concession": "10% flat price cut",
+          "ratio": 0.6,
+          "sequence": 3,
+          "note": "use only if higher-ratio concessions are insufficient"
+        }
+      ]
+    }
+  ]
+}

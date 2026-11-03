@@ -1,0 +1,158 @@
+{
+  "skill": "crm-data-cleaner",
+  "cases": [
+    {
+      "id": "stale-zero-amount-deal",
+      "description": "Fails accuracy, consistency and timeliness on a deal closing this quarter: quality 24, priority 228.",
+      "source": "Worked example in b2b-agent-skills-*/skills/crm-data-cleaner/README.md",
+      "readme_example": true,
+      "input": {
+        "as_of_date": "2026-11-03",
+        "record_id": "opp_5521",
+        "stage": "negotiation",
+        "amount": 0,
+        "required_fields": [
+          {
+            "field": "amount",
+            "populated": true
+          },
+          {
+            "field": "close_date",
+            "populated": true
+          },
+          {
+            "field": "stage",
+            "populated": true
+          },
+          {
+            "field": "owner",
+            "populated": true
+          },
+          {
+            "field": "account",
+            "populated": true
+          },
+          {
+            "field": "primary_contact",
+            "populated": true
+          },
+          {
+            "field": "next_step",
+            "populated": false
+          },
+          {
+            "field": "competitor",
+            "populated": false
+          },
+          {
+            "field": "lead_source",
+            "populated": true
+          },
+          {
+            "field": "forecast_category",
+            "populated": true
+          }
+        ],
+        "last_activity_date": "2026-08-30",
+        "last_modified_date": "2026-08-25",
+        "business_context": "open_this_quarter"
+      },
+      "assertions": [
+        {
+          "path": "completeness",
+          "approx": 0.8,
+          "tol": 0.001
+        },
+        {
+          "path": "accuracy_pass",
+          "equals": false
+        },
+        {
+          "path": "consistency_pass",
+          "equals": false
+        },
+        {
+          "path": "timeliness_pass",
+          "equals": false
+        },
+        {
+          "path": "record_quality_score",
+          "approx": 24,
+          "tol": 0.5
+        },
+        {
+          "path": "cleanup_priority",
+          "approx": 228,
+          "tol": 1
+        }
+      ]
+    },
+    {
+      "id": "old-closed-record",
+      "description": "A messy closed record from long ago is low priority (1x weight).",
+      "source": "Worked example in b2b-agent-skills-*/skills/crm-data-cleaner/README.md",
+      "input": {
+        "as_of_date": "2026-11-03",
+        "record_id": "opp_0042",
+        "stage": "closed lost",
+        "amount": 25000,
+        "required_fields": [
+          {
+            "field": "amount",
+            "populated": true
+          },
+          {
+            "field": "close_date",
+            "populated": true
+          },
+          {
+            "field": "stage",
+            "populated": true
+          },
+          {
+            "field": "owner",
+            "populated": true
+          },
+          {
+            "field": "account",
+            "populated": true
+          },
+          {
+            "field": "primary_contact",
+            "populated": false
+          },
+          {
+            "field": "next_step",
+            "populated": false
+          },
+          {
+            "field": "competitor",
+            "populated": false
+          },
+          {
+            "field": "lead_source",
+            "populated": false
+          },
+          {
+            "field": "forecast_category",
+            "populated": true
+          }
+        ],
+        "last_activity_date": "2024-06-01",
+        "last_modified_date": "2024-06-02",
+        "business_context": "closed"
+      },
+      "assertions": [
+        {
+          "path": "completeness",
+          "approx": 0.6,
+          "tol": 0.001
+        },
+        {
+          "path": "cleanup_priority",
+          "lte": 82
+        }
+      ]
+    }
+  ]
+}

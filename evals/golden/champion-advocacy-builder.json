@@ -1,0 +1,79 @@
+{
+  "skill": "champion-advocacy-builder",
+  "cases": [
+    {
+      "id": "confirmed-mobilizer",
+      "description": "Hard questions, an unprompted artifact, a skeptic intro, and an org-level motive add up to a confirmed Mobilizer.",
+      "source": "Worked example in b2b-agent-skills-*/skills/champion-advocacy-builder/README.md",
+      "readme_example": true,
+      "input": {
+        "contact_name": "M. Chen",
+        "deal_stage": "mid-evaluation",
+        "observed_signals": {
+          "meeting_behavior": "asks hard questions on calls",
+          "internal_action": "independently built an internal one-pager comparing options before being asked",
+          "risk_appetite": "offered to loop in the skeptical Director of Sales Ops",
+          "motivation_signal": "cites a team-wide process change need"
+        },
+        "notes": "Director of Sales Ops is known for cost scrutiny; Chen presents to them next week."
+      },
+      "assertions": [
+        {
+          "path": "signal_scores.meeting_behavior",
+          "equals": 2
+        },
+        {
+          "path": "signal_scores.internal_action",
+          "equals": 3
+        },
+        {
+          "path": "signal_scores.risk_appetite",
+          "equals": 2
+        },
+        {
+          "path": "signal_scores.motivation_signal",
+          "approx": 2.5,
+          "tol": 0.5
+        },
+        {
+          "path": "mobilizer_score",
+          "approx": 9.5,
+          "tol": 0.5
+        },
+        {
+          "path": "classification",
+          "matches": "confirmed mobilizer"
+        },
+        {
+          "path": "next_enablement_need.audience",
+          "matches": "director"
+        }
+      ]
+    },
+    {
+      "id": "friendly-talker",
+      "description": "Agreeable and social, with no internal action, is a Talker, not a Mobilizer.",
+      "source": "Worked example in b2b-agent-skills-*/skills/champion-advocacy-builder/README.md",
+      "input": {
+        "contact_name": "D. Ruiz",
+        "deal_stage": "early evaluation",
+        "observed_signals": {
+          "meeting_behavior": "agrees with everything, asks no questions",
+          "internal_action": "no evidence of talking to anyone internally",
+          "risk_appetite": "says leadership 'isn't ready to hear about it yet' and keeps us away from them",
+          "motivation_signal": "enjoys the calls; good personal rapport"
+        }
+      },
+      "assertions": [
+        {
+          "path": "mobilizer_score",
+          "lte": 2
+        },
+        {
+          "path": "classification",
+          "matches": "friend|talker"
+        }
+      ]
+    }
+  ]
+}

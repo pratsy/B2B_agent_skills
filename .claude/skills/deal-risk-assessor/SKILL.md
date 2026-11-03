@@ -24,7 +24,9 @@ Sum the 8 scores (0-24):
 - **12-7** High risk — Pipeline only, do not forecast as closing this period
 - **<7** Critical — likely qualified on assumption, not evidence
 
-**Single-point-of-failure flag**: if Economic Buyer or Champion scores 0-1, flag the deal as high risk regardless of the total score — a strong total can mask total dependence on one unconfirmed relationship.
+**Single-point-of-failure flag**: if Economic Buyer or Champion scores 0-1, flag the deal as high risk regardless of the total score — a strong total can mask total dependence on one unconfirmed relationship. In the output, `single_point_of_failure` lists only the pillar keys that triggered it (`economic_buyer`, `champion`), or is empty. A pillar scoring 2 or 3 never triggers it.
+
+Pillar keys for `pillar_scores`: `metrics`, `economic_buyer`, `decision_criteria`, `decision_process`, `paper_process`, `identify_pain`, `champion`, `competition`.
 
 ## If information is missing
 
@@ -39,6 +41,10 @@ For each pillar: the score and the evidence/source behind it. Then: total score,
 - Scoring a pillar on rep confidence ("I'm pretty sure...") instead of evidence source.
 - Letting a high Champion score substitute for Economic Buyer confirmation — a champion who hasn't gotten you in front of the EB is a risk, not a mitigant.
 - Averaging into one number without surfacing the single-point-of-failure flag.
+
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
 
 ## Reference
 

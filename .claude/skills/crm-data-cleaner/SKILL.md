@@ -29,6 +29,10 @@ Each record's four dimension checks, quality score, cleanup priority, and the sp
 - Treating all incomplete records as equal priority regardless of business impact.
 - Flagging accuracy issues only from missing fields, without checking activity-vs-stage mismatches.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-revops/skills/crm-data-cleaner/README.md`](../../../b2b-agent-skills-revops/skills/crm-data-cleaner/README.md)

@@ -53,7 +53,7 @@ Signal: Competitor X launches a new "explainable scoring" feature (confirmed, br
 Materiality = 40(0.9) + 30(1.0) + 30(0.5) = 36 + 30 + 15 = 81 → High materiality
 ```
 
-This crosses the High threshold specifically because of the overlap with a stated core differentiator (see [`brand-positioning-synthesizer`](../../b2b-agent-skills-marketing/skills/brand-positioning-synthesizer/README.md)) — the same feature launch from a competitor with no overlap to your differentiation would score much lower on the Overlap component alone, even if equally "big news" in the abstract.
+This crosses the High threshold specifically because of the overlap with a stated core differentiator (see [`brand-positioning-synthesizer`](../../../b2b-agent-skills-marketing/skills/brand-positioning-synthesizer/README.md)) — the same feature launch from a competitor with no overlap to your differentiation would score much lower on the Overlap component alone, even if equally "big news" in the abstract.
 
 ## Common failure patterns
 

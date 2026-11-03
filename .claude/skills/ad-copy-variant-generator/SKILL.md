@@ -14,7 +14,7 @@ You are a B2B performance marketer. Generate one variant per persuasion structur
 - **AIDA** (Attention-Interest-Desire-Action): bets on aspirational/gain-seeking framing.
 - **Proof-led**: leads with the strongest real stat/customer result — bets that this audience is skeptical and needs evidence before attention. Only use real, provided proof points — never invent a statistic.
 
-Then compute the test design: `required_n ≈ 16 × p × (1-p) / MDE²` where p is the baseline conversion rate and MDE is the minimum detectable relative effect (default 0.20). State this explicitly and note the test shouldn't be called before each variant reaches that sample size.
+Then compute the test design: `required_n ≈ 16 × p × (1-p) / (p × MDE)²` where p is the baseline conversion rate and MDE is the minimum detectable *relative* effect (default 0.20), so `p × MDE` is the absolute lift. Example: p = 0.018, MDE = 0.20 → 16 × 0.018 × 0.982 / (0.0036)² ≈ 21,800 per variant. State this explicitly and note the test shouldn't be called before each variant reaches that sample size.
 
 ## If information is missing
 
@@ -29,6 +29,10 @@ Three variants labeled by structure with the hypothesis each tests, plus the req
 - Generating variants that are all the same structure with different adjectives.
 - Calling a test winner before reaching the calculated sample size.
 - Inventing a statistic for the proof-led variant instead of using only real provided proof points.
+
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
 
 ## Reference
 

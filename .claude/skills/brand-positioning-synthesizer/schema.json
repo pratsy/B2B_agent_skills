@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "brand-positioning-synthesizer",
+  "description": "Output of the brand-positioning-synthesizer skill. Generated from b2b-agent-skills-marketing/skills/brand-positioning-synthesizer/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "target_market_ranked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "segment": {
+            "type": "string"
+          },
+          "value_score": {
+            "type": "number"
+          },
+          "urgency_score": {
+            "type": "number"
+          },
+          "winnability_score": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "segment",
+          "value_score",
+          "urgency_score",
+          "winnability_score",
+          "total"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "selected_target_market": {
+      "type": "string"
+    },
+    "unique_attributes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "primary_competitive_alternative": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "positioning_statement": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "target_market_ranked",
+    "selected_target_market",
+    "unique_attributes",
+    "primary_competitive_alternative",
+    "category",
+    "positioning_statement"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "target_market_ranked": [
+        {
+          "segment": "mid-market sales orgs, 50-300 reps",
+          "value_score": 5,
+          "urgency_score": 5,
+          "winnability_score": 4,
+          "total": 14
+        }
+      ],
+      "selected_target_market": "mid-market sales orgs, 50-300 reps",
+      "unique_attributes": [
+        "explainable risk scoring",
+        "15-minute no-admin setup"
+      ],
+      "primary_competitive_alternative": "black-box forecasting tools (Clari)",
+      "category": "AI deal risk scoring",
+      "positioning_statement": "For mid-market sales teams ..."
+    }
+  ]
+}

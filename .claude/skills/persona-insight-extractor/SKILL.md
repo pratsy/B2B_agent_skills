@@ -28,6 +28,10 @@ Attributes by category with frequency, status (persona-defining vs. provisional)
 - Promoting a memorable but single-source quote to persona-defining status.
 - Building personas from closed-won interviews only — closed-lost/churn interviews often reveal anxieties a win-only sample misses.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-marketing/skills/persona-insight-extractor/README.md`](../../../b2b-agent-skills-marketing/skills/persona-insight-extractor/README.md)

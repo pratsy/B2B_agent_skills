@@ -1,0 +1,39 @@
+{
+  "skill": "messaging-clarity-auditor",
+  "cases": [
+    {
+      "id": "generic-headline",
+      "description": "Abstract, swappable copy with no proof scores in the rewrite band.",
+      "source": "Worked example in b2b-agent-skills-*/skills/messaging-clarity-auditor/README.md",
+      "readme_example": true,
+      "input": {
+        "asset_type": "homepage hero",
+        "core_claims": [
+          "Our platform empowers revenue teams to unlock their full potential."
+        ],
+        "known_competitors": [
+          "Clari",
+          "Gong"
+        ],
+        "available_proof_points": [
+          "22% forecast variance reduction",
+          "40+ customers"
+        ]
+      },
+      "assertions": [
+        {
+          "path": "claims_scored[0].total",
+          "lte": 8
+        },
+        {
+          "path": "claims_scored[0].band",
+          "equals": "rewrite"
+        },
+        {
+          "path": "claims_scored[0].suggested_rewrite",
+          "matches": "22%|40\\+"
+        }
+      ]
+    }
+  ]
+}

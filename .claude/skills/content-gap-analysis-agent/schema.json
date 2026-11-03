@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "content-gap-analysis-agent",
+  "description": "Output of the content-gap-analysis-agent skill. Generated from b2b-agent-skills-marketing/skills/content-gap-analysis-agent/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "coverage_matrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "string"
+          },
+          "persona": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "existing_assets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "stage",
+          "persona",
+          "score",
+          "existing_assets"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "overall_coverage_pct": {
+      "type": "number"
+    },
+    "priority_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "string"
+          },
+          "persona": {
+            "type": "string"
+          },
+          "confirmed_by_sales_objections": {
+            "type": "boolean"
+          },
+          "recommended_asset": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage",
+          "persona",
+          "confirmed_by_sales_objections",
+          "recommended_asset"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "coverage_matrix",
+    "overall_coverage_pct",
+    "priority_gaps"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "coverage_matrix": [
+        {
+          "stage": "vendor-aware",
+          "persona": "CFO",
+          "score": 0,
+          "existing_assets": []
+        }
+      ],
+      "overall_coverage_pct": 41,
+      "priority_gaps": [
+        {
+          "stage": "vendor-aware",
+          "persona": "CFO",
+          "confirmed_by_sales_objections": true,
+          "recommended_asset": "ROI/TCO calculator or CFO-specific case study with hard numbers"
+        }
+      ]
+    }
+  ]
+}

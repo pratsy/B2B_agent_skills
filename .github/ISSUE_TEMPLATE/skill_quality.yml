@@ -1,0 +1,36 @@
+name: Skill gave a wrong or weak answer
+description: A skill's methodology, scoring, or output is incorrect or unhelpful
+labels: [skill-quality]
+body:
+  - type: input
+    id: skill
+    attributes:
+      label: Skill
+      placeholder: deal-risk-assessor
+    validations:
+      required: true
+  - type: textarea
+    id: input
+    attributes:
+      label: Input (anonymized)
+      description: The input you gave the skill, with real company, person, and deal details replaced.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output you got
+      render: json
+  - type: textarea
+    id: expected
+    attributes:
+      label: What the right answer is, and why
+      description: Point to the step in the skill's methodology or scoring model that was applied incorrectly. A case like this is a good candidate for a new golden eval.
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: Provider and model
+      placeholder: anthropic / claude-opus-5-5

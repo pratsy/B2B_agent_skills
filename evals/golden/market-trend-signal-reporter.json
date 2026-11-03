@@ -1,0 +1,93 @@
+{
+  "skill": "market-trend-signal-reporter",
+  "cases": [
+    {
+      "id": "derivative-coverage",
+      "description": "Four articles but only two independent sources, one signal type, one period: not a trend.",
+      "source": "Worked example in b2b-agent-skills-*/skills/market-trend-signal-reporter/README.md",
+      "readme_example": true,
+      "input": {
+        "candidate_trend": "B2B buyers increasingly expect AI-native features as baseline",
+        "observed_periods": 1,
+        "sources": [
+          {
+            "source": "Analyst report A",
+            "independent": true,
+            "signal_type": "media"
+          },
+          {
+            "source": "Article citing report A",
+            "independent": false,
+            "signal_type": "media"
+          },
+          {
+            "source": "Second article citing report A",
+            "independent": false,
+            "signal_type": "media"
+          },
+          {
+            "source": "Independent buyer survey",
+            "independent": true,
+            "signal_type": "media"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "independent_source_count",
+          "equals": 2
+        },
+        {
+          "path": "observed_over_multiple_periods",
+          "equals": false
+        },
+        {
+          "path": "signal_to_noise_score",
+          "approx": 36.7,
+          "tol": 0.3
+        },
+        {
+          "path": "classification",
+          "matches": "early|unconfirmed"
+        }
+      ]
+    },
+    {
+      "id": "confirmed-trend",
+      "description": "Three independent sources, three signal types, multiple periods: report as a trend.",
+      "source": "Worked example in b2b-agent-skills-*/skills/market-trend-signal-reporter/README.md",
+      "input": {
+        "candidate_trend": "RevOps teams consolidating tooling",
+        "observed_periods": 3,
+        "sources": [
+          {
+            "source": "Survey A",
+            "independent": true,
+            "signal_type": "media"
+          },
+          {
+            "source": "Job posting analysis",
+            "independent": true,
+            "signal_type": "hiring"
+          },
+          {
+            "source": "Spend data provider",
+            "independent": true,
+            "signal_type": "funding/spend"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "signal_to_noise_score",
+          "approx": 100,
+          "tol": 0.5
+        },
+        {
+          "path": "classification",
+          "matches": "trend"
+        }
+      ]
+    }
+  ]
+}

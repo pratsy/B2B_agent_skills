@@ -77,7 +77,7 @@ Value 50 (below 60), Reachability 77 (above 60) → **Tier 2 (1:few)**: grouped 
   "accounts_ranked": [
     {"account_id": "acct_1190", "opportunity_value_score": 50, "reachability_score": 77.1, "tier": "Tier 2 (1:few)", "rationale": "confirmed champion and recent engagement, but deal value below Tier 1 threshold"}
   ],
-  "tier_counts": {"tier_1": 0, "tier_1_pending": 0, "tier_2": 0, "tier_3": 0}
+  "tier_counts": {"tier_1": 0, "tier_1_pending": 0, "tier_2": 1, "tier_3": 0}
 }
 ```
 

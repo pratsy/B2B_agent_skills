@@ -34,6 +34,12 @@ Per candidate: the fit score, verdict, and which high-importance pains/gains it 
 - Scoring match strength generously because the copy sounds good rather than because a skeptical customer would recognize the specific mechanism.
 - Testing only one candidate instead of comparing 2-3 against the same customer profile.
 
+In the output, `recommended_lead_message` is the exact text of the winning candidate claim (verbatim from the input), not commentary about it; put the reasoning in each candidate's verdict.
+
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-marketing/skills/value-proposition-tester/README.md`](../../../b2b-agent-skills-marketing/skills/value-proposition-tester/README.md)

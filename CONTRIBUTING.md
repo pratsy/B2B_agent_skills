@@ -1,53 +1,60 @@
 # Contributing
 
-Contributions are welcome if they improve the quality, clarity, or usefulness of the public B2B revenue AI skill library.
+Thanks for helping. The bar for this repo is that every skill is **specific, evidence-grounded, and checkable**: a named methodology, an explicit scoring model, and an answer you can verify. Contributions that raise that bar are the most welcome.
 
-## Public contribution standards
+## Setup
 
-Please keep contributions aligned to the public-facing purpose of the repo:
+```bash
+git clone https://github.com/pratsy/skills-AI && cd skills-AI
+python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+pre-commit install
+pytest
+```
 
-- practical B2B sales, marketing, RevOps, and GTM workflows
-- structured skill design
-- business problem framing
-- example outputs
-- evaluation criteria
-- source references
+The test suite runs in a few seconds and needs no API key.
 
-## What not to contribute
+## How a skill is put together
 
-Please do not add:
+Each skill has four files. Only the first two are written by hand:
 
-- private notes
-- draft brainstorming content
-- internal planning logs
-- low-quality experimental prompts
-- unfinished or speculative material
+| File | Role | Written by |
+|---|---|---|
+| `b2b-agent-skills-<pack>/skills/<name>/README.md` | Full methodology, scoring model, inputs, worked example, **output schema**. The source of truth | you |
+| `.claude/skills/<name>/SKILL.md` | Condensed instructions an LLM executes (under ~60 lines), with frontmatter `name` and a `description` that says what it does and "Use when …" | you |
+| `.claude/skills/<name>/schema.json` | JSON Schema generated from the README's Output schema block | `python scripts/generate_schemas.py` |
+| `evals/golden/<name>.json` | Golden cases: input plus assertions on the right answer | you (strongly encouraged) |
 
-## Suggested contribution format
+The pre-commit hook regenerates `schema.json` when a README changes, and CI fails if they drift apart.
 
-Every skill in this repo follows the same structure — use [`memory/skill-template.md`](memory/skill-template.md) as the reference layout:
+## Good first contributions
 
-- when to use it, in concrete situations
-- the named, checkable methodology it operationalizes (not a vague "informed by industry practice" claim)
-- an explicit scoring model or decision rubric
-- an input schema and one fully worked example with real numbers
-- common failure patterns specific to that method
-- an output JSON schema
-- what the skill is grounded in, linking to the pack's `sources-and-frameworks.md`
+1. **Strengthen golden cases.** Every skill has at least one; many have only one. Add a contrast case that flips the decision, or a harder edge case at a band boundary. See [docs/evals.md](docs/evals.md).
+2. **Fix skill quality.** A scoring step that's ambiguous, an example whose numbers don't add up, a missing failure pattern.
+3. **Run real-model evals** (`b2b-skills eval --provider anthropic`) and report failures as *Skill gave a wrong or weak answer* issues.
 
-Before adding a new skill, check the pack's existing skills for overlap — if your idea is a variation on one that already exists, improve that skill instead of adding a near-duplicate.
+## Adding a new skill
 
-## A new skill needs two files, not one
+Open a *Propose a new skill* issue first. Check the existing skills for overlap: if yours is a variation of one, improve that skill instead. Then:
 
-1. `b2b-agent-skills-<domain>/skills/<slug>/README.md` — the full version, per the template above.
-2. `.claude/skills/<slug>/SKILL.md` — a condensed, self-contained version of the same skill, written as instructions for an LLM to execute rather than for a person to read. Use any existing file under `.claude/skills/` as the format reference; keep it under ~50 lines and link back to the README for the worked example instead of duplicating it.
+1. Write the README using [`memory/skill-template.md`](memory/skill-template.md) and review it against [`memory/domain-memory-checklist.md`](memory/domain-memory-checklist.md).
+2. Write `SKILL.md` (copy any existing one as the format reference) and end it with the standard *Output format* section pointing at `schema.json`.
+3. Run `python scripts/generate_schemas.py`.
+4. Add at least one golden case.
+5. Update the skill count wherever the tests or docs assert 45.
 
-CI checks that every skill has both (`tests/test_runner.py::test_all_45_skills_are_documented` and `test_all_45_skills_have_a_claude_skill`) — a PR adding only the README will fail that check, not silently pass with reduced functionality.
+## Changing an existing skill's output schema
 
-## Before submitting
+Downstream users parse these outputs, so renaming or removing a field is a **breaking change**. Call it out in the PR and in `CHANGELOG.md`. Adding a field is also breaking for strict consumers, so mention it too.
 
-Run the test suite locally (`PYTHONPATH=. pytest -q`) — it's fast (well under a second) and will catch a missing `SKILL.md`, a broken cross-reference, or an output schema that doesn't match what `sdk.evaluation` expects.
+## Code changes
 
-## Review expectations
+- `ruff check . && ruff format . && mypy && pytest` must pass. Pre-commit runs the first two.
+- Keep the core dependency-free beyond `jsonschema`. Provider, MCP, and server dependencies stay in optional extras.
+- Provider code must read credentials from the environment only.
 
-Keep the work polished, operationally useful, and grounded in a real, named methodology — not a generic restatement of a business problem.
+## What not to submit
+
+Real customer, prospect, or deal data in examples or golden cases. Internal planning notes. Prompts without a methodology behind them.
+
+By participating you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "forecast-bias-detector",
+  "description": "Output of the forecast-bias-detector skill. Generated from b2b-agent-skills-revops/skills/forecast-bias-detector/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "rep_id": {
+      "type": "string"
+    },
+    "period_bias_ratios": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "trailing_bias_score": {
+      "type": "number"
+    },
+    "consistency": {
+      "type": "string"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "recommended_correction_factor": {
+      "type": "number"
+    },
+    "coaching_focus": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "rep_id",
+    "period_bias_ratios",
+    "trailing_bias_score",
+    "consistency",
+    "classification",
+    "recommended_correction_factor",
+    "coaching_focus"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "rep_id": "rep_882",
+      "period_bias_ratios": [
+        1.22,
+        1.31,
+        1.18,
+        1.09
+      ],
+      "trailing_bias_score": 1.2,
+      "consistency": "3 of 4 periods above threshold",
+      "classification": "sandbagging",
+      "recommended_correction_factor": 1.2,
+      "coaching_focus": "forecast calibration - rep is under-calling Commit by an average of 20%"
+    }
+  ]
+}
