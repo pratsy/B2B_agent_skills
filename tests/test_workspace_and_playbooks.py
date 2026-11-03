@@ -222,3 +222,11 @@ def test_playbook_retries_when_report_contradicts_skills(tmp_path):
     )
     result = run_playbook("call-debrief", NOTES, provider=provider, save=False)
     assert Contradicts.reports == 2 and "Single-threading risk: no" in result.report
+
+
+def test_unsupported_generalizations_are_detected():
+    from b2b_agent_skills.playbooks import unsupported_claims
+
+    bad = "Most mid-market sales teams can't run Clari. Customers tell us it's slow. Teams we talk to agree."
+    assert unsupported_claims(bad) == ["Customers tell us", "Most mid-market sales teams", "we talk to"]
+    assert unsupported_claims("Ana, how do you flag at-risk deals today? Most of the pipeline is in Proposal.") == []

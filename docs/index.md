@@ -1,6 +1,6 @@
 # B2B Agent Skills
 
-**An open-source GTM workspace for founder-led sales.** Connect your call notes, lead lists, and CRM, and it does the go-to-market work with tested methods: debriefs calls, finds your real ICP, ranks your lead list, and runs your Monday pipeline review. Runs on your Claude subscription (no API key) or on the Anthropic or OpenAI APIs.
+**An open-source GTM workspace for early-stage B2B teams: sales, marketing, and RevOps.** Connect your website, call notes, lead lists, and CRM, and it does the go-to-market work with tested methods: fixes your messaging, finds your real ICP, ranks your lead list, debriefs calls, and runs your Monday pipeline review. Runs on your Claude subscription (no API key) or on the Anthropic or OpenAI APIs.
 
 ![Demo: scoring a deal with deal-risk-assessor](assets/demo.gif)
 

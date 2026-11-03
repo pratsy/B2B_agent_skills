@@ -1,0 +1,17 @@
+{
+  "name": "fix-my-message",
+  "title": "Fix my message",
+  "description": "Find out why your homepage or outbound isn't landing and fix it: a positioning statement grounded in what you actually win on, a claim-by-claim messaging audit, rewritten headline and subhead, and three outbound angles. Never invents proof points.",
+  "inputs": "--website URL and/or --notes (homepage copy, win/loss notes, customer interviews, competitor list)",
+  "stage": "early",
+  "steps": [
+    {"id": "positioning", "skill": "brand-positioning-synthesizer"},
+    {"id": "messaging", "skill": "messaging-clarity-auditor", "requires": ["core_claims"]},
+    {"id": "value_prop", "skill": "value-proposition-tester", "requires": ["customer_pains", "value_prop_candidates"]}
+  ],
+  "report": {
+    "headings": ["Positioning", "What's not landing", "Rewritten headline and subhead", "Three outbound angles", "Proof you still need"],
+    "subject_field": "selected_target_market",
+    "save_to": "gtm/messaging/{subject}.md"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "b2b-agent-skills",
   "version": "0.5.0",
-  "description": "GTM workspace for founder-led sales: call debriefs, ICP discovery, lead-list scoring, and weekly pipeline reviews, built on 46 evidence-grounded skills (MEDDPICC, SPIN, Dunford positioning, Sean Ellis PMF test, and more).",
+  "description": "GTM workspace for early-stage B2B teams (sales, marketing, RevOps): messaging fixes, ICP discovery, lead scoring, call debriefs, and pipeline reviews, built on 46 evidence-grounded skills (Dunford positioning, MEDDPICC, SPIN, Sean Ellis PMF test, and more).",
   "author": {
     "name": "pratsy",
     "url": "https://github.com/pratsy"
