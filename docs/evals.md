@@ -2,7 +2,7 @@
 
 Schema validation proves a model returned the right *shape*. Golden evals check it returned the right *answer*.
 
-Each file in [`evals/golden/`](https://github.com/pratsy/skills-AI/tree/main/evals/golden) holds cases for one skill: realistic input and assertions on what the methodology must produce. For example, `forecast-confidence-model` must classify a MEDDPICC-20 deal as Best Case when time-in-stage is 1.89× the median and the rep's commit accuracy is 55%:
+Each file in [`evals/golden/`](https://github.com/pratsy/B2B_agent_skills/tree/main/evals/golden) holds cases for one skill: realistic input and assertions on what the methodology must produce. For example, `forecast-confidence-model` must classify a MEDDPICC-20 deal as Best Case when time-in-stage is 1.89× the median and the rep's commit accuracy is 55%:
 
 ```json
 {

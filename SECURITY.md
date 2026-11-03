@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Report vulnerabilities privately through [GitHub private vulnerability reporting](https://github.com/pratsy/skills-AI/security/advisories/new). Please don't open a public issue. Include what's affected (SDK, CLI, MCP server, HTTP server, plugin), how to reproduce it, and the impact you expect. You'll get an acknowledgement within 5 business days, and the fix and disclosure timeline will be agreed with you.
+Report vulnerabilities privately through [GitHub private vulnerability reporting](https://github.com/pratsy/B2B_agent_skills/security/advisories/new). Please don't open a public issue. Include what's affected (SDK, CLI, MCP server, HTTP server, plugin), how to reproduce it, and the impact you expect. You'll get an acknowledgement within 5 business days, and the fix and disclosure timeline will be agreed with you.
 
 Supported versions: the latest release on PyPI. Fixes are not backported.
 

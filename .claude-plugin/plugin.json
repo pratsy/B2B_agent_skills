@@ -6,8 +6,8 @@
     "name": "pratsy",
     "url": "https://github.com/pratsy"
   },
-  "homepage": "https://pratsy.github.io/skills-AI/",
-  "repository": "https://github.com/pratsy/skills-AI",
+  "homepage": "https://pratsy.github.io/B2B_agent_skills/",
+  "repository": "https://github.com/pratsy/B2B_agent_skills",
   "license": "MIT",
   "keywords": ["sales", "marketing", "revops", "gtm", "meddpicc", "forecasting", "b2b"],
   "skills": ["./.claude/skills/", "./playbooks/"]

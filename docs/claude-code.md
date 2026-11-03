@@ -3,14 +3,14 @@
 Install all 46 skills into Claude Code with two commands. No Python, API key, or package install needed: Claude itself applies the methodology.
 
 ```text
-/plugin marketplace add pratsy/skills-AI
+/plugin marketplace add pratsy/B2B_agent_skills
 /plugin install b2b-agent-skills@b2b-agent-skills
 ```
 
 Or from your shell:
 
 ```bash
-claude plugin marketplace add pratsy/skills-AI
+claude plugin marketplace add pratsy/B2B_agent_skills
 claude plugin install b2b-agent-skills@b2b-agent-skills
 ```
 

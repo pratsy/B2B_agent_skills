@@ -47,7 +47,7 @@ EOF
 b2b-skills run pipeline-health-monitor -i pipeline.json --provider anthropic
 ```
 
-Each skill's page in the [catalog](skills.md) lists the inputs it expects. Send only the fields it needs: everything in the input is sent to the model provider (see [Security](https://github.com/pratsy/skills-AI/blob/main/SECURITY.md)).
+Each skill's page in the [catalog](skills.md) lists the inputs it expects. Send only the fields it needs: everything in the input is sent to the model provider (see [Security](https://github.com/pratsy/B2B_agent_skills/blob/main/SECURITY.md)).
 
 ## 4. Configure
 

@@ -5,7 +5,7 @@ Thanks for helping. The bar for this repo is that every skill is **specific, evi
 ## Setup
 
 ```bash
-git clone https://github.com/pratsy/skills-AI && cd skills-AI
+git clone https://github.com/pratsy/B2B_agent_skills && cd B2B_agent_skills
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 pre-commit install
