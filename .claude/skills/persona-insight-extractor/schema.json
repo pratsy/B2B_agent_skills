@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "persona-insight-extractor",
+  "description": "Output of the persona-insight-extractor skill. Generated from b2b-agent-skills-marketing/skills/persona-insight-extractor/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "persona_role": {
+      "type": "string"
+    },
+    "source_count": {
+      "type": "number"
+    },
+    "attributes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "attribute": {
+            "type": "string"
+          },
+          "frequency": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          },
+          "evidence_quotes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "category",
+          "attribute",
+          "frequency",
+          "status",
+          "evidence_quotes"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "persona_role",
+    "source_count",
+    "attributes"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "persona_role": "VP Sales",
+      "source_count": 10,
+      "attributes": [
+        {
+          "category": "trigger",
+          "attribute": "a public forecast miss that damaged credibility with leadership",
+          "frequency": 0.7,
+          "status": "persona-defining",
+          "evidence_quotes": [
+            "...I got burned by a forecast miss in front of the board..."
+          ]
+        },
+        {
+          "category": "trigger",
+          "attribute": "new CRO standardizing tooling",
+          "frequency": 0.2,
+          "status": "provisional",
+          "evidence_quotes": [
+            "...a new CRO wanted to standardize tooling..."
+          ]
+        }
+      ]
+    }
+  ]
+}

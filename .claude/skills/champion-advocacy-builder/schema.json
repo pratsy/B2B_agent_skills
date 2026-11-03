@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "champion-advocacy-builder",
+  "description": "Output of the champion-advocacy-builder skill. Generated from b2b-agent-skills-sales/skills/champion-advocacy-builder/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "contact_name": {
+      "type": "string"
+    },
+    "signal_scores": {
+      "type": "object",
+      "properties": {
+        "meeting_behavior": {
+          "type": "number"
+        },
+        "internal_action": {
+          "type": "number"
+        },
+        "risk_appetite": {
+          "type": "number"
+        },
+        "motivation_signal": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "meeting_behavior",
+        "internal_action",
+        "risk_appetite",
+        "motivation_signal"
+      ],
+      "additionalProperties": false
+    },
+    "mobilizer_score": {
+      "type": "number"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "next_enablement_need": {
+      "type": "object",
+      "properties": {
+        "audience": {
+          "type": "string"
+        },
+        "content_type": {
+          "type": "string"
+        },
+        "deliver_before": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "audience",
+        "content_type",
+        "deliver_before"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contact_name",
+    "signal_scores",
+    "mobilizer_score",
+    "classification",
+    "next_enablement_need"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "contact_name": "M. Chen",
+      "signal_scores": {
+        "meeting_behavior": 2,
+        "internal_action": 3,
+        "risk_appetite": 2,
+        "motivation_signal": 3
+      },
+      "mobilizer_score": 10,
+      "classification": "confirmed mobilizer",
+      "next_enablement_need": {
+        "audience": "skeptical Director of Sales Ops",
+        "content_type": "internal-facing one-pager addressing cost scrutiny",
+        "deliver_before": "Chen's next internal presentation"
+      }
+    }
+  ]
+}

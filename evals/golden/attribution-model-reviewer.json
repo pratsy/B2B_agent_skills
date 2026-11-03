@@ -1,0 +1,123 @@
+{
+  "skill": "attribution-model-reviewer",
+  "cases": [
+    {
+      "id": "middle-touch-channel",
+      "description": "A channel that is always the middle touch gets 0% under first/last touch but a third under linear: high model sensitivity.",
+      "source": "Worked example in b2b-agent-skills-*/skills/attribution-model-reviewer/README.md",
+      "input": {
+        "channels": [
+          "paid social",
+          "webinar",
+          "SDR outbound"
+        ],
+        "closed_won_deals": [
+          {
+            "deal_id": "d1",
+            "value": 50000,
+            "touchpoints": [
+              {
+                "channel": "paid social",
+                "date": "2026-01-01"
+              },
+              {
+                "channel": "webinar",
+                "date": "2026-01-15"
+              },
+              {
+                "channel": "SDR outbound",
+                "date": "2026-02-01"
+              }
+            ]
+          },
+          {
+            "deal_id": "d2",
+            "value": 50000,
+            "touchpoints": [
+              {
+                "channel": "paid social",
+                "date": "2026-02-01"
+              },
+              {
+                "channel": "webinar",
+                "date": "2026-02-15"
+              },
+              {
+                "channel": "SDR outbound",
+                "date": "2026-03-01"
+              }
+            ]
+          },
+          {
+            "deal_id": "d3",
+            "value": 50000,
+            "touchpoints": [
+              {
+                "channel": "paid social",
+                "date": "2026-03-01"
+              },
+              {
+                "channel": "webinar",
+                "date": "2026-03-15"
+              },
+              {
+                "channel": "SDR outbound",
+                "date": "2026-04-01"
+              }
+            ]
+          },
+          {
+            "deal_id": "d4",
+            "value": 50000,
+            "touchpoints": [
+              {
+                "channel": "paid social",
+                "date": "2026-04-01"
+              },
+              {
+                "channel": "webinar",
+                "date": "2026-04-15"
+              },
+              {
+                "channel": "SDR outbound",
+                "date": "2026-05-01"
+              }
+            ]
+          }
+        ],
+        "position_based_weights": "40/20/40 (first/middle/last)"
+      },
+      "assertions": [
+        {
+          "path": "channels_analyzed[channel=webinar].credit_by_model.first_touch",
+          "approx": 0,
+          "tol": 0.001
+        },
+        {
+          "path": "channels_analyzed[channel=webinar].credit_by_model.last_touch",
+          "approx": 0,
+          "tol": 0.001
+        },
+        {
+          "path": "channels_analyzed[channel=webinar].credit_by_model.linear",
+          "approx": 0.333,
+          "tol": 0.005
+        },
+        {
+          "path": "channels_analyzed[channel=webinar].credit_by_model.position_based",
+          "approx": 0.2,
+          "tol": 0.005
+        },
+        {
+          "path": "channels_analyzed[channel=webinar].sensitivity_level",
+          "equals": "high"
+        },
+        {
+          "path": "channels_analyzed[channel=paid social].credit_by_model.first_touch",
+          "approx": 1.0,
+          "tol": 0.001
+        }
+      ]
+    }
+  ]
+}

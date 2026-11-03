@@ -10,8 +10,8 @@ This pack has several account-scoring skills that look similar but answer differ
 |---|---|---|
 | **This skill** | Which account segments/tiers should the whole GTM org coordinate investment around this cycle? | Leadership/planning, segment-level |
 | [`strategic-account-priority-ranker`](../strategic-account-priority-ranker/README.md) (gtm) | Which ~20-30 *named* accounts deserve company-wide executive sponsorship? | Leadership, named-account level |
-| [`abm-account-priority-ranker`](../../b2b-agent-skills-marketing/skills/abm-account-priority-ranker/README.md) (marketing) | Given a named-account list, how much ABM program investment does each get? | Marketing execution, named-account level |
-| [`territory-prioritization-agent`](../../b2b-agent-skills-sales/skills/territory-prioritization-agent/README.md) (sales) | Within one rep's territory, which accounts get their time? | Individual rep, full-book level |
+| [`abm-account-priority-ranker`](../../../b2b-agent-skills-marketing/skills/abm-account-priority-ranker/README.md) (marketing) | Given a named-account list, how much ABM program investment does each get? | Marketing execution, named-account level |
+| [`territory-prioritization-agent`](../../../b2b-agent-skills-sales/skills/territory-prioritization-agent/README.md) (sales) | Within one rep's territory, which accounts get their time? | Individual rep, full-book level |
 
 Use this skill first, at planning time, to set segment-level priorities — its output (which segments matter most) becomes an input constraint for the other three.
 

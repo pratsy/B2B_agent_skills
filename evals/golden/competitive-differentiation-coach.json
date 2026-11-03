@@ -1,0 +1,86 @@
+{
+  "skill": "competitive-differentiation-coach",
+  "cases": [
+    {
+      "id": "tier1-matches-priority",
+      "description": "Lead with the Tier 1 claim that maps to the buyer's stated pain; hold price and UI in reserve.",
+      "source": "Worked example in b2b-agent-skills-*/skills/competitive-differentiation-coach/README.md",
+      "readme_example": true,
+      "input": {
+        "competitor": "Clari",
+        "differentiators": [
+          {
+            "claim": "explainable AI scoring",
+            "evidence_tier": 1,
+            "win_loss_citations": 5
+          },
+          {
+            "claim": "lower price point",
+            "evidence_tier": 2,
+            "win_loss_citations": 1
+          },
+          {
+            "claim": "better UI",
+            "evidence_tier": 3,
+            "win_loss_citations": 0
+          }
+        ],
+        "buyer_stated_priorities": [
+          "our reps ignored our last tool's recommendations"
+        ]
+      },
+      "assertions": [
+        {
+          "path": "recommended_lead_claim",
+          "matches": "explainable"
+        },
+        {
+          "path": "held_in_reserve",
+          "contains": "lower price point"
+        },
+        {
+          "path": "differentiators_ranked[0].claim",
+          "matches": "explainable"
+        }
+      ]
+    },
+    {
+      "id": "priority-beats-tier",
+      "description": "A Tier 2 claim that maps to the buyer's priority beats a Tier 1 claim the buyer doesn't care about.",
+      "source": "Worked example in b2b-agent-skills-*/skills/competitive-differentiation-coach/README.md",
+      "input": {
+        "competitor": "Clari",
+        "differentiators": [
+          {
+            "claim": "explainable AI scoring",
+            "evidence_tier": 1,
+            "win_loss_citations": 5
+          },
+          {
+            "claim": "lower price point",
+            "evidence_tier": 2,
+            "win_loss_citations": 1
+          },
+          {
+            "claim": "better UI",
+            "evidence_tier": 3,
+            "win_loss_citations": 0
+          }
+        ],
+        "buyer_stated_priorities": [
+          "we must cut tooling cost 20% this year; budget is the deciding factor"
+        ]
+      },
+      "assertions": [
+        {
+          "path": "recommended_lead_claim",
+          "matches": "price"
+        },
+        {
+          "path": "differentiators_ranked[claim=lower price point].matches_buyer_priority",
+          "equals": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "skill": "account-plan-generator",
+  "cases": [
+    {
+      "id": "relationship-beats-size",
+      "description": "An adjacent relationship outranks a cold entry even when sizes are close.",
+      "source": "Worked example in b2b-agent-skills-*/skills/account-plan-generator/README.md",
+      "readme_example": true,
+      "input": {
+        "account_name": "Meridian Capital",
+        "owned_products": [
+          {
+            "business_unit": "Sales Ops",
+            "product": "deal-risk module",
+            "usage_health": "healthy"
+          }
+        ],
+        "whitespace_candidates": [
+          {
+            "business_unit": "Marketing Ops",
+            "opportunity_estimate": 80000,
+            "comparable_customer_reference": "campaign attribution adoption at a similar customer"
+          },
+          {
+            "business_unit": "Customer Success",
+            "opportunity_estimate": 120000,
+            "comparable_customer_reference": "renewal-risk module at a similar customer"
+          }
+        ],
+        "relationship_map": [
+          {
+            "business_unit": "Sales Ops",
+            "has_contact": true,
+            "contact_role": "confirmed champion"
+          },
+          {
+            "business_unit": "Marketing Ops",
+            "has_contact": false,
+            "contact_role": "none - no relationship in or near Marketing Ops (cold entry)"
+          },
+          {
+            "business_unit": "Customer Success",
+            "has_contact": true,
+            "contact_role": "one contact, role unconfirmed (relationship in or near the unit, no confirmed champion/EB)"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "whitespace_ranked[0].business_unit",
+          "equals": "Customer Success"
+        },
+        {
+          "path": "whitespace_ranked[business_unit=Customer Success].relationship_multiplier",
+          "equals": 0.5
+        },
+        {
+          "path": "whitespace_ranked[business_unit=Customer Success].priority_score",
+          "approx": 60000
+        },
+        {
+          "path": "whitespace_ranked[business_unit=Marketing Ops].relationship_multiplier",
+          "equals": 0.2
+        },
+        {
+          "path": "whitespace_ranked[business_unit=Marketing Ops].priority_score",
+          "approx": 16000
+        }
+      ]
+    },
+    {
+      "id": "big-cold-still-wins",
+      "description": "A much larger cold opportunity can still outrank a small warm one; rank by score, not warmth.",
+      "source": "Worked example in b2b-agent-skills-*/skills/account-plan-generator/README.md",
+      "input": {
+        "account_name": "Northwind",
+        "owned_products": [
+          {
+            "business_unit": "Sales",
+            "product": "core",
+            "usage_health": "healthy"
+          }
+        ],
+        "whitespace_candidates": [
+          {
+            "business_unit": "Finance",
+            "opportunity_estimate": 500000,
+            "comparable_customer_reference": "FP&A rollout at a peer"
+          },
+          {
+            "business_unit": "Support",
+            "opportunity_estimate": 40000,
+            "comparable_customer_reference": "support analytics at a peer"
+          }
+        ],
+        "relationship_map": [
+          {
+            "business_unit": "Finance",
+            "has_contact": false,
+            "contact_role": null
+          },
+          {
+            "business_unit": "Support",
+            "has_contact": true,
+            "contact_role": "confirmed champion in Support"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "whitespace_ranked[business_unit=Finance].priority_score",
+          "approx": 100000
+        },
+        {
+          "path": "whitespace_ranked[business_unit=Support].priority_score",
+          "approx": 40000
+        },
+        {
+          "path": "whitespace_ranked[0].business_unit",
+          "equals": "Finance"
+        }
+      ]
+    }
+  ]
+}

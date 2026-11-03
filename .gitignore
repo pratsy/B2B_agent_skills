@@ -58,3 +58,10 @@ logs/
 
 # Generated test fixtures
 tests/_tmp_input.json
+
+# Generated docs (scripts/build_docs.py)
+docs/b2b-agent-skills-*/
+docs/skills.md
+site/
+.mypy_cache/
+.ruff_cache/

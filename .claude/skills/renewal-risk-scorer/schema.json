@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "renewal-risk-scorer",
+  "description": "Output of the renewal-risk-scorer skill. Generated from b2b-agent-skills-sales/skills/renewal-risk-scorer/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "account_id": {
+      "type": "string"
+    },
+    "usage_decline_score": {
+      "type": "number"
+    },
+    "engagement_breadth_score": {
+      "type": "number"
+    },
+    "stakeholder_continuity_score": {
+      "type": "number"
+    },
+    "sentiment_support_score": {
+      "type": "number"
+    },
+    "renewal_risk_score": {
+      "type": "number"
+    },
+    "risk_band": {
+      "type": "string"
+    },
+    "primary_driver": {
+      "type": "string"
+    },
+    "recommended_action": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "account_id",
+    "usage_decline_score",
+    "engagement_breadth_score",
+    "stakeholder_continuity_score",
+    "sentiment_support_score",
+    "renewal_risk_score",
+    "risk_band",
+    "primary_driver",
+    "recommended_action"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "account_id": "acct_7734",
+      "usage_decline_score": 100,
+      "engagement_breadth_score": 85,
+      "stakeholder_continuity_score": 100,
+      "sentiment_support_score": 15,
+      "renewal_risk_score": 79.25,
+      "risk_band": "critical",
+      "primary_driver": "champion departed 6 weeks ago with no replacement relationship, compounding a 30% usage decline",
+      "recommended_action": "executive-level proactive outreach this week; prioritize rebuilding a relationship with the buying unit"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "skill": "objection-response-coach",
+  "cases": [
+    {
+      "id": "ambiguous-budget",
+      "description": "A budget objection without an explore answer is ambiguous; lead with the diagnostic question.",
+      "source": "Worked example in b2b-agent-skills-*/skills/objection-response-coach/README.md",
+      "readme_example": true,
+      "input": {
+        "objection_text": "This is more than we budgeted for.",
+        "deal_context": {
+          "stage": "proposal"
+        }
+      },
+      "assertions": [
+        {
+          "path": "classification",
+          "matches": "ambiguous"
+        },
+        {
+          "path": "explore_question",
+          "matches": "budget"
+        },
+        {
+          "path": "response_if_value_gap",
+          "matches": "cost|worth|value|status quo"
+        }
+      ]
+    },
+    {
+      "id": "value-gap-confirmed",
+      "description": "Once the buyer says they're not sure it's worth it, it is a value gap: don't discount, re-quantify.",
+      "source": "Worked example in b2b-agent-skills-*/skills/objection-response-coach/README.md",
+      "input": {
+        "objection_text": "This is more than we budgeted for.",
+        "deal_context": {
+          "stage": "proposal",
+          "discovery": "forecast misses cost a board conversation roughly once a quarter"
+        },
+        "explore_answer": "Honestly we're not sure it's worth it at this number yet"
+      },
+      "assertions": [
+        {
+          "path": "classification",
+          "matches": "value"
+        },
+        {
+          "path": "response_if_value_gap",
+          "matches": "cost|status quo|worth"
+        },
+        {
+          "path": "response_if_value_gap",
+          "matches": "^(?![\\s\\S]*\\b\\d+% (off|discount)\\b)[\\s\\S]*$",
+          "why": "value gap: don't offer a discount"
+        }
+      ]
+    }
+  ]
+}

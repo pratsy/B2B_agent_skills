@@ -4,19 +4,26 @@ All 45 skills in this repo are packaged here as real [Claude Code Skills](https:
 
 ## How to use these
 
-**In this repo**, they're already active — clone it and open Claude Code anywhere inside it, and all 45 skills are available automatically (ask Claude to score a deal's risk, build a discovery sequence, size a market, etc., and it will use the matching skill).
+**As a Claude Code plugin** (recommended):
 
-**In your own project**, copy the folder(s) you want into your own repo's `.claude/skills/`:
+```text
+/plugin marketplace add pratsy/skills-AI
+/plugin install b2b-agent-skills@b2b-agent-skills
+```
+
+**In this repo**, they're already active: open Claude Code anywhere inside a clone and ask it to score a deal's risk, build a discovery sequence, size a market, and so on.
+
+**In your own project**, copy whole skill folders into your repo's `.claude/skills/`:
 
 ```bash
 cp -r .claude/skills/deal-risk-assessor /path/to/your-project/.claude/skills/
 ```
 
-Restart your Claude Code session and it's available there too — no install step, no dependency, no API key. Each `SKILL.md` is self-contained (the scoring model, required inputs, and output format are all inline) and links back to its full README in the matching pack for the worked example and rationale.
+Each folder holds `SKILL.md` (the instructions Claude follows) and `schema.json` (the output contract, generated from the skill's README by `scripts/generate_schemas.py`; don't edit it by hand). No install step, dependency, or API key.
 
-## The other integration surface
+## One definition, every surface
 
-`sdk/`, the Python SDK, reads these exact same `SKILL.md` files as its prompt source (see [`sdk/runner.py`](../../sdk/runner.py)) — so a skill's logic lives in exactly one place regardless of whether you invoke it through Claude Code or through code. If you add or edit a skill here, both surfaces pick it up automatically.
+The Python SDK, CLI, MCP server, and HTTP API (package `b2b_agent_skills`) read these same folders, and the PyPI wheel bundles them. A skill's logic lives in exactly one place, so editing a `SKILL.md` here changes every surface.
 
 ## Directory
 

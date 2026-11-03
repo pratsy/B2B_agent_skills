@@ -1,0 +1,96 @@
+{
+  "skill": "persona-insight-extractor",
+  "cases": [
+    {
+      "id": "frequency-threshold",
+      "description": "An attribute in 7 of 10 sources defines the persona; one in 2 of 10 is provisional.",
+      "source": "Worked example in b2b-agent-skills-*/skills/persona-insight-extractor/README.md",
+      "input": {
+        "persona_role": "VP Sales",
+        "minimum_frequency_threshold": 0.4,
+        "source_transcripts": [
+          {
+            "source_id": "int_01",
+            "type": "win-loss interview",
+            "persona_role": "VP Sales",
+            "text": "I got burned by a forecast miss in front of the board. Honestly I was worried reps wouldn't actually use another tool."
+          },
+          {
+            "source_id": "int_02",
+            "type": "win-loss interview",
+            "persona_role": "VP Sales",
+            "text": "We missed the number and I had to explain it to the board - that's what got me looking."
+          },
+          {
+            "source_id": "int_03",
+            "type": "win-loss interview",
+            "persona_role": "VP Sales",
+            "text": "After the Q2 miss the board lost confidence in my forecast. Also, would reps use it? They ignore most tools."
+          },
+          {
+            "source_id": "int_04",
+            "type": "win-loss interview",
+            "persona_role": "VP Sales",
+            "text": "A new CRO wanted to standardize tooling, so we ran an evaluation."
+          },
+          {
+            "source_id": "int_05",
+            "type": "win-loss interview",
+            "persona_role": "VP Sales",
+            "text": "The forecast miss in front of our board was the trigger. My main fear was adoption - reps hate new tools."
+          },
+          {
+            "source_id": "int_06",
+            "type": "win-loss interview",
+            "persona_role": "VP Sales",
+            "text": "Board meeting went badly after a big deal slipped. I was worried reps wouldn't use another tool."
+          },
+          {
+            "source_id": "int_07",
+            "type": "win-loss interview",
+            "persona_role": "VP Sales",
+            "text": "Our new CRO wanted one standard stack across regions."
+          },
+          {
+            "source_id": "int_08",
+            "type": "win-loss interview",
+            "persona_role": "VP Sales",
+            "text": "I got embarrassed by a forecast miss in the board deck. Reps adopting it was my biggest worry."
+          },
+          {
+            "source_id": "int_09",
+            "type": "win-loss interview",
+            "persona_role": "VP Sales",
+            "text": "Forecast miss, board was unhappy, I needed visibility. And reps wouldn't use yet another tool, I thought."
+          },
+          {
+            "source_id": "int_10",
+            "type": "win-loss interview",
+            "persona_role": "VP Sales",
+            "text": "We were just growing fast and wanted better process."
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "source_count",
+          "equals": 10
+        },
+        {
+          "path": "attributes[category=anxiety].frequency",
+          "approx": 0.6,
+          "tol": 0.1,
+          "why": "6 of 10 sources worry reps won't adopt another tool"
+        },
+        {
+          "path": "attributes[category=anxiety].status",
+          "equals": "persona-defining"
+        },
+        {
+          "path": "attributes[status=provisional].attribute",
+          "matches": "CRO"
+        }
+      ]
+    }
+  ]
+}

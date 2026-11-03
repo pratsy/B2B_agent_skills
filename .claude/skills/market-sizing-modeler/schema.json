@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "market-sizing-modeler",
+  "description": "Output of the market-sizing-modeler skill. Generated from b2b-agent-skills-gtm/skills/market-sizing-modeler/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "top_down": {
+      "type": "object",
+      "properties": {
+        "tam": {
+          "type": "number"
+        },
+        "sam": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "tam",
+        "sam"
+      ],
+      "additionalProperties": false
+    },
+    "bottom_up": {
+      "type": "object",
+      "properties": {
+        "sam": {
+          "type": "number"
+        },
+        "target_account_count": {
+          "type": "number"
+        },
+        "realistic_acv": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "sam",
+        "target_account_count",
+        "realistic_acv"
+      ],
+      "additionalProperties": false
+    },
+    "divergence_pct": {
+      "type": "number"
+    },
+    "divergence_verdict": {
+      "type": "string"
+    },
+    "recommended_primary_estimate": {
+      "type": "string"
+    },
+    "som": {
+      "type": "object",
+      "properties": {
+        "time_horizon_years": {
+          "type": "number"
+        },
+        "realistic_capture_rate": {
+          "type": "number"
+        },
+        "estimate": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "time_horizon_years",
+        "realistic_capture_rate",
+        "estimate"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "top_down",
+    "bottom_up",
+    "divergence_pct",
+    "divergence_verdict",
+    "recommended_primary_estimate",
+    "som"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "top_down": {
+        "tam": 1800000000,
+        "sam": 720000000
+      },
+      "bottom_up": {
+        "sam": 95200000,
+        "target_account_count": 3400,
+        "realistic_acv": 28000
+      },
+      "divergence_pct": 656,
+      "divergence_verdict": "material disagreement - top-down category narrowing unvalidated",
+      "recommended_primary_estimate": "bottom-up SAM ($95.2M) - more defensible input data",
+      "som": {
+        "time_horizon_years": 3,
+        "realistic_capture_rate": 0.08,
+        "estimate": 7616000
+      }
+    }
+  ]
+}

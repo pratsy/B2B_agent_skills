@@ -1,35 +1,45 @@
-# Security and secrets guidance
-
-## What actually leaves your machine
-
-Running a skill through `sdk` sends two things to whichever provider you've configured: the skill's `SKILL.md` instructions (public — it's committed to this repo) and the input data you pass in. **The input data is the only part that can contain anything sensitive**, and it goes to the provider verbatim — nothing in this repo redacts or filters it for you. Treat every skill invocation as "this JSON payload leaves my machine and goes to a third-party API," and decide what belongs in it accordingly.
-
-Using `PROVIDER=mock` (the default) sends nothing anywhere — useful for testing the plumbing without exposing data or needing an API key.
-
-## Provider configuration
-
-`sdk/providers.py` supports three providers, selected via the `PROVIDER` environment variable. Copy `.env.example` to `.env` and set only the block for the provider you're using:
-
-| `PROVIDER` | Required variables | Notes |
-|---|---|---|
-| `mock` (default) | none | deterministic fixture response, no network call, safe for CI |
-| `anthropic` | `ANTHROPIC_API_KEY` | optional `ANTHROPIC_MODEL` (defaults to `claude-sonnet-5`) |
-| `openai` | `OPENAI_API_KEY` | optional `OPENAI_MODEL` (defaults to `gpt-4o-mini`) |
-
-Never commit a real `.env` file or hardcode a key into a skill file — `.env` is already in `.gitignore`. If you add a new provider, follow the same pattern: read the key from an environment variable in `__init__`, fail loudly with a clear error if it's missing, never accept a key as a function argument or default value.
-
-## Handling sensitive input data
-
-Before passing real account/customer data into a skill:
-
-- Strip anything not needed for the specific question you're asking — a deal-risk score doesn't need a customer's full contract text, just the fields the skill's README documents as inputs.
-- Don't include secrets, credentials, or internal system identifiers in the input payload — they add no value to the skill's output and every field you include is sent to the provider.
-- If you're running skills against real customer data at any volume, review your provider's data retention and training-use policy before doing so — this varies by provider and by API tier, and this repo doesn't set any provider-side retention configuration for you.
-
-## If you deploy `examples/webhook_app.py`
-
-It's a minimal example of exposing a skill over HTTP, not a production service: it has no authentication, no rate limiting, and no input validation beyond what FastAPI's type checking gives you for free. Before running it anywhere reachable outside your own machine, at minimum add authentication, rate limiting, and request size limits, and confirm which provider it's configured to call — don't assume it's still pointed at the mock provider.
+# Security
 
 ## Reporting a vulnerability
 
-This is a skill-content and reference-implementation repository, not a hosted service — most "vulnerabilities" in practice will be in how you deploy `examples/webhook_app.py` or a skill of your own, not in this repo's code. If you find an issue in the code itself (the SDK, the CI workflow, or a skill's instructions producing an unsafe recommendation), please open a GitHub issue.
+Report vulnerabilities privately through [GitHub private vulnerability reporting](https://github.com/pratsy/skills-AI/security/advisories/new). Please don't open a public issue. Include what's affected (SDK, CLI, MCP server, HTTP server, plugin), how to reproduce it, and the impact you expect. You'll get an acknowledgement within 5 business days, and the fix and disclosure timeline will be agreed with you.
+
+Supported versions: the latest release on PyPI. Fixes are not backported.
+
+**In scope:** the `b2b_agent_skills` package (SDK, CLI, MCP server, HTTP server), the Docker image, the Claude Code plugin manifests, and the GitHub workflows.
+**Out of scope:** a model's answer quality or a skill giving bad business advice (open a regular issue), and vulnerabilities in your own deployment's infrastructure.
+
+## What leaves your machine
+
+Running a skill with a real provider sends two things to that provider: the skill's instructions and output schema (public, committed here) and **your input data, verbatim**. Nothing in this package redacts input. Treat every call as "this JSON goes to a third-party API".
+
+- `PROVIDER=mock` (the default) makes no network calls.
+- The MCP server's `list_skills`, `get_skill`, and prompts send nothing anywhere. Your MCP client's own model does the work. The `run_skill` tool exists only when you set `PROVIDER=anthropic|openai`.
+- The Claude Code plugin is markdown and JSON only. It runs no code.
+
+Before passing real account or customer data:
+
+- Send only the fields the skill documents as inputs. A deal-risk score doesn't need the contract text.
+- Never include credentials, internal system IDs, or personal data the analysis doesn't need.
+- Check your provider's data-retention and training-use terms for your API tier.
+
+## Credentials
+
+Provider keys are read only from the environment (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, or anything else the official SDKs resolve), never from skill files or function defaults. `.env` is git-ignored. Don't commit one.
+
+**Don't embed tokens in git remote URLs** (`https://user:TOKEN@github.com/...`). They're stored in plain text in `.git/config` and show up in `git remote -v`. Use `gh auth login` or your OS credential helper.
+
+## Running the HTTP server
+
+`b2b-skills serve` is built to be safe by default:
+
+- It requires a bearer token (`B2B_SKILLS_API_TOKEN`), compared in constant time. It refuses to start without one unless `B2B_SKILLS_ALLOW_NO_AUTH=1` is set (for local development only).
+- Request bodies are capped (`B2B_SKILLS_MAX_BODY_BYTES`, default 256 KB).
+- Error responses never include provider error messages or stack traces.
+- The Docker image runs as a non-root user.
+
+You are responsible for TLS termination and rate limiting in front of it. Every request costs model tokens, so an unthrottled public endpoint is a cost risk even with authentication.
+
+## Prompt injection
+
+Skill inputs often contain text from outside your organization: emails, call transcripts, competitor pages. That text can contain instructions aimed at the model. Structured outputs and schema validation limit what a manipulated response can look like (it must still match the skill's schema), but they can't guarantee the values are honest. Don't let skill output trigger irreversible actions (sending emails, changing CRM stages) without a human or rule-based check.

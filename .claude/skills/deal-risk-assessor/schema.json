@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "deal-risk-assessor",
+  "description": "Output of the deal-risk-assessor skill. Generated from b2b-agent-skills-sales/skills/deal-risk-assessor/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "deal_id": {
+      "type": "string"
+    },
+    "pillar_scores": {
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "type": "number"
+        },
+        "economic_buyer": {
+          "type": "number"
+        },
+        "decision_criteria": {
+          "type": "number"
+        },
+        "decision_process": {
+          "type": "number"
+        },
+        "paper_process": {
+          "type": "number"
+        },
+        "identify_pain": {
+          "type": "number"
+        },
+        "champion": {
+          "type": "number"
+        },
+        "competition": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "metrics",
+        "economic_buyer",
+        "decision_criteria",
+        "decision_process",
+        "paper_process",
+        "identify_pain",
+        "champion",
+        "competition"
+      ],
+      "additionalProperties": false
+    },
+    "total_score": {
+      "type": "number"
+    },
+    "risk_band": {
+      "type": "string"
+    },
+    "single_point_of_failure": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "forecast_recommendation": {
+      "type": "string"
+    },
+    "priority_action": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "deal_id",
+    "pillar_scores",
+    "total_score",
+    "risk_band",
+    "single_point_of_failure",
+    "forecast_recommendation",
+    "priority_action"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "deal_id": "opp_5521",
+      "pillar_scores": {
+        "metrics": 3,
+        "economic_buyer": 1,
+        "decision_criteria": 2,
+        "decision_process": 1,
+        "paper_process": 0,
+        "identify_pain": 3,
+        "champion": 2,
+        "competition": 2
+      },
+      "total_score": 14,
+      "risk_band": "moderate-high",
+      "single_point_of_failure": [
+        "economic_buyer"
+      ],
+      "forecast_recommendation": "Best Case at most, not Commit",
+      "priority_action": "get a direct economic-buyer conversation to confirm decision process and paper process"
+    }
+  ]
+}

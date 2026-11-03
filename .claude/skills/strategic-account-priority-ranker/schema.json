@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "strategic-account-priority-ranker",
+  "description": "Output of the strategic-account-priority-ranker skill. Generated from b2b-agent-skills-gtm/skills/strategic-account-priority-ranker/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "accounts_ranked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string"
+          },
+          "revenue_value": {
+            "type": "number"
+          },
+          "referenceability": {
+            "type": "number"
+          },
+          "market_influence": {
+            "type": "number"
+          },
+          "expansion_optionality": {
+            "type": "number"
+          },
+          "strategic_value_score": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "account_id",
+          "revenue_value",
+          "referenceability",
+          "market_influence",
+          "expansion_optionality",
+          "strategic_value_score"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "recommended_list_size": {
+      "type": "number"
+    },
+    "sponsorship_capacity_basis": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "accounts_ranked",
+    "recommended_list_size",
+    "sponsorship_capacity_basis"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "accounts_ranked": [
+        {
+          "account_id": "acct_B",
+          "revenue_value": 350000,
+          "referenceability": 1.0,
+          "market_influence": 0.9,
+          "expansion_optionality": 0.7,
+          "strategic_value_score": 72.4
+        }
+      ],
+      "recommended_list_size": 25,
+      "sponsorship_capacity_basis": "5 executives x 5 accounts each"
+    }
+  ]
+}

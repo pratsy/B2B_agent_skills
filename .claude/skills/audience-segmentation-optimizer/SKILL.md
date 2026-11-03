@@ -35,6 +35,10 @@ Per account: the four component scores, composite score, tier, and recommended m
 - Letting firmographic fit alone put an account in Tier 1 with zero engagement.
 - Not accounting for engagement decay — re-score on a rolling basis, not once.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-marketing/skills/audience-segmentation-optimizer/README.md`](../../../b2b-agent-skills-marketing/skills/audience-segmentation-optimizer/README.md)

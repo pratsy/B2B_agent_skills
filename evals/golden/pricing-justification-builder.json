@@ -1,0 +1,76 @@
+{
+  "skill": "pricing-justification-builder",
+  "cases": [
+    {
+      "id": "roi-below-one",
+      "description": "Honest math: a sourced 22% improvement on $180K status-quo cost does not justify a $60K price.",
+      "source": "Worked example in b2b-agent-skills-*/skills/pricing-justification-builder/README.md",
+      "readme_example": true,
+      "input": {
+        "status_quo_pain": {
+          "description": "forecast misses requiring re-planning",
+          "frequency_per_year": 4,
+          "cost_per_occurrence": 45000,
+          "cost_source": "buyer's own estimate in discovery"
+        },
+        "expected_improvement_pct": 0.22,
+        "improvement_source": "reference customer X, similar size and segment, measured result",
+        "annual_price": 60000
+      },
+      "assertions": [
+        {
+          "path": "annual_cost_of_status_quo",
+          "approx": 180000
+        },
+        {
+          "path": "expected_annual_value",
+          "approx": 39600
+        },
+        {
+          "path": "roi_ratio",
+          "approx": 0.66,
+          "tol": 0.01
+        },
+        {
+          "path": "payback_period_months",
+          "approx": 18.2,
+          "tol": 0.2
+        },
+        {
+          "path": "interpretation",
+          "matches": "below 1|less than 1|not (justify|support)|doesn't (justify|support)|weak|falls short"
+        }
+      ]
+    },
+    {
+      "id": "unsourced-improvement",
+      "description": "An improvement % with no reference-customer citation must be flagged directional.",
+      "source": "Worked example in b2b-agent-skills-*/skills/pricing-justification-builder/README.md",
+      "input": {
+        "status_quo_pain": {
+          "description": "manual pipeline reviews",
+          "frequency_per_year": 52,
+          "cost_per_occurrence": 5000
+        },
+        "expected_improvement_pct": 0.5,
+        "improvement_source": "",
+        "annual_price": 60000
+      },
+      "assertions": [
+        {
+          "path": "annual_cost_of_status_quo",
+          "approx": 260000
+        },
+        {
+          "path": "roi_ratio",
+          "approx": 2.17,
+          "tol": 0.02
+        },
+        {
+          "path": "credibility_flag",
+          "matches": "directional|not verified|unverified|unsourced"
+        }
+      ]
+    }
+  ]
+}

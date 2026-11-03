@@ -1,0 +1,53 @@
+{
+  "skill": "brand-perception-monitor",
+  "cases": [
+    {
+      "id": "known-not-chosen",
+      "description": "Awareness rising while consideration collapses: the bottleneck is consideration, not reach.",
+      "source": "Worked example in b2b-agent-skills-*/skills/brand-perception-monitor/README.md",
+      "readme_example": true,
+      "input": {
+        "branded_search_trend": {
+          "current": 11500,
+          "prior_period": 10000
+        },
+        "share_of_voice_vs_competitors": {
+          "current": 0.21,
+          "prior_period": 0.18
+        },
+        "mention_sentiment": {
+          "positive": 0.48,
+          "neutral": 0.4,
+          "negative": 0.12,
+          "prior_period_positive_pct": 0.48
+        },
+        "review_site_rating_trend": {
+          "current": 4.2,
+          "prior_period": 4.2
+        },
+        "shortlist_rate_in_closed_lost": {
+          "current": 0.41,
+          "prior_period": 0.62
+        },
+        "unprompted_differentiator_recall": {
+          "pct_of_winloss_interviews_citing_it": 0.2,
+          "prior_period_pct": 0.35
+        }
+      },
+      "assertions": [
+        {
+          "path": "stages[stage=awareness].score",
+          "equals": 5
+        },
+        {
+          "path": "stages[stage=consideration].score",
+          "equals": 1
+        },
+        {
+          "path": "bottleneck_stage",
+          "equals": "consideration"
+        }
+      ]
+    }
+  ]
+}

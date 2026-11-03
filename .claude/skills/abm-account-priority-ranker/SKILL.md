@@ -31,6 +31,10 @@ Each account's two scores, tier, and — for Tier 1-Pending accounts — what sp
 - Tiering by deal size alone and ignoring reachability.
 - Treating tiers as fixed for the quarter — reachability changes fast.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-marketing/skills/abm-account-priority-ranker/README.md`](../../../b2b-agent-skills-marketing/skills/abm-account-priority-ranker/README.md)

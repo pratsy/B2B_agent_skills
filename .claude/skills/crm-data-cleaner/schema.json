@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "crm-data-cleaner",
+  "description": "Output of the crm-data-cleaner skill. Generated from b2b-agent-skills-revops/skills/crm-data-cleaner/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "record_id": {
+      "type": "string"
+    },
+    "completeness": {
+      "type": "number"
+    },
+    "accuracy_pass": {
+      "type": "boolean"
+    },
+    "consistency_pass": {
+      "type": "boolean"
+    },
+    "timeliness_pass": {
+      "type": "boolean"
+    },
+    "record_quality_score": {
+      "type": "number"
+    },
+    "business_context": {
+      "type": "string"
+    },
+    "cleanup_priority": {
+      "type": "number"
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "record_id",
+    "completeness",
+    "accuracy_pass",
+    "consistency_pass",
+    "timeliness_pass",
+    "record_quality_score",
+    "business_context",
+    "cleanup_priority",
+    "issues"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "record_id": "opp_5521",
+      "completeness": 0.8,
+      "accuracy_pass": false,
+      "consistency_pass": false,
+      "timeliness_pass": false,
+      "record_quality_score": 24,
+      "business_context": "open_this_quarter",
+      "cleanup_priority": 228,
+      "issues": [
+        "stage/activity mismatch (65 days no activity in negotiation stage)",
+        "closed-won-style amount inconsistency",
+        "stale (70 days since last modification)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "skill": "stakeholder-map-builder",
+  "cases": [
+    {
+      "id": "assumed-eb",
+      "description": "An EB assumed from title alone is a coverage gap; two confirmed contacts means not single-threaded.",
+      "source": "Worked example in b2b-agent-skills-*/skills/stakeholder-map-builder/README.md",
+      "readme_example": true,
+      "input": {
+        "deal_id": "opp_5521",
+        "contacts": [
+          {
+            "name": "J. Alvarez",
+            "title": "VP Sales Ops",
+            "role_assumed": "economic_buyer",
+            "role_confirmed": false,
+            "evidence": "title suggests budget authority; unconfirmed"
+          },
+          {
+            "name": "M. Chen",
+            "title": "RevOps Manager",
+            "role_assumed": "champion",
+            "role_confirmed": true,
+            "evidence": "scheduled 3 internal meetings for us, shared internal eval doc"
+          },
+          {
+            "name": "S. Patel",
+            "title": "Sales Manager",
+            "role_assumed": "influencer",
+            "role_confirmed": true,
+            "evidence": "asked detailed product questions; no decision authority"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "coverage_gaps",
+          "contains": "economic_buyer not confirmed"
+        },
+        {
+          "path": "single_threading_risk",
+          "equals": false
+        },
+        {
+          "path": "blocker_identified",
+          "equals": false
+        },
+        {
+          "path": "priority_action",
+          "matches": "economic buyer"
+        }
+      ]
+    },
+    {
+      "id": "single-threaded",
+      "description": "One confirmed contact is single-threading risk, whatever their title.",
+      "source": "Worked example in b2b-agent-skills-*/skills/stakeholder-map-builder/README.md",
+      "input": {
+        "deal_id": "opp_7002",
+        "contacts": [
+          {
+            "name": "A. Lee",
+            "title": "Director RevOps",
+            "role_assumed": "champion",
+            "role_confirmed": true,
+            "evidence": "drives every call"
+          },
+          {
+            "name": "B. Ng",
+            "title": "CFO",
+            "role_assumed": "economic_buyer",
+            "role_confirmed": false,
+            "evidence": "never engaged"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "single_threading_risk",
+          "equals": true
+        },
+        {
+          "path": "coverage_gaps",
+          "contains": "economic_buyer not confirmed"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "messaging-clarity-auditor",
+  "description": "Output of the messaging-clarity-auditor skill. Generated from b2b-agent-skills-marketing/skills/messaging-clarity-auditor/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "claims_scored": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claim": {
+            "type": "string"
+          },
+          "specificity": {
+            "type": "number"
+          },
+          "differentiation": {
+            "type": "number"
+          },
+          "proof": {
+            "type": "number"
+          },
+          "jargon_clarity": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "band": {
+            "type": "string"
+          },
+          "suggested_rewrite": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim",
+          "specificity",
+          "differentiation",
+          "proof",
+          "jargon_clarity",
+          "total",
+          "band",
+          "suggested_rewrite"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "asset_score": {
+      "type": "number"
+    },
+    "priority_fixes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "claims_scored",
+    "asset_score",
+    "priority_fixes"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "claims_scored": [
+        {
+          "claim": "Our platform empowers revenue teams to unlock their full potential.",
+          "specificity": 1,
+          "differentiation": 1,
+          "proof": 1,
+          "jargon_clarity": 2,
+          "total": 5,
+          "band": "rewrite",
+          "suggested_rewrite": "40+ RevOps teams use [Product] to cut forecast variance by 22%..."
+        }
+      ],
+      "asset_score": 5,
+      "priority_fixes": [
+        "headline lacks any proof point despite having usable stats available"
+      ]
+    }
+  ]
+}

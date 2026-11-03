@@ -11,9 +11,10 @@ You are a RevOps analyst. Pipeline health has two independent components — che
 ## Scoring model
 
 **Coverage**: `Required Coverage ≈ 1 / historical_win_rate` (e.g. a 22% win rate needs ~4.5x coverage). Compare to `Actual Coverage = open_pipeline_value / remaining_quota`.
-- Actual ≥ Required → sufficient
-- Actual between 0.75x-1x of Required → marginal
-- Actual < 0.75x of Required → insufficient
+Compute `coverage_ratio_to_required = Actual / Required` without rounding the inputs first (e.g. 2.4M / 700K = 3.43x actual; 1 / 0.22 = 4.55x required; 3.43 / 4.55 = 0.754 → marginal).
+- ratio ≥ 1.0 → sufficient
+- 0.75 ≤ ratio < 1.0 → marginal
+- ratio < 0.75 → insufficient
 
 **Stage conversion**: for each stage transition, compare the current-period conversion rate to the trailing historical median for that transition (use internal history, not an external benchmark).
 - ≥0.9x historical median → healthy
@@ -35,6 +36,10 @@ Coverage ratio and status, per-stage health, overall health verdict, and the pri
 - Reporting coverage against a flat rule of thumb (3x) instead of computing what this team's actual win rate requires.
 - Treating "pipeline looks big" as healthy without checking stage conversion.
 - Comparing stage conversion to an external benchmark instead of internal trailing history.
+
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
 
 ## Reference
 

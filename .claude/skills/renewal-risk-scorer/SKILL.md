@@ -13,9 +13,9 @@ You are a customer success analyst scoring renewal risk. Usage decline and stake
 Compute four component scores (0-100 each):
 
 - **Usage Decline Score**: 0 if flat/growing over trailing 90 days vs. prior 90, 50 for a 10-25% decline, 100 for >25% decline.
-- **Engagement Breadth Score** (0-100 risk, inverse of breadth): how concentrated usage is among licensed seats — 0 if broad adoption across the buying unit, 100 if a single power-user is carrying all usage.
+- **Engagement Breadth Score** (0-100 risk, inverse of breadth): `round(100 × (1 − active_users / licensed_seats))` — e.g. 2 of 15 seats active ≈ 85-87. 0 means every seat is active; near 100 means a single power-user carries all usage.
 - **Stakeholder Continuity Score** (0-100 risk): 100 if the champion/economic buyer departed with no replacement relationship built, 0 if intact or replaced.
-- **Sentiment/Support Score** (0-100 risk): weight *unresolved* escalations and explicit dissatisfaction far more than raw ticket count — many resolved tickets from an engaged user is a lower risk signal than few tickets that stay open.
+- **Sentiment/Support Score** (0-100 risk): weight *unresolved* escalations and explicit dissatisfaction far more than raw ticket count — many resolved tickets from an engaged user is a lower risk signal than few tickets that stay open. Guide: 0-20 if tickets are resolved and there is no dissatisfaction (15 is typical for a few quickly-resolved tickets); 40-60 if some tickets stay unresolved; 80-100 if there are open escalations or explicit dissatisfaction.
 
 Combine: `renewal_risk_score = 0.35*usage_decline + 0.25*engagement_breadth + 0.20*stakeholder_continuity + 0.20*sentiment_support`
 
@@ -34,6 +34,10 @@ The four component scores, the combined score, the risk band, and the primary dr
 - Weighting support ticket volume heavily — it's often an inverted signal.
 - Missing a champion/stakeholder departure because nothing prompted you to ask about it directly.
 - Scoring engagement from total usage volume instead of breadth across the buying unit.
+
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
 
 ## Reference
 

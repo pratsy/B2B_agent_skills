@@ -1,0 +1,40 @@
+{
+  "skill": "discovery-question-generator",
+  "cases": [
+    {
+      "id": "spin-sequence",
+      "description": "Known context seeds one Situation question; Implication questions come before Need-payoff.",
+      "source": "Worked example in b2b-agent-skills-*/skills/discovery-question-generator/README.md",
+      "readme_example": true,
+      "input": {
+        "persona": "VP Sales, mid-market SaaS",
+        "known_context": [
+          "company grew reps 40% YoY (from job postings)"
+        ],
+        "hypothesis_problem": "forecast accuracy is straining as the team scales",
+        "call_length_minutes": 30
+      },
+      "assertions": [
+        {
+          "path": "persona",
+          "matches": "VP Sales"
+        },
+        {
+          "path": "sequence[0].stage",
+          "equals": "situation"
+        },
+        {
+          "path": "coaching_note",
+          "matches": "implication"
+        },
+        {
+          "path": "sequence[1].stage",
+          "one_of": [
+            "problem",
+            "implication"
+          ]
+        }
+      ]
+    }
+  ]
+}

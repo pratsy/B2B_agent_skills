@@ -1,0 +1,78 @@
+{
+  "skill": "deal-committee-readiness-coach",
+  "cases": [
+    {
+      "id": "prep-needed",
+      "description": "5 of 8 pillars answerable is 62.5%, prep needed; the paper process gap must be called out.",
+      "source": "Worked example in b2b-agent-skills-*/skills/deal-committee-readiness-coach/README.md",
+      "readme_example": true,
+      "input": {
+        "deal_id": "opp_5521",
+        "committee_type": "forecast_call",
+        "meddpicc_scores": {
+          "metrics": 3,
+          "economic_buyer": 1,
+          "decision_criteria": 2,
+          "decision_process": 1,
+          "paper_process": 0,
+          "identify_pain": 3,
+          "champion": 2,
+          "competition": 2
+        }
+      },
+      "assertions": [
+        {
+          "path": "readiness_score_pct",
+          "approx": 62.5,
+          "tol": 0.1
+        },
+        {
+          "path": "readiness_band",
+          "equals": "prep needed"
+        },
+        {
+          "path": "unanswered_questions[pillar=paper_process].committee_question",
+          "matches": "legal|procurement"
+        },
+        {
+          "path": "unanswered_questions[pillar=economic_buyer].committee_question",
+          "matches": "sign"
+        }
+      ]
+    },
+    {
+      "id": "not-ready",
+      "description": "Only 3 of 8 pillars evidenced is below 50%: not ready.",
+      "source": "Worked example in b2b-agent-skills-*/skills/deal-committee-readiness-coach/README.md",
+      "input": {
+        "deal_id": "opp_9001",
+        "committee_type": "deal_desk",
+        "meddpicc_scores": {
+          "metrics": 2,
+          "economic_buyer": 0,
+          "decision_criteria": 1,
+          "decision_process": 0,
+          "paper_process": 0,
+          "identify_pain": 2,
+          "champion": 2,
+          "competition": 1
+        }
+      },
+      "assertions": [
+        {
+          "path": "readiness_score_pct",
+          "approx": 37.5,
+          "tol": 0.1
+        },
+        {
+          "path": "readiness_band",
+          "matches": "not ready"
+        },
+        {
+          "path": "unanswered_questions[pillar=economic_buyer].pillar",
+          "equals": "economic_buyer"
+        }
+      ]
+    }
+  ]
+}

@@ -1,25 +1,31 @@
 # Examples
 
-## Local CLI usage
+Sample inputs in [`fixtures/`](fixtures/), each matching the inputs a skill documents:
+
+| File | Skill |
+|---|---|
+| `deal_risk_input.json` | `deal-risk-assessor` |
+| `pipeline_input.json` | `pipeline-health-monitor` |
+| `renewal_input.json` | `renewal-risk-scorer` |
+| `audience_segmentation_input.json` | `audience-segmentation-optimizer` |
+| `brand_positioning_input.json` | `brand-positioning-synthesizer` |
+| `nurture_sequence_input.json` | `nurture-sequence-architect` |
 
 ```bash
-PYTHONPATH=. python -m sdk.runner renewal_risk_scorer --input examples/fixtures/renewal_input.json
+# offline: returns the README's worked-example output
+b2b-skills run deal-risk-assessor -i examples/fixtures/deal_risk_input.json
+
+# real model
+b2b-skills run deal-risk-assessor -i examples/fixtures/deal_risk_input.json --provider anthropic
 ```
 
-## Webhook example
+In Python:
 
-```bash
-pip install fastapi uvicorn
-uvicorn examples.webhook_app:app --reload
+```python
+from b2b_agent_skills import run_skill
+
+result = run_skill("pipeline-health-monitor", "examples/fixtures/pipeline_input.json", provider="anthropic")
+print(result.output["overall_health"], "-", result.output["primary_driver"])
 ```
 
-Then call:
-
-```bash
-curl -X POST http://127.0.0.1:8000/run-skill \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "skill": "renewal_risk_scorer",
-    "payload": {"Account Name": "Alpha", "Renewal Date": "2027-01-01"}
-  }'
-```
+For an HTTP service, use the built-in server (`b2b-skills serve`, see [docs/http-api.md](../docs/http-api.md)) rather than writing your own.

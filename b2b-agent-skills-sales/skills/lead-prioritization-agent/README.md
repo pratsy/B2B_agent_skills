@@ -12,8 +12,8 @@ Score leads on independent fit and intent axes (not one blended score) so reps c
 
 Two independent axes, each 0–100, deliberately kept separate rather than blended into one number, because the right action differs completely depending on which axis is driving the score:
 
-- **Fit**: how well the lead's firmographic/role profile matches the ICP (see [`icp-refinement-agent`](../../b2b-agent-skills-marketing/skills/icp-refinement-agent/README.md) in the marketing pack for how to derive fit weights from evidence, not assumption).
-- **Intent**: how much active buying behavior this specific lead is showing right now (recency/frequency/depth of engagement, similar to the RFM approach in [`audience-segmentation-optimizer`](../../b2b-agent-skills-marketing/skills/audience-segmentation-optimizer/README.md), plus any explicit high-intent action like a demo/pricing request).
+- **Fit**: how well the lead's firmographic/role profile matches the ICP (see [`icp-refinement-agent`](../../../b2b-agent-skills-marketing/skills/icp-refinement-agent/README.md) in the marketing pack for how to derive fit weights from evidence, not assumption).
+- **Intent**: how much active buying behavior this specific lead is showing right now (recency/frequency/depth of engagement, similar to the RFM approach in [`audience-segmentation-optimizer`](../../../b2b-agent-skills-marketing/skills/audience-segmentation-optimizer/README.md), plus any explicit high-intent action like a demo/pricing request).
 
 ## Scoring model
 

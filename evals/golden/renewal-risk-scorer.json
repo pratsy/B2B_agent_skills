@@ -1,0 +1,54 @@
+{
+  "skill": "renewal-risk-scorer",
+  "cases": [
+    {
+      "id": "champion-departed-usage-decline",
+      "description": "Low support-ticket volume must not mask a 30% usage decline plus an unreplaced champion departure.",
+      "source": "Worked example in b2b-agent-skills-*/skills/renewal-risk-scorer/README.md",
+      "readme_example": true,
+      "input": {
+        "account_id": "acct_7734",
+        "usage_trend_90d": {
+          "current_period_usage": 700,
+          "prior_period_usage": 1000
+        },
+        "active_users": {
+          "count": 2,
+          "total_licensed_seats": 15
+        },
+        "champion_status": "departed_no_replacement",
+        "champion_departure_weeks_ago": 6,
+        "support_signals": {
+          "ticket_count": 2,
+          "unresolved_count": 0,
+          "explicit_dissatisfaction_flag": false
+        }
+      },
+      "assertions": [
+        {
+          "path": "account_id",
+          "equals": "acct_7734"
+        },
+        {
+          "path": "stakeholder_continuity_score",
+          "equals": 100,
+          "why": "champion departed with no replacement"
+        },
+        {
+          "path": "sentiment_support_score",
+          "lte": 30,
+          "why": "2 quickly-resolved tickets, no dissatisfaction"
+        },
+        {
+          "path": "renewal_risk_score",
+          "approx": 79.25,
+          "tol": 5
+        },
+        {
+          "path": "risk_band",
+          "equals": "critical"
+        }
+      ]
+    }
+  ]
+}

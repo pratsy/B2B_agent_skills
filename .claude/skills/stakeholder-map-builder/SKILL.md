@@ -14,7 +14,7 @@ Assign each contact a role: **Economic Buyer** (controls budget/final approval),
 
 Mark each as **confirmed** (validated by direct statement or documented behavior) or **assumed** (inferred only from title/seniority). A title suggesting "VP" is not confirmation of Economic Buyer status.
 
-Flag a **coverage gap** if Economic Buyer or Champion has zero confirmed contacts. Flag **single-threading risk** if 1 or fewer contacts total are confirmed across all roles. If no Blocker has been identified, flag that too — most enterprise deals have one even if unstated.
+Flag a **coverage gap** if Economic Buyer or Champion has zero confirmed contacts. Flag **single-threading risk** only if 1 or fewer contacts total are confirmed across all roles Count only contacts whose role is *confirmed*; assumed contacts don't count. Examples: 2 confirmed + 1 assumed → `false` (the unconfirmed Economic Buyer is a coverage gap, not single-threading); 1 confirmed + 1 assumed → `true`. If no Blocker has been identified, flag that too — most enterprise deals have one even if unstated.
 
 ## If information is missing
 
@@ -29,6 +29,10 @@ Each contact's role and confirmed/assumed status, coverage gaps, single-threadin
 - Marking a role "confirmed" from title alone.
 - Missing the Blocker role because no one has said anything negative — silence from a likely resistor (e.g. the incumbent tool's owner) is itself a signal.
 - Counting Influencers/Users toward "good coverage" when EB and Champion are unconfirmed.
+
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
 
 ## Reference
 

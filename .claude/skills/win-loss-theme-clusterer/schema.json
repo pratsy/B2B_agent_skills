@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "win-loss-theme-clusterer",
+  "description": "Output of the win-loss-theme-clusterer skill. Generated from b2b-agent-skills-gtm/skills/win-loss-theme-clusterer/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "themes_ranked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "theme": {
+            "type": "string"
+          },
+          "frequency": {
+            "type": "number"
+          },
+          "decisiveness": {
+            "type": "number"
+          },
+          "win_rate_delta": {
+            "type": "number"
+          },
+          "impact_score": {
+            "type": "number"
+          },
+          "side": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "theme",
+          "frequency",
+          "decisiveness",
+          "win_rate_delta",
+          "impact_score",
+          "side"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "top_priority_theme": {
+      "type": "string"
+    },
+    "sample_size": {
+      "type": "object",
+      "properties": {
+        "wins": {
+          "type": "number"
+        },
+        "losses": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "wins",
+        "losses"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "themes_ranked",
+    "top_priority_theme",
+    "sample_size"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "themes_ranked": [
+        {
+          "theme": "pricing objection",
+          "frequency": 0.55,
+          "decisiveness": 0.65,
+          "win_rate_delta": 0.35,
+          "impact_score": 0.125,
+          "side": "loss"
+        },
+        {
+          "theme": "implementation complexity concern",
+          "frequency": 0.6,
+          "decisiveness": 0.23,
+          "win_rate_delta": 0.2,
+          "impact_score": 0.028,
+          "side": "loss"
+        }
+      ],
+      "top_priority_theme": "pricing objection",
+      "sample_size": {
+        "wins": 18,
+        "losses": 22
+      }
+    }
+  ]
+}

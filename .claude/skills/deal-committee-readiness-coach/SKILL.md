@@ -30,6 +30,10 @@ Readiness score and band, plus — for every unanswered pillar — the exact que
 - Treating "I'll find out" as adequate prep when it's been the answer for multiple review cycles.
 - Weighting all 8 pillars equally — Economic Buyer and Paper Process gaps deserve priority regardless of overall score.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-sales/skills/deal-committee-readiness-coach/README.md`](../../../b2b-agent-skills-sales/skills/deal-committee-readiness-coach/README.md)

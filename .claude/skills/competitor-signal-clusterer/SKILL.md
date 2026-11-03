@@ -30,6 +30,10 @@ Themes with signal count, avg materiality, trajectory, strategic weight, the str
 - Ranking by raw signal count instead of the materiality- and trajectory-weighted score.
 - Classifying trajectory from a single quarter — needs 2+ for a real pattern.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-gtm/skills/competitor-signal-clusterer/README.md`](../../../b2b-agent-skills-gtm/skills/competitor-signal-clusterer/README.md)

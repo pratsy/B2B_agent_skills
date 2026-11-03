@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "nurture-sequence-architect",
+  "description": "Output of the nurture-sequence-architect skill. Generated from b2b-agent-skills-marketing/skills/nurture-sequence-architect/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "sequence_name": {
+      "type": "string"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "number"
+          },
+          "day": {
+            "type": "number"
+          },
+          "content_stage": {
+            "type": "string"
+          },
+          "asset": {
+            "type": "string"
+          },
+          "graduate_condition": {
+            "type": "string"
+          },
+          "suppress_condition": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "step",
+          "day",
+          "content_stage",
+          "asset",
+          "graduate_condition",
+          "suppress_condition"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "reengagement_track_trigger": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "sequence_name",
+    "steps",
+    "reengagement_track_trigger"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "sequence_name": "solution-aware nurture - buyer's guide entry",
+      "steps": [
+        {
+          "step": 1,
+          "day": 0,
+          "content_stage": "solution-aware",
+          "asset": "comparison guide",
+          "graduate_condition": "clicked pricing page",
+          "suppress_condition": "n/a"
+        }
+      ],
+      "reengagement_track_trigger": "decayed_score < 0.4 or 3 consecutive no-opens"
+    }
+  ]
+}

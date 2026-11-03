@@ -1,0 +1,69 @@
+name: Golden evals (real model)
+
+# Runs every golden case against a real model. Manual only - it uses model quota.
+#
+# provider=claude-code (default) runs through the Claude Code CLI on a Claude
+# subscription - no API key. Create the secret once with `claude setup-token`
+# and save it as the CLAUDE_CODE_OAUTH_TOKEN repository secret.
+# provider=anthropic / openai need ANTHROPIC_API_KEY / OPENAI_API_KEY secrets.
+
+on:
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: Model provider
+        type: choice
+        options: [claude-code, anthropic, openai]
+        default: claude-code
+      model:
+        description: Model (blank = provider default - sonnet / claude-opus-5-5 / gpt-4o-mini)
+        type: string
+        default: ""
+      skills:
+        description: Space-separated skill names to limit the run (blank = all golden suites)
+        type: string
+        default: ""
+      min_pass_rate:
+        description: Fail the job below this pass rate (0-1)
+        type: string
+        default: "0.8"
+
+permissions:
+  contents: read
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[anthropic,openai]"
+      - name: Install Claude Code CLI
+        if: inputs.provider == 'claude-code'
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Run golden evals
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          PROVIDER: ${{ inputs.provider }}
+          MODEL: ${{ inputs.model }}
+          SKILLS: ${{ inputs.skills }}
+          MIN_PASS_RATE: ${{ inputs.min_pass_rate }}
+        run: |
+          args=(eval --provider "$PROVIDER" --concurrency 4 --json eval-report.json --markdown eval-report.md --min-pass-rate "$MIN_PASS_RATE")
+          if [ -n "$MODEL" ]; then args+=(--model "$MODEL"); fi
+          for s in $SKILLS; do args+=(--skill "$s"); done
+          b2b-skills "${args[@]}"
+      - name: Job summary
+        if: always()
+        run: cat eval-report.md >> "$GITHUB_STEP_SUMMARY" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-report-${{ inputs.provider }}
+          path: eval-report.*

@@ -1,0 +1,33 @@
+name: Bug report
+description: The SDK, CLI, MCP server, plugin, or HTTP server behaves incorrectly
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you ran, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Minimal command or code. Remove any real customer or deal data from inputs.
+      render: shell
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Surface
+      options: [Python SDK, CLI, MCP server, Claude Code plugin / skills, HTTP server, Docs]
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: "`b2b-skills --version`, Python version, provider and model"
+    validations:
+      required: true

@@ -1,0 +1,61 @@
+name: Release
+
+# Publishes to PyPI when a version tag (v0.2.0, ...) is pushed. Uses PyPI
+# trusted publishing - no API token stored in GitHub. One-time setup:
+# https://docs.pypi.org/trusted-publishers/adding-a-publisher/
+#   PyPI project: b2b-agent-skills, workflow: release.yml, environment: pypi
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tag matches package version
+        run: |
+          version=$(python -c "import re;print(re.search(r'__version__ = \"(.+?)\"', open('b2b_agent_skills/__init__.py').read()).group(1))")
+          test "v$version" = "$GITHUB_REF_NAME" || { echo "tag $GITHUB_REF_NAME != package version v$version"; exit 1; }
+          grep -q "\"version\": \"$version\"" .claude-plugin/plugin.json || { echo ".claude-plugin/plugin.json version is not $version"; exit 1; }
+      - run: pip install -e ".[dev]" && pytest
+      - run: python -m build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+
+  github-release:
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --title "$GITHUB_REF_NAME" --generate-notes

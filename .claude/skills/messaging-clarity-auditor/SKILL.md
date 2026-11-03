@@ -29,6 +29,10 @@ Per claim: the four sub-scores, total, band, and — for anything scoring under 
 - Scoring differentiation by "is this true" instead of "would it survive a competitor-name swap."
 - Accepting unsourced social-proof language ("trusted by leading teams") as Proof — it isn't without a number or name.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-marketing/skills/messaging-clarity-auditor/README.md`](../../../b2b-agent-skills-marketing/skills/messaging-clarity-auditor/README.md)

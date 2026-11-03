@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "objection-response-coach",
+  "description": "Output of the objection-response-coach skill. Generated from b2b-agent-skills-sales/skills/objection-response-coach/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "objection_text": {
+      "type": "string"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "explore_question": {
+      "type": "string"
+    },
+    "response_if_price": {
+      "type": "string"
+    },
+    "response_if_value_gap": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "objection_text",
+    "classification",
+    "explore_question",
+    "response_if_price",
+    "response_if_value_gap"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "objection_text": "This is more than we budgeted for.",
+      "classification": "ambiguous - price or value-gap",
+      "explore_question": "Is the budget genuinely not available this cycle, or is it more that the case for this specific investment level isn't fully there yet?",
+      "response_if_price": "explore phased scope or a different budget line",
+      "response_if_value_gap": "return to quantifying the cost of the status quo from discovery; do not discount"
+    }
+  ]
+}

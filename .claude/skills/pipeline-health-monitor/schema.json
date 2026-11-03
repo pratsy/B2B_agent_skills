@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "pipeline-health-monitor",
+  "description": "Output of the pipeline-health-monitor skill. Generated from b2b-agent-skills-revops/skills/pipeline-health-monitor/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "coverage_ratio": {
+      "type": "object",
+      "properties": {
+        "actual": {
+          "type": "number"
+        },
+        "required": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "actual",
+        "required",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "stage_health": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "transition": {
+            "type": "string"
+          },
+          "current_rate": {
+            "type": "number"
+          },
+          "historical_median": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "transition",
+          "current_rate",
+          "historical_median",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "overall_health": {
+      "type": "string"
+    },
+    "primary_driver": {
+      "type": "string"
+    },
+    "recommended_action": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "coverage_ratio",
+    "stage_health",
+    "overall_health",
+    "primary_driver",
+    "recommended_action"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "coverage_ratio": {
+        "actual": 3.4,
+        "required": 4.5,
+        "status": "marginal"
+      },
+      "stage_health": [
+        {
+          "transition": "discovery_to_proposal",
+          "current_rate": 0.28,
+          "historical_median": 0.45,
+          "status": "broken"
+        }
+      ],
+      "overall_health": "at risk",
+      "primary_driver": "discovery_to_proposal conversion broken (0.62x historical median)",
+      "recommended_action": "review qualification discipline entering discovery, not pipeline generation volume"
+    }
+  ]
+}

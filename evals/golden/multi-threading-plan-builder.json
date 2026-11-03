@@ -1,0 +1,47 @@
+{
+  "skill": "multi-threading-plan-builder",
+  "cases": [
+    {
+      "id": "brokered-before-cold",
+      "description": "With only some champion credibility, the plan routes through a champion-brokered intro before any direct EB outreach.",
+      "source": "Worked example in b2b-agent-skills-*/skills/multi-threading-plan-builder/README.md",
+      "readme_example": true,
+      "input": {
+        "coverage_gaps": [
+          "economic_buyer not confirmed"
+        ],
+        "known_contacts": [
+          {
+            "name": "M. Chen",
+            "role": "champion",
+            "relationship_strength": "strong"
+          },
+          {
+            "name": "J. Alvarez",
+            "role": "economic_buyer candidate (VP Sales Ops)",
+            "relationship_strength": "none"
+          }
+        ],
+        "champion_internal_credibility": "some evidence"
+      },
+      "assertions": [
+        {
+          "path": "plan[0].target_role",
+          "equals": "champion"
+        },
+        {
+          "path": "plan[1].target_name",
+          "equals": "J. Alvarez"
+        },
+        {
+          "path": "plan[1].method",
+          "matches": "champion"
+        },
+        {
+          "path": "sequencing_rationale",
+          "matches": "credib"
+        }
+      ]
+    }
+  ]
+}

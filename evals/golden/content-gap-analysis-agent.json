@@ -1,0 +1,77 @@
+{
+  "skill": "content-gap-analysis-agent",
+  "cases": [
+    {
+      "id": "cfo-has-nothing",
+      "description": "CFO has zero content at every stage, confirmed by the 'CFO pushes back on ROI' objection.",
+      "source": "Worked example in b2b-agent-skills-*/skills/content-gap-analysis-agent/README.md",
+      "readme_example": true,
+      "input": {
+        "personas": [
+          "RevOps Manager",
+          "VP Sales",
+          "CFO"
+        ],
+        "existing_content": [
+          {
+            "title": "Why forecasts miss",
+            "format": "blog",
+            "target_persona": "RevOps Manager",
+            "stage_estimate": "problem-aware",
+            "coverage_note": "strong: persona-specific with data (score 3)"
+          },
+          {
+            "title": "Forecasting trends for sales leaders",
+            "format": "blog",
+            "target_persona": "VP Sales",
+            "stage_estimate": "problem-aware",
+            "coverage_note": "addresses VP Sales but lacks proof (score 2)"
+          },
+          {
+            "title": "Buyer's guide",
+            "format": "pdf",
+            "target_persona": "RevOps Manager",
+            "stage_estimate": "solution-aware",
+            "coverage_note": "strong (score 3)"
+          },
+          {
+            "title": "Tool comparison page",
+            "format": "web",
+            "target_persona": "VP Sales",
+            "stage_estimate": "solution-aware",
+            "coverage_note": "generic, not VP-specific (score 1)"
+          },
+          {
+            "title": "Acme case study",
+            "format": "case study",
+            "target_persona": "RevOps Manager",
+            "stage_estimate": "vendor-aware",
+            "coverage_note": "persona-specific but no ROI numbers (score 2)"
+          }
+        ],
+        "sales_objection_themes": [
+          "CFO pushes back on ROI"
+        ]
+      },
+      "assertions": [
+        {
+          "path": "overall_coverage_pct",
+          "approx": 41,
+          "tol": 4
+        },
+        {
+          "path": "coverage_matrix[persona=CFO].score",
+          "equals": 0
+        },
+        {
+          "path": "priority_gaps[persona=CFO].confirmed_by_sales_objections",
+          "equals": true
+        },
+        {
+          "path": "priority_gaps[0].stage",
+          "matches": "vendor"
+        }
+      ]
+    }
+  ]
+}

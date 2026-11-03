@@ -1,0 +1,61 @@
+{
+  "skill": "value-proposition-tester",
+  "cases": [
+    {
+      "id": "specific-beats-generic",
+      "description": "The specific mechanism claim scores 3.0; the generic 'intelligence platform' claim scores 0.64.",
+      "source": "Worked example in b2b-agent-skills-*/skills/value-proposition-tester/README.md",
+      "input": {
+        "customer_jobs": [
+          "Hit quarterly forecast accurately"
+        ],
+        "customer_pains": [
+          {
+            "pain": "Spend 6+ hrs/week manually updating deal risk in spreadsheets",
+            "importance": "Extreme"
+          }
+        ],
+        "customer_gains": [
+          {
+            "gain": "Catch at-risk deals before they slip, not after",
+            "importance": "High"
+          }
+        ],
+        "value_prop_candidates": [
+          {
+            "claim": "AI-powered sales intelligence platform.",
+            "pain_relievers": [],
+            "gain_creators": [
+              "sales intelligence"
+            ]
+          },
+          {
+            "claim": "Automatically flags at-risk deals from your CRM data, no manual spreadsheet updates.",
+            "pain_relievers": [
+              "eliminates manual spreadsheet updates"
+            ],
+            "gain_creators": [
+              "flags at-risk deals automatically"
+            ]
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "candidates_scored[claim=AI-powered sales intelligence platform.].fit_score",
+          "approx": 0.64,
+          "tol": 0.02
+        },
+        {
+          "path": "candidates_scored[claim=Automatically flags at-risk deals from your CRM data, no manual spreadsheet updates.].fit_score",
+          "approx": 3.0,
+          "tol": 0.01
+        },
+        {
+          "path": "recommended_lead_message",
+          "matches": "automatically flags"
+        }
+      ]
+    }
+  ]
+}

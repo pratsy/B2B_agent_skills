@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "icp-refinement-agent",
+  "description": "Output of the icp-refinement-agent skill. Generated from b2b-agent-skills-marketing/skills/icp-refinement-agent/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "attribute_lift_ranking": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "attribute": {
+            "type": "string"
+          },
+          "lift": {
+            "type": "number"
+          },
+          "sample_size": {
+            "type": "number"
+          },
+          "confidence": {
+            "type": "string"
+          },
+          "signal": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "attribute",
+          "lift",
+          "sample_size",
+          "confidence",
+          "signal"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "revised_icp": {
+      "type": "object",
+      "properties": {
+        "include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "include",
+        "exclude"
+      ],
+      "additionalProperties": false
+    },
+    "contradictions_with_current_icp": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "current_assumption": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "recommendation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "current_assumption",
+          "evidence",
+          "recommendation"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "attribute_lift_ranking",
+    "revised_icp",
+    "contradictions_with_current_icp"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "attribute_lift_ranking": [
+        {
+          "attribute": "industry = Financial Services or SaaS",
+          "lift": 2.03,
+          "sample_size": 42,
+          "confidence": "high",
+          "signal": "positive"
+        },
+        {
+          "attribute": "has dedicated RevOps function",
+          "lift": 0.86,
+          "sample_size": 42,
+          "confidence": "high",
+          "signal": "negative"
+        }
+      ],
+      "revised_icp": {
+        "include": [],
+        "exclude": []
+      },
+      "contradictions_with_current_icp": [
+        {
+          "current_assumption": "target companies with dedicated RevOps",
+          "evidence": "lift 0.86 — negative signal",
+          "recommendation": "remove from ICP"
+        }
+      ]
+    }
+  ]
+}

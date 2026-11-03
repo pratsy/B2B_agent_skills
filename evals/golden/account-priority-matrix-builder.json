@@ -1,0 +1,47 @@
+{
+  "skill": "account-priority-matrix-builder",
+  "cases": [
+    {
+      "id": "invest-in-fintech",
+      "description": "High value, fast cycle, good win rate: invest now; the long-cycle, low-win segment comes after.",
+      "source": "Worked example in b2b-agent-skills-*/skills/account-priority-matrix-builder/README.md",
+      "input": {
+        "planning_cycle": "Q1 2027",
+        "segments": [
+          {
+            "segment_name": "mid-market FinTech",
+            "tam_estimate": 95000000,
+            "acv_index": 1.2,
+            "strategic_fit": 0.9,
+            "sales_cycle_index": 0.8,
+            "competitive_intensity": 0.4,
+            "historical_win_rate": 0.35
+          },
+          {
+            "segment_name": "enterprise healthcare",
+            "tam_estimate": 60000000,
+            "acv_index": 0.9,
+            "strategic_fit": 0.4,
+            "sales_cycle_index": 1.8,
+            "competitive_intensity": 0.8,
+            "historical_win_rate": 0.12
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "segments_scored[segment=mid-market FinTech].action",
+          "matches": "invest"
+        },
+        {
+          "path": "segments_scored[segment=enterprise healthcare].action",
+          "matches": "^(?!invest now).*"
+        },
+        {
+          "path": "planning_cycle",
+          "matches": "Q1 2027"
+        }
+      ]
+    }
+  ]
+}

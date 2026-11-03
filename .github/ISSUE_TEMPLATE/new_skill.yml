@@ -1,0 +1,43 @@
+name: Propose a new skill
+description: Suggest a new skill grounded in a named, checkable methodology
+labels: [new-skill]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check the [existing 45 skills](https://github.com/pratsy/skills-AI/tree/main/.claude/skills) first. If yours is a variation of one, propose an improvement to that skill instead.
+  - type: input
+    id: name
+    attributes:
+      label: Proposed name
+      placeholder: churn-reason-classifier
+    validations:
+      required: true
+  - type: dropdown
+    id: pack
+    attributes:
+      label: Pack
+      options: [sales, marketing, revops, gtm]
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: The decision it helps someone make
+      description: Who uses it, in what situation, and what they decide differently because of it.
+    validations:
+      required: true
+  - type: textarea
+    id: methodology
+    attributes:
+      label: Methodology and scoring model
+      description: The named framework it operationalizes and the explicit formula or rubric. "Best practices" is not a methodology.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Worked example
+      description: Realistic input, the calculation, and the output. This becomes the README example and the first golden eval case.
+    validations:
+      required: true

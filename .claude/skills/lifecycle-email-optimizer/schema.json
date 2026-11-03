@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "lifecycle-email-optimizer",
+  "description": "Output of the lifecycle-email-optimizer skill. Generated from b2b-agent-skills-marketing/skills/lifecycle-email-optimizer/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "lifecycle_stage": {
+      "type": "string"
+    },
+    "deliverability_layer": {
+      "type": "object",
+      "properties": {
+        "bounce_rate": {
+          "type": "number"
+        },
+        "spam_rate": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "bounce_rate",
+        "spam_rate",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "open_layer": {
+      "type": "object",
+      "properties": {
+        "open_rate": {
+          "type": "number"
+        },
+        "benchmark_range": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "open_rate",
+        "benchmark_range",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "click_layer": {
+      "type": "object",
+      "properties": {
+        "ctr_among_opens": {
+          "type": "number"
+        },
+        "benchmark_range": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ctr_among_opens",
+        "benchmark_range",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "diagnosis": {
+      "type": "string"
+    },
+    "recommended_action": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "lifecycle_stage",
+    "deliverability_layer",
+    "open_layer",
+    "click_layer",
+    "diagnosis",
+    "recommended_action"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "lifecycle_stage": "activation",
+      "deliverability_layer": {
+        "bounce_rate": 0.009,
+        "spam_rate": 0.0006,
+        "status": "pass"
+      },
+      "open_layer": {
+        "open_rate": 0.283,
+        "benchmark_range": [
+          0.35,
+          0.45
+        ],
+        "status": "fail"
+      },
+      "click_layer": {
+        "ctr_among_opens": 0.15,
+        "benchmark_range": [
+          0.05,
+          0.08
+        ],
+        "status": "pass"
+      },
+      "diagnosis": "open-layer failure — subject/sender/timing issue, not content",
+      "recommended_action": "test subject line, sender name, and send-time changes; do not revise body content yet"
+    }
+  ]
+}

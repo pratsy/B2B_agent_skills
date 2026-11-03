@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "audience-segmentation-optimizer",
+  "description": "Output of the audience-segmentation-optimizer skill. Generated from b2b-agent-skills-marketing/skills/audience-segmentation-optimizer/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "scored_accounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string"
+          },
+          "firmographic_fit": {
+            "type": "number"
+          },
+          "technographic_fit": {
+            "type": "number"
+          },
+          "engagement_intensity": {
+            "type": "number"
+          },
+          "intent_signal": {
+            "type": "number"
+          },
+          "intent_data_available": {
+            "type": "boolean"
+          },
+          "segment_fit_score": {
+            "type": "number"
+          },
+          "tier": {
+            "type": "number"
+          },
+          "recommended_motion": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "account_id",
+          "firmographic_fit",
+          "technographic_fit",
+          "engagement_intensity",
+          "intent_signal",
+          "intent_data_available",
+          "segment_fit_score",
+          "tier",
+          "recommended_motion",
+          "rationale"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "tier_summary": {
+      "type": "object",
+      "properties": {
+        "tier_1": {
+          "type": "number"
+        },
+        "tier_2": {
+          "type": "number"
+        },
+        "tier_3": {
+          "type": "number"
+        },
+        "deprioritized": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "tier_1",
+        "tier_2",
+        "tier_3",
+        "deprioritized"
+      ],
+      "additionalProperties": false
+    },
+    "data_quality_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "scored_accounts",
+    "tier_summary",
+    "data_quality_flags"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "scored_accounts": [
+        {
+          "account_id": "acct_4821",
+          "firmographic_fit": 100,
+          "technographic_fit": 100,
+          "engagement_intensity": 67,
+          "intent_signal": 100,
+          "intent_data_available": true,
+          "segment_fit_score": 91.75,
+          "tier": 1,
+          "recommended_motion": "named-account ABM",
+          "rationale": "Full ICP match, active Salesforce user, sustained 2-week intent surge on RevOps automation, engaged within last 5 days."
+        }
+      ],
+      "tier_summary": {
+        "tier_1": 1,
+        "tier_2": 0,
+        "tier_3": 0,
+        "deprioritized": 0
+      },
+      "data_quality_flags": [
+        "accounts_missing_intent_data"
+      ]
+    }
+  ]
+}

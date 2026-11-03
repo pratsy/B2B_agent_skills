@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "lead-prioritization-agent",
+  "description": "Output of the lead-prioritization-agent skill. Generated from b2b-agent-skills-sales/skills/lead-prioritization-agent/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "lead_id": {
+      "type": "string"
+    },
+    "fit_score": {
+      "type": "number"
+    },
+    "intent_score": {
+      "type": "number"
+    },
+    "quadrant": {
+      "type": "string"
+    },
+    "routing": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "lead_id",
+    "fit_score",
+    "intent_score",
+    "quadrant",
+    "routing",
+    "rationale"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "lead_id": "lead_9182",
+      "fit_score": 82,
+      "intent_score": 88,
+      "quadrant": "high fit / high intent",
+      "routing": "route to rep now",
+      "rationale": "strong ICP match and an explicit demo request within the last 3 days"
+    }
+  ]
+}

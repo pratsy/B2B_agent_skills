@@ -30,6 +30,10 @@ Accounts ranked by strategic value score, the recommended list size with its cap
 - Sizing the list beyond what available executives can realistically cover.
 - Scoring reference-ability from assumption instead of confirmed willingness.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-gtm/skills/strategic-account-priority-ranker/README.md`](../../../b2b-agent-skills-gtm/skills/strategic-account-priority-ranker/README.md)

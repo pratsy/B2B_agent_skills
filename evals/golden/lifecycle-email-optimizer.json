@@ -1,0 +1,54 @@
+{
+  "skill": "lifecycle-email-optimizer",
+  "cases": [
+    {
+      "id": "open-layer-failure",
+      "description": "Deliverability passes and openers click well; the failure is at the open layer.",
+      "source": "Worked example in b2b-agent-skills-*/skills/lifecycle-email-optimizer/README.md",
+      "readme_example": true,
+      "input": {
+        "lifecycle_stage": "activation",
+        "send_metrics": {
+          "sent": 5000,
+          "bounced": 45,
+          "spam_complaints": 3,
+          "opened": 1400,
+          "clicked": 210
+        },
+        "stage_success_metric": {
+          "metric": "activation_rate",
+          "value": 0.18,
+          "benchmark": 0.3
+        }
+      },
+      "assertions": [
+        {
+          "path": "deliverability_layer.status",
+          "equals": "pass"
+        },
+        {
+          "path": "open_layer.open_rate",
+          "approx": 0.283,
+          "tol": 0.003
+        },
+        {
+          "path": "open_layer.status",
+          "equals": "fail"
+        },
+        {
+          "path": "click_layer.ctr_among_opens",
+          "approx": 0.15,
+          "tol": 0.002
+        },
+        {
+          "path": "click_layer.status",
+          "equals": "pass"
+        },
+        {
+          "path": "recommended_action",
+          "matches": "subject"
+        }
+      ]
+    }
+  ]
+}

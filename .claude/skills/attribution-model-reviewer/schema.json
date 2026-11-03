@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "attribution-model-reviewer",
+  "description": "Output of the attribution-model-reviewer skill. Generated from b2b-agent-skills-revops/skills/attribution-model-reviewer/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "channels_analyzed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "type": "string"
+          },
+          "credit_by_model": {
+            "type": "object",
+            "properties": {
+              "first_touch": {
+                "type": "number"
+              },
+              "last_touch": {
+                "type": "number"
+              },
+              "linear": {
+                "type": "number"
+              },
+              "position_based": {
+                "type": "number"
+              },
+              "time_decay": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "first_touch",
+              "last_touch",
+              "linear",
+              "position_based",
+              "time_decay"
+            ],
+            "additionalProperties": false
+          },
+          "sensitivity_range_pct": {
+            "type": "number"
+          },
+          "sensitivity_level": {
+            "type": "string"
+          },
+          "recommendation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "channel",
+          "credit_by_model",
+          "sensitivity_range_pct",
+          "sensitivity_level",
+          "recommendation"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "channels_analyzed"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "channels_analyzed": [
+        {
+          "channel": "webinar",
+          "credit_by_model": {
+            "first_touch": 0.08,
+            "last_touch": 0.05,
+            "linear": 0.22,
+            "position_based": 0.12,
+            "time_decay": 0.18
+          },
+          "sensitivity_range_pct": 17,
+          "sensitivity_level": "high",
+          "recommendation": "report as a range with stated model assumption; consider a holdout test before reallocating budget"
+        }
+      ]
+    }
+  ]
+}

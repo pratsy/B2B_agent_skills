@@ -1,0 +1,64 @@
+{
+  "skill": "pipeline-health-monitor",
+  "cases": [
+    {
+      "id": "marginal-coverage-broken-stage",
+      "description": "Coverage is marginal, but the primary driver is a broken Discovery->Proposal conversion.",
+      "source": "Worked example in b2b-agent-skills-*/skills/pipeline-health-monitor/README.md",
+      "input": {
+        "open_pipeline_value": 2400000,
+        "remaining_quota": 700000,
+        "historical_win_rate": 0.22,
+        "stage_conversion_rates": [
+          {
+            "transition": "discovery_to_proposal",
+            "current_rate": 0.28,
+            "historical_median": 0.45
+          },
+          {
+            "transition": "proposal_to_negotiation",
+            "current_rate": 0.58,
+            "historical_median": 0.6
+          },
+          {
+            "transition": "negotiation_to_closed_won",
+            "current_rate": 0.7,
+            "historical_median": 0.72
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "coverage_ratio.actual",
+          "approx": 3.43,
+          "tol": 0.05
+        },
+        {
+          "path": "coverage_ratio.required",
+          "approx": 4.5,
+          "tol": 0.06
+        },
+        {
+          "path": "coverage_ratio.status",
+          "equals": "marginal"
+        },
+        {
+          "path": "stage_health[transition=discovery_to_proposal].status",
+          "equals": "broken"
+        },
+        {
+          "path": "stage_health[transition=proposal_to_negotiation].status",
+          "equals": "healthy"
+        },
+        {
+          "path": "overall_health",
+          "equals": "at risk"
+        },
+        {
+          "path": "primary_driver",
+          "matches": "discovery"
+        }
+      ]
+    }
+  ]
+}

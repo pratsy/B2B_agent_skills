@@ -1,0 +1,40 @@
+{
+  "skill": "executive-briefing-builder",
+  "cases": [
+    {
+      "id": "cfo-budget-approval",
+      "description": "Conclusion first: the governing thought states the ask and the cost-vs-price case; three MECE arguments.",
+      "source": "Worked example in b2b-agent-skills-*/skills/executive-briefing-builder/README.md",
+      "readme_example": true,
+      "input": {
+        "audience": "buyer's CFO",
+        "purpose": "secure approval to proceed to contract",
+        "key_facts": [
+          "forecast misses cost ~$180K/year in re-planning (VP Sales' estimate: $45K x 4/year)",
+          "3 reference customers of similar size report 20-25% variance reduction",
+          "implementation is 15 minutes, no IT involvement",
+          "price is $60K/year"
+        ],
+        "desired_ask": "approve the $60K/year budget"
+      },
+      "assertions": [
+        {
+          "path": "governing_thought",
+          "matches": "180"
+        },
+        {
+          "path": "supporting_arguments",
+          "length": 3
+        },
+        {
+          "path": "mece_check",
+          "matches": "pass"
+        },
+        {
+          "path": "audience",
+          "matches": "CFO"
+        }
+      ]
+    }
+  ]
+}

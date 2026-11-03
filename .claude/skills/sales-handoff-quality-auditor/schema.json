@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "sales-handoff-quality-auditor",
+  "description": "Output of the sales-handoff-quality-auditor skill. Generated from b2b-agent-skills-revops/skills/sales-handoff-quality-auditor/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "handoff_type": {
+      "type": "string"
+    },
+    "fields_scored": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "completeness_score": {
+      "type": "number"
+    },
+    "quality_band": {
+      "type": "string"
+    },
+    "critical_gaps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommended_action": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "handoff_type",
+    "fields_scored",
+    "completeness_score",
+    "quality_band",
+    "critical_gaps",
+    "recommended_action"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "handoff_type": "ae_to_cs",
+      "fields_scored": [
+        {
+          "field": "promises_made",
+          "status": "placeholder_only"
+        },
+        {
+          "field": "success_criteria",
+          "status": "substantive"
+        },
+        {
+          "field": "stakeholders",
+          "status": "substantive"
+        },
+        {
+          "field": "pre_close_risks",
+          "status": "missing"
+        },
+        {
+          "field": "technical_requirements",
+          "status": "substantive"
+        }
+      ],
+      "completeness_score": 60,
+      "quality_band": "poor",
+      "critical_gaps": [
+        "promises_made",
+        "pre_close_risks"
+      ],
+      "recommended_action": "CS should get promises_made and pre_close_risks directly from the AE before onboarding kickoff"
+    }
+  ]
+}

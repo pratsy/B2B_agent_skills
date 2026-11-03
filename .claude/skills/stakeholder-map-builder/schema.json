@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "stakeholder-map-builder",
+  "description": "Output of the stakeholder-map-builder skill. Generated from b2b-agent-skills-sales/skills/stakeholder-map-builder/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "deal_id": {
+      "type": "string"
+    },
+    "contacts_mapped": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "title",
+          "role",
+          "status",
+          "evidence"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "coverage_gaps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "single_threading_risk": {
+      "type": "boolean"
+    },
+    "blocker_identified": {
+      "type": "boolean"
+    },
+    "priority_action": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "deal_id",
+    "contacts_mapped",
+    "coverage_gaps",
+    "single_threading_risk",
+    "blocker_identified",
+    "priority_action"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "deal_id": "opp_5521",
+      "contacts_mapped": [
+        {
+          "name": "J. Alvarez",
+          "title": "VP Sales Ops",
+          "role": "economic_buyer",
+          "status": "assumed",
+          "evidence": "title only"
+        }
+      ],
+      "coverage_gaps": [
+        "economic_buyer not confirmed"
+      ],
+      "single_threading_risk": false,
+      "blocker_identified": false,
+      "priority_action": "confirm economic buyer directly or via champion-facilitated introduction"
+    }
+  ]
+}

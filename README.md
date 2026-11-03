@@ -1,72 +1,81 @@
 # B2B Agent Skills
 
 [![CI](https://github.com/pratsy/skills-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/pratsy/skills-AI/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/b2b-agent-skills)](https://pypi.org/project/b2b-agent-skills/)
+[![Python](https://img.shields.io/pypi/pyversions/b2b-agent-skills)](https://pypi.org/project/b2b-agent-skills/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Structured AI playbooks for B2B sales, marketing, RevOps, and GTM teams — built for the people who run revenue work, not just for prompting AI.
+**45 AI skills for B2B sales, marketing, RevOps and GTM, each built on a named methodology with a scoring model you can check and a JSON Schema output contract.**
 
-Most AI prompt libraries hand you a single instruction and stop there. This repo instead packages each skill with the business context an experienced operator would bring to the problem: why it matters, what usually goes wrong, what inputs it needs, and what a good answer looks like — so the output is a decision aid, not just generated text.
+Most AI prompt libraries give you one instruction and stop there. Each skill here encodes how an experienced operator works the problem: MEDDPICC scored by *evidence quality* rather than rep confidence, pipeline coverage calibrated to *your* win rate, TAM reconciled top-down against bottom-up. The output is a decision you can verify and wire into a pipeline, not generic text.
 
-## Who this is for
+Use the skills in **Claude Code**, from any **MCP client**, from **Python**, or over **HTTP**. One skill definition powers all four.
 
-Sales leaders, marketing and lifecycle teams, RevOps and forecasting teams, GTM operators and founders, and anyone building AI workflows around real revenue operations.
+![Demo: scoring a deal with deal-risk-assessor](docs/assets/demo.gif)
 
-## What's in the repo
+```bash
+pip install b2b-agent-skills
+b2b-skills run deal-risk-assessor -i examples/fixtures/deal_risk_input.json --provider claude-code   # uses your Claude login, no API key
+```
 
-| Pack | Covers | Skills |
-|---|---|---|
-| [`b2b-agent-skills-sales/`](b2b-agent-skills-sales/) | Prioritization, qualification, objection handling, deal risk, forecasting, account planning | 17 |
-| [`b2b-agent-skills-marketing/`](b2b-agent-skills-marketing/) | ICP, messaging, campaign diagnostics, ABM, lifecycle, content strategy | 15 |
-| [`b2b-agent-skills-revops/`](b2b-agent-skills-revops/) | Pipeline health, forecast bias, CRM hygiene, attribution, handoff quality | 5 |
-| [`b2b-agent-skills-gtm/`](b2b-agent-skills-gtm/) | Market intelligence, competitor signals, account prioritization | 8 |
+```json
+{
+  "deal_id": "opp_5521",
+  "pillar_scores": { "metrics": 3, "economic_buyer": 1, "decision_criteria": 2, "decision_process": 0, "paper_process": 0, "identify_pain": 3, "champion": 2, "competition": 1 },
+  "total_score": 12,
+  "risk_band": "high",
+  "single_point_of_failure": ["economic_buyer"],
+  "forecast_recommendation": "Pipeline only; do not forecast as closing this period",
+  "priority_action": "get a direct CFO conversation to confirm they are the economic buyer, validate the decision process, and surface the paper process"
+}
+```
 
-Supporting folders:
-
-- [`.claude/skills/`](.claude/skills/) — all 45 skills packaged as real Claude Code Skills you can invoke directly, not just read
-- [`sdk/`](sdk/) — a small Python SDK that runs any of the 45 skills programmatically, reading the same `.claude/skills/` definitions as the prompt (provider abstraction, output evaluation). See [`sdk/README.md`](sdk/README.md).
-- [`PROMPT_PACKS.md`](PROMPT_PACKS.md) — copy-paste prompts by role, as a faster on-ramp than reading a full skill README
-- [`examples/`](examples/) — sample input fixtures and a webhook app example
-- [`memory/`](memory/) — the checklist used to keep skills specific and evidence-grounded instead of generic
-- [`benchmarks/`](benchmarks/) — a small evaluation dataset and rubric for scoring skill output quality
+<sub>Real output (Claude Sonnet via `--provider claude-code`) for the sample deal, recorded in [docs/assets/demo-session.txt](docs/assets/demo-session.txt). Wording varies between runs; the scores follow the rubric.</sub>
 
 ## Quick start
 
-1. Pick the problem you already have (weak pipeline, unclear messaging, poor account prioritization, forecast risk, competitor noise).
-2. Open the matching pack above and find the skill whose title matches the problem.
-3. Read its README: business objective, inputs, decision logic, and a recommended prompt.
-4. Paste the prompt into your AI tool of choice along with your own data, run it via `sdk`, or — if you're in Claude Code — just ask; the matching skill in `.claude/skills/` is invoked automatically.
-5. Turn the output into a decision — who owns the action, and what happens next.
+| You want to… | Do this |
+|---|---|
+| Use the skills in **Claude Code** | `/plugin marketplace add pratsy/skills-AI`, then `/plugin install b2b-agent-skills@b2b-agent-skills`, then describe your problem |
+| Use them in **Claude Desktop, Cursor, or any MCP client** | `pip install "b2b-agent-skills[mcp]"` and add `b2b-skills mcp` as a server ([guide](docs/mcp.md)) |
+| Call them from **Python** | `run_skill("pipeline-health-monitor", data, provider="anthropic")` ([guide](docs/sdk.md)) |
+| Try them **without an API key** | `b2b-skills run <skill> -i input.json --provider claude-code` runs through your Claude Code login / Claude subscription |
+| Call them from **another service** | `b2b-skills serve` or the Docker image: an authenticated REST API ([guide](docs/http-api.md)) |
 
-For role-specific prompts you can copy-paste immediately, see [`PROMPT_PACKS.md`](PROMPT_PACKS.md).
+Full documentation: **https://pratsy.github.io/skills-AI/**
 
-## Every skill follows the same structure
+## What's in it
 
-- **When to use this** — concrete situations, not an abstract pitch
-- **Methodology** — the named, checkable framework it operationalizes (MEDDPICC, SPIN, the Value Proposition Canvas, TAM/SAM/SOM, and others — see each pack's `sources-and-frameworks.md`)
-- **Scoring model / decision logic** — an explicit formula or rubric, not a narrative
-- **Inputs**, a fully **worked example** with real numbers, and **common failure patterns** specific to that method
-- **Output schema** — so the skill can be wired into a pipeline, not just pasted as a prompt
-- **Recommended prompt** — ready to paste
-- **Grounded in** — what the skill is built on, linking to the pack's `sources-and-frameworks.md` for the full reference list
+| Pack | Covers | Skills |
+|---|---|---|
+| [Sales](b2b-agent-skills-sales/) | deal risk (MEDDPICC), forecast category, stakeholder maps, discovery (SPIN), objections, negotiation, pricing/ROI, renewals | 17 |
+| [Marketing](b2b-agent-skills-marketing/) | ICP refinement, segmentation, positioning (Dunford), messaging clarity, campaign diagnostics, ABM, lifecycle, content gaps | 15 |
+| [RevOps](b2b-agent-skills-revops/) | pipeline health, forecast bias, CRM data quality, attribution, handoff quality | 5 |
+| [GTM](b2b-agent-skills-gtm/) | market sizing (TAM/SAM/SOM), competitor and market signals, strategic account selection, win/loss themes | 8 |
 
-## Use these directly in Claude Code
+Every skill README has the same parts: when to use it, the methodology, the scoring model, inputs, a worked example with real numbers, common failure patterns, the output schema, and sources. Browse the [skill catalog](https://pratsy.github.io/skills-AI/skills/).
 
-All 45 skills are packaged as real [Claude Code Skills](https://code.claude.com/docs/en/skills) in [`.claude/skills/`](.claude/skills/), not just markdown to copy-paste. Clone this repo and open Claude Code anywhere inside it, and Claude can invoke any of them — `deal-risk-assessor`, `pipeline-health-monitor`, `market-sizing-modeler`, and so on — directly against your own data. Copy any folder into your own project's `.claude/skills/` to use it there — no install step. See [`.claude/skills/README.md`](.claude/skills/README.md) for the full list.
+## Why you can build on it
 
-## Using skills in code
+- **Structured outputs, validated.** Each skill ships a JSON Schema ([`schema.json`](.claude/skills/deal-risk-assessor/schema.json)). Claude and OpenAI are constrained to it, every response is validated, and invalid output is retried once with the errors as feedback, then raised as an error. You never get unvalidated output silently.
+- **Golden evals check answers, not just shape.** [`evals/golden/`](evals/golden/) has 60 cases covering all 45 skills, e.g. *forecast-confidence-model must call a MEDDPICC-20 deal Best Case when it's stalled at 1.89× the median time-in-stage*. Run them against any model with `b2b-skills eval`, including through your Claude subscription (`--provider claude-code`), or from GitHub Actions.
+- **Production defaults.** Prompt caching on skill instructions, server-side refusal fallbacks on Claude, token usage on every result, a bearer-token HTTP server that refuses to start without auth, and a non-root Docker image.
+- **Minimal footprint.** The core depends only on `jsonschema`. Providers, MCP, and the server are optional extras.
 
-`sdk` is a thin runtime that reads the same `.claude/skills/<name>/SKILL.md` files used by Claude Code, sends them to a pluggable model provider (mock provider for testing, or Anthropic/OpenAI for real runs) along with your input data, and evaluates the output's structure — one source of truth for both surfaces, so they can't drift apart. Works for any of the 45 skills, not a subset.
+## Repository layout
 
-```bash
-python3 -m pip install -r requirements.txt
-python3 -m sdk.runner renewal_risk_scorer --input examples/fixtures/renewal_input.json
 ```
-
-See [`sdk/README.md`](sdk/README.md) for how the public skill packs relate to the runtime layer, and [`benchmarks/README.md`](benchmarks/README.md) for how output quality is scored.
+.claude/skills/<skill>/        SKILL.md + schema.json - the one definition every surface reads
+b2b-agent-skills-<pack>/       human-readable methodology READMEs (source of truth for schemas)
+b2b_agent_skills/              Python package: SDK, CLI, MCP server, HTTP server
+evals/golden/                  golden eval cases
+.claude-plugin/                Claude Code plugin + marketplace manifests
+docs/                          documentation site (MkDocs)
+```
 
 ## Contributing
 
-Contributions that improve a skill's clarity, correctness, or grounding are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). Please avoid submitting near-duplicate skills; if you're extending an existing one, improve it in place instead.
+The most useful contributions right now are **more golden eval cases** (contrast and edge cases), fixes to skill methodology, and real-model eval reports. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues privately ([SECURITY.md](SECURITY.md)).
 
 ## License
 

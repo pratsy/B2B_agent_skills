@@ -1,0 +1,52 @@
+{
+  "skill": "nurture-sequence-architect",
+  "cases": [
+    {
+      "id": "engagement-branched",
+      "description": "Steps move from solution-aware to vendor-aware, with graduate and suppress exits.",
+      "source": "Worked example in b2b-agent-skills-*/skills/nurture-sequence-architect/README.md",
+      "readme_example": true,
+      "input": {
+        "entry_segment": "downloaded buyer's guide, no demo request",
+        "lead_score_at_entry": 62,
+        "available_content": [
+          {
+            "title": "Comparison guide",
+            "stage": "solution-aware",
+            "format": "pdf"
+          },
+          {
+            "title": "Customer story",
+            "stage": "solution-aware",
+            "format": "case_study"
+          },
+          {
+            "title": "ROI case study",
+            "stage": "vendor-aware",
+            "format": "case_study"
+          },
+          {
+            "title": "Objection-handling comparison",
+            "stage": "vendor-aware",
+            "format": "landing_page"
+          }
+        ],
+        "engagement_history": []
+      },
+      "assertions": [
+        {
+          "path": "steps[0].content_stage",
+          "equals": "solution-aware"
+        },
+        {
+          "path": "steps[0].day",
+          "equals": 0
+        },
+        {
+          "path": "reengagement_track_trigger",
+          "matches": "no.open|decay"
+        }
+      ]
+    }
+  ]
+}

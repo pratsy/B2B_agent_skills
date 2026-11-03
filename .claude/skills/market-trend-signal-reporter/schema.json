@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "market-trend-signal-reporter",
+  "description": "Output of the market-trend-signal-reporter skill. Generated from b2b-agent-skills-gtm/skills/market-trend-signal-reporter/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "candidate_trend": {
+      "type": "string"
+    },
+    "independent_source_count": {
+      "type": "number"
+    },
+    "corroborating_signal_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "observed_over_multiple_periods": {
+      "type": "boolean"
+    },
+    "signal_to_noise_score": {
+      "type": "number"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "reporting_recommendation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "candidate_trend",
+    "independent_source_count",
+    "corroborating_signal_types",
+    "observed_over_multiple_periods",
+    "signal_to_noise_score",
+    "classification",
+    "reporting_recommendation"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "candidate_trend": "B2B buyers increasingly expect AI-native features as baseline",
+      "independent_source_count": 2,
+      "corroborating_signal_types": [
+        "media"
+      ],
+      "observed_over_multiple_periods": false,
+      "signal_to_noise_score": 36.7,
+      "classification": "early/unconfirmed signal",
+      "reporting_recommendation": "report as an early signal to watch, not a confirmed trend; revisit after 2+ more periods of data"
+    }
+  ]
+}

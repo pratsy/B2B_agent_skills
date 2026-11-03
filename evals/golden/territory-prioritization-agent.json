@@ -1,0 +1,54 @@
+{
+  "skill": "territory-prioritization-agent",
+  "cases": [
+    {
+      "id": "big-cold-vs-small-warm",
+      "description": "Rank by TAM x capture likelihood, surfacing both numbers.",
+      "source": "Worked example in b2b-agent-skills-*/skills/territory-prioritization-agent/README.md",
+      "readme_example": true,
+      "input": {
+        "rep_capacity": 2,
+        "territory_accounts": [
+          {
+            "account_id": "acct_A",
+            "tam_estimate": 200000,
+            "icp_fit_score": 0.9,
+            "relationship_status": 0.1,
+            "competitive_openness": 0.1
+          },
+          {
+            "account_id": "acct_B",
+            "tam_estimate": 90000,
+            "icp_fit_score": 0.8,
+            "relationship_status": 1.0,
+            "competitive_openness": 0.5
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "accounts_ranked[account_id=acct_A].capture_likelihood",
+          "approx": 0.42,
+          "tol": 0.005
+        },
+        {
+          "path": "accounts_ranked[account_id=acct_A].priority_score",
+          "approx": 84000
+        },
+        {
+          "path": "accounts_ranked[account_id=acct_B].capture_likelihood",
+          "approx": 0.77,
+          "tol": 0.005
+        },
+        {
+          "path": "accounts_ranked[account_id=acct_B].priority_score",
+          "approx": 69300
+        },
+        {
+          "path": "accounts_ranked[0].account_id",
+          "equals": "acct_A"
+        }
+      ]
+    }
+  ]
+}

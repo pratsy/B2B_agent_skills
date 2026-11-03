@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "account-plan-generator",
+  "description": "Output of the account-plan-generator skill. Generated from b2b-agent-skills-sales/skills/account-plan-generator/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "account_name": {
+      "type": "string"
+    },
+    "owned": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "business_unit": {
+            "type": "string"
+          },
+          "product": {
+            "type": "string"
+          },
+          "usage_health": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "business_unit",
+          "product",
+          "usage_health"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "whitespace_ranked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "business_unit": {
+            "type": "string"
+          },
+          "opportunity_estimate": {
+            "type": "number"
+          },
+          "relationship_multiplier": {
+            "type": "number"
+          },
+          "priority_score": {
+            "type": "number"
+          },
+          "next_action": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "business_unit",
+          "opportunity_estimate",
+          "relationship_multiplier",
+          "priority_score",
+          "next_action"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "account_name",
+    "owned",
+    "whitespace_ranked"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "account_name": "Meridian Capital",
+      "owned": [
+        {
+          "business_unit": "Sales Ops",
+          "product": "deal-risk module",
+          "usage_health": "healthy"
+        }
+      ],
+      "whitespace_ranked": [
+        {
+          "business_unit": "Customer Success",
+          "opportunity_estimate": 120000,
+          "relationship_multiplier": 0.5,
+          "priority_score": 60000,
+          "next_action": "confirm the existing contact's role and use them to scope a renewal-risk pilot"
+        },
+        {
+          "business_unit": "Marketing Ops",
+          "opportunity_estimate": 80000,
+          "relationship_multiplier": 0.2,
+          "priority_score": 16000,
+          "next_action": "identify a first contact before pursuing"
+        }
+      ]
+    }
+  ]
+}

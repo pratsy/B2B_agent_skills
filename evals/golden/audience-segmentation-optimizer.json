@@ -1,0 +1,108 @@
+{
+  "skill": "audience-segmentation-optimizer",
+  "cases": [
+    {
+      "id": "meridian-full-icp-match",
+      "description": "Full ICP match with recent demo-page engagement and a sustained 2-week intent surge scores Tier 1.",
+      "source": "Worked example in b2b-agent-skills-*/skills/audience-segmentation-optimizer/README.md",
+      "readme_example": true,
+      "input": {
+        "as_of_date": "2026-09-10",
+        "icp_definition": {
+          "industries": [
+            "Financial Services",
+            "SaaS"
+          ],
+          "employee_band": [
+            100,
+            1000
+          ],
+          "geography": [
+            "US",
+            "Canada"
+          ],
+          "required_tech": [
+            "Salesforce"
+          ],
+          "competitor_tech": [
+            "Clari"
+          ]
+        },
+        "accounts": [
+          {
+            "account_id": "acct_4821",
+            "industry": "Financial Services",
+            "employee_count": 340,
+            "geography": "US-Northeast",
+            "tech_stack": [
+              "Salesforce",
+              "Marketo",
+              "Snowflake"
+            ],
+            "touches_90d": [
+              {
+                "date": "2026-09-05",
+                "type": "demo_page",
+                "weight": 10
+              },
+              {
+                "date": "2026-08-30",
+                "type": "product_page",
+                "weight": 6
+              },
+              {
+                "date": "2026-08-20",
+                "type": "blog",
+                "weight": 2
+              }
+            ],
+            "intent_topics": [
+              {
+                "topic": "RevOps automation",
+                "weekly_surge_pct": 62,
+                "weeks_sustained": 2
+              }
+            ]
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "scored_accounts[account_id=acct_4821].firmographic_fit",
+          "equals": 100
+        },
+        {
+          "path": "scored_accounts[account_id=acct_4821].technographic_fit",
+          "equals": 100
+        },
+        {
+          "path": "scored_accounts[account_id=acct_4821].engagement_intensity",
+          "approx": 67,
+          "tol": 1,
+          "why": "40 recency (5 days) + 9 frequency (3 touches x 3) + 18 depth (10+6+2)"
+        },
+        {
+          "path": "scored_accounts[account_id=acct_4821].intent_signal",
+          "equals": 100
+        },
+        {
+          "path": "scored_accounts[account_id=acct_4821].segment_fit_score",
+          "approx": 91.75,
+          "tol": 0.75
+        },
+        {
+          "path": "scored_accounts[account_id=acct_4821].tier",
+          "one_of": [
+            1,
+            "1",
+            "tier 1"
+          ]
+        },
+        {
+          "path": "tier_summary.tier_1",
+          "equals": 1
+        }
+      ]
+    }
+  ]
+}

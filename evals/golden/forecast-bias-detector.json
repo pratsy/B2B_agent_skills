@@ -1,0 +1,102 @@
+{
+  "skill": "forecast-bias-detector",
+  "cases": [
+    {
+      "id": "consistent-sandbagger",
+      "description": "3 of 4 quarters above 1.15 is a confirmed sandbagging pattern.",
+      "source": "Worked example in b2b-agent-skills-*/skills/forecast-bias-detector/README.md",
+      "readme_example": true,
+      "input": {
+        "rep_id": "rep_882",
+        "period_history": [
+          {
+            "period": "2025-Q4",
+            "self_declared_commit": 100000,
+            "actual_closed_won_from_commit_deals": 122000
+          },
+          {
+            "period": "2026-Q1",
+            "self_declared_commit": 100000,
+            "actual_closed_won_from_commit_deals": 131000
+          },
+          {
+            "period": "2026-Q2",
+            "self_declared_commit": 100000,
+            "actual_closed_won_from_commit_deals": 118000
+          },
+          {
+            "period": "2026-Q3",
+            "self_declared_commit": 100000,
+            "actual_closed_won_from_commit_deals": 109000
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "period_bias_ratios",
+          "length": 4
+        },
+        {
+          "path": "trailing_bias_score",
+          "approx": 1.2,
+          "tol": 0.01
+        },
+        {
+          "path": "classification",
+          "equals": "sandbagging"
+        },
+        {
+          "path": "recommended_correction_factor",
+          "approx": 1.2,
+          "tol": 0.02
+        },
+        {
+          "path": "consistency",
+          "matches": "3 (out )?of 4"
+        }
+      ]
+    },
+    {
+      "id": "noisy-not-biased",
+      "description": "Ratios swinging both ways are noise; no correction factor should be applied.",
+      "source": "Worked example in b2b-agent-skills-*/skills/forecast-bias-detector/README.md",
+      "input": {
+        "rep_id": "rep_301",
+        "period_history": [
+          {
+            "period": "2025-Q4",
+            "self_declared_commit": 100000,
+            "actual_closed_won_from_commit_deals": 125000
+          },
+          {
+            "period": "2026-Q1",
+            "self_declared_commit": 100000,
+            "actual_closed_won_from_commit_deals": 78000
+          },
+          {
+            "period": "2026-Q2",
+            "self_declared_commit": 100000,
+            "actual_closed_won_from_commit_deals": 120000
+          },
+          {
+            "period": "2026-Q3",
+            "self_declared_commit": 100000,
+            "actual_closed_won_from_commit_deals": 80000
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "classification",
+          "matches": "nois"
+        },
+        {
+          "path": "recommended_correction_factor",
+          "approx": 1.0,
+          "tol": 0.001,
+          "why": "no correction for noise"
+        }
+      ]
+    }
+  ]
+}

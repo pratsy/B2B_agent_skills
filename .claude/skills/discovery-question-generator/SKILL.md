@@ -29,6 +29,10 @@ The sequence, labeled by stage, with a one-line note on the purpose of each Impl
 - Skipping Implication entirely and jumping to a pitch.
 - Writing Need-payoff questions that describe the product instead of asking the buyer to state the value themselves.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-sales/skills/discovery-question-generator/README.md`](../../../b2b-agent-skills-sales/skills/discovery-question-generator/README.md)

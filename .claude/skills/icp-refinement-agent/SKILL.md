@@ -31,6 +31,10 @@ Attributes ranked by lift with confidence level, a revised ICP definition (attri
 - Computing lift without the pipeline base rate for comparison.
 - Refreshing the ICP once and never again — lift shifts as the market and competitive landscape change.
 
+## Output format
+
+When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-marketing/skills/icp-refinement-agent/README.md`](../../../b2b-agent-skills-marketing/skills/icp-refinement-agent/README.md)

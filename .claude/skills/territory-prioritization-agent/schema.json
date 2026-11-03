@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "territory-prioritization-agent",
+  "description": "Output of the territory-prioritization-agent skill. Generated from b2b-agent-skills-sales/skills/territory-prioritization-agent/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "accounts_ranked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string"
+          },
+          "tam_estimate": {
+            "type": "number"
+          },
+          "capture_likelihood": {
+            "type": "number"
+          },
+          "priority_score": {
+            "type": "number"
+          },
+          "tier": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "account_id",
+          "tam_estimate",
+          "capture_likelihood",
+          "priority_score",
+          "tier"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "tiering": {
+      "type": "object",
+      "properties": {
+        "primary_pct": {
+          "type": "number"
+        },
+        "secondary_pct": {
+          "type": "number"
+        },
+        "light_touch_pct": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "primary_pct",
+        "secondary_pct",
+        "light_touch_pct"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "accounts_ranked",
+    "tiering"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "accounts_ranked": [
+        {
+          "account_id": "acct_A",
+          "tam_estimate": 200000,
+          "capture_likelihood": 0.42,
+          "priority_score": 84000,
+          "tier": "primary"
+        },
+        {
+          "account_id": "acct_B",
+          "tam_estimate": 90000,
+          "capture_likelihood": 0.77,
+          "priority_score": 69300,
+          "tier": "primary"
+        }
+      ],
+      "tiering": {
+        "primary_pct": 20,
+        "secondary_pct": 30,
+        "light_touch_pct": 50
+      }
+    }
+  ]
+}
