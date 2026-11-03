@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "persona-insight-extractor input",
+  "description": "Inputs for the persona-insight-extractor skill. Generated from b2b-agent-skills-marketing/skills/persona-insight-extractor/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "source_transcripts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_id": {},
+          "type": {},
+          "persona_role": {},
+          "text": {}
+        }
+      },
+      "description": "list[{source_id, type, persona_role, text}] - e.g. raw interview/call/ticket text"
+    },
+    "persona_role": {
+      "type": "string",
+      "description": "string - e.g. which role these sources represent, e.g. `\"VP Sales\"`"
+    },
+    "minimum_frequency_threshold": {
+      "type": "number",
+      "description": "float - e.g. default 0.4"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "pipeline-health-monitor input",
+  "description": "Inputs for the pipeline-health-monitor skill. Generated from b2b-agent-skills-revops/skills/pipeline-health-monitor/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "open_pipeline_value": {
+      "type": "number",
+      "description": "number - e.g. `2400000`"
+    },
+    "remaining_quota": {
+      "type": "number",
+      "description": "number - e.g. `700000`"
+    },
+    "historical_win_rate": {
+      "type": "number",
+      "description": "float - e.g. `0.22`"
+    },
+    "stage_conversion_rates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "transition": {},
+          "current_rate": {},
+          "historical_median": {}
+        }
+      },
+      "description": "list[{transition, current_rate, historical_median}]"
+    }
+  }
+}

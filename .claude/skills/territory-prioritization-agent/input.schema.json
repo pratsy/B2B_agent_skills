@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "territory-prioritization-agent input",
+  "description": "Inputs for the territory-prioritization-agent skill. Generated from b2b-agent-skills-sales/skills/territory-prioritization-agent/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "territory_accounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "account_id": {},
+          "tam_estimate": {},
+          "icp_fit_score": {},
+          "relationship_status": {},
+          "competitive_openness": {}
+        }
+      },
+      "description": "list[{account_id, tam_estimate, icp_fit_score, relationship_status, competitive_openness}]"
+    },
+    "rep_capacity": {
+      "type": "number",
+      "description": "int - e.g. realistic number of accounts a rep can meaningfully work this cycle, used to size the primary tier"
+    }
+  }
+}

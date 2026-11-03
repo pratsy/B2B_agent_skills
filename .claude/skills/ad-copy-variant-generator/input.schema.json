@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ad-copy-variant-generator input",
+  "description": "Inputs for the ad-copy-variant-generator skill. Generated from b2b-agent-skills-marketing/skills/ad-copy-variant-generator/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "product_value_prop": {
+      "type": "string",
+      "description": "string - e.g. core claim to build variants around"
+    },
+    "target_persona": {
+      "type": "string",
+      "description": "string - e.g. who the ad targets"
+    },
+    "proof_points_available": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. real stats/customer names usable in the proof-led variant"
+    },
+    "baseline_conversion_rate": {
+      "type": "number",
+      "description": "float - e.g. current CTR or CVR, for sample-size calculation"
+    },
+    "minimum_detectable_effect": {
+      "type": "number",
+      "description": "float - e.g. default 0.20 (20% relative lift)"
+    }
+  }
+}

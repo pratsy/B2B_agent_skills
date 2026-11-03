@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "executive-briefing-builder input",
+  "description": "Inputs for the executive-briefing-builder skill. Generated from b2b-agent-skills-sales/skills/executive-briefing-builder/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "audience": {
+      "type": "string",
+      "description": "string - e.g. `\"buyer's CFO\"` or `\"our VP Sales\"`"
+    },
+    "purpose": {
+      "type": "string",
+      "description": "string - e.g. e.g. `\"secure approval to proceed to contract\"`"
+    },
+    "key_facts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. raw facts/evidence available"
+    },
+    "desired_ask": {
+      "type": "string",
+      "description": "string - e.g. the specific action wanted from this audience"
+    }
+  }
+}

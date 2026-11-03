@@ -42,6 +42,7 @@ class Skill:
     instructions: str
     schema: dict[str, Any] = field(repr=False)
     path: Path = field(repr=False)
+    input_schema: dict[str, Any] = field(default_factory=dict, repr=False)
 
     @property
     def example_output(self) -> dict[str, Any] | None:
@@ -57,6 +58,17 @@ class Skill:
     @property
     def output_fields(self) -> list[str]:
         return list(self.schema.get("required", []))
+
+    @property
+    def input_fields(self) -> dict[str, str]:
+        """Documented input fields and their descriptions (from the README's Inputs table)."""
+        return {k: v.get("description", "") for k, v in self.input_schema.get("properties", {}).items()}
+
+    @property
+    def stage(self) -> str:
+        from .catalog import stage_of
+
+        return stage_of(self.name)
 
 
 def skills_dir() -> Path:
@@ -95,12 +107,15 @@ def _load(directory: str, slug: str) -> Skill:
         raise SkillNotFoundError(slug, available=list_skills())
     meta, body = _parse_frontmatter(skill_md.read_text(encoding="utf-8"))
     schema = json.loads(schema_path.read_text(encoding="utf-8")) if schema_path.is_file() else {}
+    input_path = skill_dir / "input.schema.json"
+    input_schema = json.loads(input_path.read_text(encoding="utf-8")) if input_path.is_file() else {}
     return Skill(
         name=meta.get("name", slug),
         description=meta.get("description", ""),
         instructions=body,
         schema=schema,
         path=skill_dir,
+        input_schema=input_schema,
     )
 
 

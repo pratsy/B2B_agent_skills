@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "messaging-clarity-auditor input",
+  "description": "Inputs for the messaging-clarity-auditor skill. Generated from b2b-agent-skills-marketing/skills/messaging-clarity-auditor/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "asset_type": {
+      "type": "string",
+      "description": "string - e.g. `\"homepage hero\"`, `\"one-pager\"`, `\"email subject+body\"`"
+    },
+    "core_claims": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. headline, subhead, and top supporting points, as separate strings"
+    },
+    "known_competitors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. used for the differentiation swap test"
+    },
+    "available_proof_points": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. real stats/customers the team could cite, for rewrite suggestions"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "account-priority-matrix-builder input",
+  "description": "Inputs for the account-priority-matrix-builder skill. Generated from b2b-agent-skills-gtm/skills/account-priority-matrix-builder/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "segment_name": {
+      "type": "string",
+      "description": "string"
+    },
+    "tam_estimate": {
+      "type": "number",
+      "description": "number - e.g. from market-sizing-modeler"
+    },
+    "acv_index": {
+      "type": "number",
+      "description": "float - e.g. this segment's ACV / company average ACV"
+    },
+    "strategic_fit": {
+      "type": "number",
+      "description": "float (0-1)"
+    },
+    "sales_cycle_index": {
+      "type": "number",
+      "description": "float - e.g. this segment's cycle length / company average"
+    },
+    "competitive_intensity": {
+      "type": "number",
+      "description": "float (0-1)"
+    },
+    "historical_win_rate": {
+      "type": "number",
+      "description": "float"
+    }
+  }
+}

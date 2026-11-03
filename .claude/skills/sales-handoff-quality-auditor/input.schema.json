@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "sales-handoff-quality-auditor input",
+  "description": "Inputs for the sales-handoff-quality-auditor skill. Generated from b2b-agent-skills-revops/skills/sales-handoff-quality-auditor/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "handoff_type": {
+      "type": "string",
+      "description": "enum - e.g. `sdr_to_ae | ae_to_cs`"
+    },
+    "handoff_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {},
+          "content": {}
+        }
+      },
+      "description": "list[{field, content}] - e.g. the actual handoff notes/fields as submitted"
+    },
+    "required_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. the checklist for this handoff type"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "lead-prioritization-agent input",
+  "description": "Inputs for the lead-prioritization-agent skill. Generated from b2b-agent-skills-sales/skills/lead-prioritization-agent/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "lead_id": {
+      "type": "string",
+      "description": "string"
+    },
+    "icp_attributes": {
+      "type": "object",
+      "description": "object - e.g. industry, size, role, tech stack"
+    },
+    "icp_weights": {
+      "type": "object",
+      "description": "object - e.g. attribute weights, ideally lift-derived"
+    },
+    "engagement_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {},
+          "type": {},
+          "weight": {}
+        }
+      },
+      "description": "list[{date, type, weight}]"
+    },
+    "explicit_high_intent_action": {
+      "type": "boolean",
+      "description": "bool - e.g. requested demo/pricing/trial"
+    }
+  }
+}

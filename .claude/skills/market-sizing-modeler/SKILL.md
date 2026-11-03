@@ -39,6 +39,8 @@ Both estimates, the divergence %, a verdict on which is more defensible and why,
 
 When the caller needs machine-readable output (an API, a pipeline, or an explicit request for JSON), return a single JSON object that validates against [`schema.json`](schema.json) in this skill's folder: every field it lists, no extra fields. Otherwise, present the same fields as a readable summary.
 
+With little data (roughly fewer than 15 deals, accounts, interviews, or periods behind a rate, lift, or benchmark), still compute the result but label it provisional with the sample size, e.g. "provisional (n=8)".
+
 ## Reference
 
 Full methodology and worked example: [`b2b-agent-skills-gtm/skills/market-sizing-modeler/README.md`](../../../b2b-agent-skills-gtm/skills/market-sizing-modeler/README.md)

@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0] - Unreleased
+
+Founder workspace: company context, free-text input, and the first playbook.
+
+### Added
+
+- **`b2b-skills init`**: creates a GTM workspace (`company.md`, agent rules in `CLAUDE.md`, `.mcp.json`, `gtm/` for deals and run history). Ten short questions; `--website` drafts the answers from the company's site first and marks them "verify".
+- **Company context**: inside a workspace, `company.md` is added to every skill and playbook call, so output is specific to the company. It goes in the user message, so skill instructions stay cacheable.
+- **Free-text input**: `b2b-skills run <skill> --notes call.txt` extracts the skill's inputs from notes or transcripts (.txt, .md, .vtt, .srt, JSON exports). Every extracted value needs a verbatim quote, and quotes are checked in code: unverifiable values are dropped and become questions for the user.
+- **Input schemas**: `.claude/skills/<skill>/input.schema.json`, generated from each README's Inputs table (drift-checked in CI). `b2b-skills show <skill> --inputs`.
+- **Playbooks**: `b2b-skills playbook call-debrief --notes call.txt` turns a call into a verdict, next 3 actions, missing evidence, stakeholders, objection handling, and a draft follow-up email, appended to `gtm/deals/<deal>.md`. Also available as a Claude Code skill (via the plugin) and over MCP (`list_playbooks`, `get_playbook`, `run_playbook`).
+- **Playbook evals** (`evals/playbooks/`, `b2b-skills eval --playbooks`), including cases that fail if the report invents evidence or proof points. 3/3 pass on Claude Sonnet 4.5.
+- **Stages**: every skill is labeled early, growth, or scale; `b2b-skills list --stage early`.
+- **Small-sample rule**: results built on little data are labeled "provisional (n=...)".
+- **Run log**: every run inside a workspace is appended to `gtm/runs/YYYY-MM.jsonl`.
+
 ## [0.2.0] - 2026-11-03
 
 Production release: installable package, structured outputs, golden evals, MCP server, Claude Code plugin.

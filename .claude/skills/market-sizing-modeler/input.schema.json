@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "market-sizing-modeler input",
+  "description": "Inputs for the market-sizing-modeler skill. Generated from b2b-agent-skills-gtm/skills/market-sizing-modeler/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "published_market_size": {
+      "type": "object",
+      "properties": {
+        "figure": {},
+        "source": {},
+        "category_scope": {}
+      },
+      "description": "{figure, source, category_scope} - e.g. e.g. `{\"figure\": 12000000000, \"source\": \"industry report X\", \"category_scope\": \"broader than our specific segment\"}`"
+    },
+    "category_narrowing_pct": {
+      "type": "number",
+      "description": "float - e.g. your estimate of what % of the published figure matches your specific category"
+    },
+    "sam_constraint_pct": {
+      "type": "number",
+      "description": "float - e.g. % of TAM addressable given your actual product/geo/motion constraints"
+    },
+    "target_account_count": {
+      "type": "number",
+      "description": "int - e.g. from bottom-up ICP-matched account counting"
+    },
+    "realistic_acv": {
+      "type": "number",
+      "description": "number - e.g. from actual comparable-customer contract values, not list price"
+    },
+    "time_horizon_years": {
+      "type": "number",
+      "description": "int - e.g. for SOM capture estimate"
+    },
+    "realistic_capture_rate": {
+      "type": "number",
+      "description": "float - e.g. your estimated realistic win share of SAM within the horizon"
+    }
+  }
+}

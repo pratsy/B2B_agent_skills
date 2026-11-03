@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "pricing-justification-builder input",
+  "description": "Inputs for the pricing-justification-builder skill. Generated from b2b-agent-skills-sales/skills/pricing-justification-builder/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "status_quo_pain": {
+      "type": "object",
+      "description": "object - e.g. `{\"description\": \"manual forecast review\", \"frequency_per_year\": 4, \"cost_per_occurrence\": 45000}`"
+    },
+    "expected_improvement_pct": {
+      "type": "number",
+      "description": "float - e.g. `0.22`"
+    },
+    "improvement_source": {
+      "type": "string",
+      "description": "string - e.g. which reference customer/data this % comes from"
+    },
+    "annual_price": {
+      "type": "number",
+      "description": "number - e.g. `60000`"
+    }
+  }
+}

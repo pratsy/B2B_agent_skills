@@ -43,7 +43,8 @@ class MockProvider(Provider):
 
     Returns the skill's documented worked-example output (from its README), so
     the whole pipeline - prompt build, parse, schema validation, golden
-    assertions - runs without a network call or API key.
+    assertions - runs without a network call or API key. Extraction calls
+    return nothing extracted, and playbook reports return the required headings.
     """
 
     name = "mock"
@@ -54,6 +55,15 @@ class MockProvider(Provider):
     def complete(self, *, system: str, user: str, schema: dict[str, Any] | None, skill: str) -> Completion:
         if self._response is not None:
             payload = self._response
+        elif skill.endswith(":extract"):
+            payload = {"input": {}, "evidence": [], "missing": []}
+        elif skill.endswith(":report"):
+            import re
+
+            headings = re.findall(r"^- (## .+)$", system, re.M)
+            payload = "\n\n".join(f"{h}\n\n(mock report section)" for h in headings) or "(mock report)"
+        elif ":" in skill:
+            payload = {}
         else:
             from .registry import get_skill
 

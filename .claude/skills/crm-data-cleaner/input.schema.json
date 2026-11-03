@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "crm-data-cleaner input",
+  "description": "Inputs for the crm-data-cleaner skill. Generated from b2b-agent-skills-revops/skills/crm-data-cleaner/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "description": "string"
+    },
+    "required_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {},
+          "populated": {}
+        }
+      },
+      "description": "list[{field, populated}]"
+    },
+    "stage": {
+      "type": "string",
+      "description": "string"
+    },
+    "last_activity_date": {
+      "type": "string",
+      "description": "date"
+    },
+    "last_modified_date": {
+      "type": "string",
+      "description": "date"
+    },
+    "amount": {
+      "type": "number",
+      "description": "number"
+    },
+    "business_context": {
+      "type": "string",
+      "description": "enum - e.g. `open_this_quarter | open_later | active_renewal | closed`"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "multi-threading-plan-builder input",
+  "description": "Inputs for the multi-threading-plan-builder skill. Generated from b2b-agent-skills-sales/skills/multi-threading-plan-builder/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "coverage_gaps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. from stakeholder-map-builder output, e.g. `[\"economic_buyer not confirmed\", \"no blocker identified\"]`"
+    },
+    "known_contacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {},
+          "role": {},
+          "relationship_strength": {}
+        }
+      },
+      "description": "list[{name, role, relationship_strength}] - e.g. current stakeholder map"
+    },
+    "champion_internal_credibility": {
+      "type": "string",
+      "description": "enum - e.g. `unproven | some evidence | strong` — has the champion demonstrably moved things internally before"
+    }
+  }
+}

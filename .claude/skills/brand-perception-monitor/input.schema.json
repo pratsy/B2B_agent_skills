@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "brand-perception-monitor input",
+  "description": "Inputs for the brand-perception-monitor skill. Generated from b2b-agent-skills-marketing/skills/brand-perception-monitor/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "branded_search_trend": {
+      "type": "object",
+      "properties": {
+        "current": {},
+        "prior_period": {}
+      },
+      "description": "{current, prior_period} - e.g. awareness proxy"
+    },
+    "share_of_voice_vs_competitors": {
+      "type": "object",
+      "properties": {
+        "current": {},
+        "prior_period": {}
+      },
+      "description": "{current, prior_period} - e.g. awareness proxy"
+    },
+    "mention_sentiment": {
+      "type": "object",
+      "properties": {
+        "positive": {},
+        "neutral": {},
+        "negative": {},
+        "prior_period_positive_pct": {}
+      },
+      "description": "{positive, neutral, negative, prior_period_positive_pct} - e.g. favorability proxy"
+    },
+    "review_site_rating_trend": {
+      "type": "object",
+      "properties": {
+        "current": {},
+        "prior_period": {}
+      },
+      "description": "{current, prior_period} - e.g. favorability proxy"
+    },
+    "shortlist_rate_in_closed_lost": {
+      "type": "object",
+      "properties": {
+        "current": {},
+        "prior_period": {}
+      },
+      "description": "{current, prior_period} - e.g. consideration proxy"
+    },
+    "unprompted_differentiator_recall": {
+      "type": "object",
+      "properties": {
+        "pct_of_winloss_interviews_citing_it": {},
+        "prior_period_pct": {}
+      },
+      "description": "{pct_of_winloss_interviews_citing_it, prior_period_pct} - e.g. differentiation proxy"
+    }
+  }
+}

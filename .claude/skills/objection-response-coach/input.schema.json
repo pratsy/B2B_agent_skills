@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "objection-response-coach input",
+  "description": "Inputs for the objection-response-coach skill. Generated from b2b-agent-skills-sales/skills/objection-response-coach/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "objection_text": {
+      "type": "string",
+      "description": "string - e.g. the buyer's stated objection, as close to verbatim as possible"
+    },
+    "deal_context": {
+      "type": "object",
+      "description": "object - e.g. stage, MEDDPICC evidence if available, prior discovery notes"
+    },
+    "explore_answer": {
+      "type": "string",
+      "description": "string (optional) - e.g. the buyer's answer to the diagnostic Explore question, if already asked"
+    }
+  }
+}

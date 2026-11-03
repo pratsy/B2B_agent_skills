@@ -40,7 +40,7 @@ def test_mcp_server_exposes_tools_and_prompts(monkeypatch):
 
     server = build_server()
     tools = {t.name for t in asyncio.run(server.list_tools())}
-    assert tools == {"list_skills", "get_skill"}, "run_skill must only appear when a real provider is configured"
+    assert tools == {"list_skills", "get_skill", "list_playbooks", "get_playbook"}, "run_* tools only appear with a real provider"
     prompts = asyncio.run(server.list_prompts())
     assert len(prompts) == 45
     rendered = asyncio.run(server.get_prompt("deal-risk-assessor", {"input_json": '{"deal_id": "opp_9"}'}))
@@ -55,7 +55,7 @@ def test_mcp_server_adds_run_skill_with_a_real_provider(monkeypatch):
     from b2b_agent_skills.mcp_server import build_server
 
     tools = {t.name for t in asyncio.run(build_server().list_tools())}
-    assert "run_skill" in tools
+    assert {"run_skill", "run_playbook"} <= tools
 
 
 def test_http_server_requires_auth_and_runs_skills():

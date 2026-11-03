@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "discovery-question-generator input",
+  "description": "Inputs for the discovery-question-generator skill. Generated from b2b-agent-skills-sales/skills/discovery-question-generator/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "persona": {
+      "type": "string",
+      "description": "string - e.g. `\"VP Sales, mid-market SaaS\"`"
+    },
+    "known_context": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. facts already known from research, to skip redundant Situation questions"
+    },
+    "hypothesis_problem": {
+      "type": "string",
+      "description": "string - e.g. the problem you believe this persona likely has, to focus the Problem/Implication questions"
+    },
+    "call_length_minutes": {
+      "type": "number",
+      "description": "int - e.g. used to calibrate how many questions per stage fit"
+    }
+  }
+}

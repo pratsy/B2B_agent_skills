@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "win-loss-theme-clusterer input",
+  "description": "Inputs for the win-loss-theme-clusterer skill. Generated from b2b-agent-skills-gtm/skills/win-loss-theme-clusterer/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "win_loss_interviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "deal_id": {},
+          "outcome": {},
+          "transcript_or_notes": {}
+        }
+      },
+      "description": "list[{deal_id, outcome, transcript_or_notes}] - e.g. both wins and losses, required for delta calculation"
+    },
+    "candidate_themes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] (optional) - e.g. seed themes if a prior round already identified some"
+    }
+  }
+}

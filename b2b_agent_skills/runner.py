@@ -45,7 +45,11 @@ def build_system_prompt(skill: Skill) -> str:
         "Enumerated values (bands, categories, statuses, pillar or field names) must use the exact terms "
         "from the instructions above, without extra commentary inside the value. If the input is missing "
         "information a field depends on, still return the field, and say what is missing in the most "
-        "relevant free-text field rather than inventing evidence."
+        "relevant free-text field rather than inventing evidence.\n\n"
+        "Small samples: when a rate, lift, benchmark, or pattern rests on little data (roughly fewer than 15 "
+        "deals, accounts, interviews, or periods), still compute it, but label the conclusion in the free-text "
+        "fields as provisional with the sample size, e.g. 'provisional (n=8)'. Never present a small-sample "
+        "result with the confidence of a large one."
     )
     example = skill.example_output
     if example:
@@ -61,8 +65,17 @@ def build_system_prompt(skill: Skill) -> str:
     return skill.instructions + contract
 
 
-def build_user_prompt(input_data: dict[str, Any]) -> str:
-    return f"## Input data\n\n```json\n{json.dumps(input_data, indent=2, sort_keys=True)}\n```"
+def build_user_prompt(input_data: dict[str, Any], context: str | None = None) -> str:
+    """The per-call message: optional company context, then the input data."""
+    parts = []
+    if context:
+        parts.append(
+            "## Company context\n\nBackground on the company you are working for. Use it to make the output "
+            "specific (their product, ICP, competitors, proof points); it is not evidence about this deal or "
+            f"account.\n\n{context.strip()}"
+        )
+    parts.append(f"## Input data\n\n```json\n{json.dumps(input_data, indent=2, sort_keys=True)}\n```")
+    return "\n\n".join(parts)
 
 
 def _load_input(input: dict[str, Any] | str | Path | None) -> dict[str, Any]:
@@ -84,6 +97,7 @@ def run_skill(
     provider: Provider | str | None = None,
     raise_on_invalid: bool = True,
     max_attempts: int = 2,
+    context: str | None = None,
 ) -> SkillResult:
     """Run ``skill`` on ``input`` (a dict or a path to a JSON file).
 
@@ -92,6 +106,9 @@ def run_skill(
     retried once with the validation errors as feedback; if it is still
     invalid, :class:`SkillOutputError` is raised (or, with
     ``raise_on_invalid=False``, the result is returned with ``valid=False``).
+
+    ``context`` is background text about the company (e.g. a workspace's
+    company.md), added to the message so the output is specific to them.
     """
     spec = get_skill(skill)
     if provider is None or isinstance(provider, str):
@@ -103,7 +120,7 @@ def run_skill(
         )
 
     system = build_system_prompt(spec)
-    user = build_user_prompt(input_data)
+    user = build_user_prompt(input_data, context)
     schema = spec.output_schema or None
 
     usage: dict[str, int] = {}
@@ -131,7 +148,7 @@ def run_skill(
         )
         if result.valid:
             break
-        user = build_user_prompt(input_data) + (
+        user = build_user_prompt(input_data, context) + (
             "\n\nYour previous response was rejected for these reasons:\n- "
             + "\n- ".join(errors[:20])
             + "\nReturn a corrected JSON object."

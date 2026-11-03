@@ -1,0 +1,17 @@
+{
+  "name": "call-debrief",
+  "title": "Call debrief",
+  "description": "Turn a sales call transcript or notes into a deal verdict, the next three actions, the evidence still missing, and a draft follow-up email.",
+  "inputs": "call transcript or notes (text, .md, .txt, .vtt)",
+  "stage": "early",
+  "steps": [
+    {"id": "risk", "skill": "deal-risk-assessor"},
+    {"id": "stakeholders", "skill": "stakeholder-map-builder"},
+    {"id": "objection", "skill": "objection-response-coach", "requires": ["objection_text"]}
+  ],
+  "report": {
+    "headings": ["Verdict", "Next 3 actions", "Missing evidence", "Stakeholders", "Objection", "Draft follow-up email"],
+    "subject_field": "deal_id",
+    "save_to": "gtm/deals/{subject}.md"
+  }
+}

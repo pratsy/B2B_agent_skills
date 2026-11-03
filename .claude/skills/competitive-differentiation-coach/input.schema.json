@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "competitive-differentiation-coach input",
+  "description": "Inputs for the competitive-differentiation-coach skill. Generated from b2b-agent-skills-sales/skills/competitive-differentiation-coach/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "competitor": {
+      "type": "string",
+      "description": "string - e.g. `\"Clari\"`"
+    },
+    "differentiators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claim": {},
+          "evidence_tier": {},
+          "win_loss_citations": {}
+        }
+      },
+      "description": "list[{claim, evidence_tier, win_loss_citations}] - e.g. the pack's tagged battlecard data"
+    },
+    "buyer_stated_priorities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. from discovery notes"
+    }
+  }
+}

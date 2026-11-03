@@ -222,23 +222,78 @@ def _run_case(skill: str, case: dict[str, Any], provider: Provider) -> tuple[Cas
     return result, run.model
 
 
+def playbook_golden_dir() -> Path:
+    bundled = _PACKAGE_DIR / "_evals_playbooks"
+    return bundled if bundled.is_dir() else _PACKAGE_DIR.parent / "evals" / "playbooks"
+
+
+def load_playbook_golden() -> list[dict[str, Any]]:
+    root = playbook_golden_dir()
+    return [json.loads(p.read_text(encoding="utf-8")) for p in sorted(root.glob("*.json"))] if root.is_dir() else []
+
+
+def _context_workspace(context: str) -> Any:
+    """A throwaway workspace holding only company.md, for cases that test context handling."""
+    import tempfile
+
+    from .workspace import Workspace
+
+    root = Path(tempfile.mkdtemp(prefix="b2b-eval-"))
+    (root / "company.md").write_text(context, encoding="utf-8")
+    return Workspace(root)
+
+
+def _run_playbook_case(playbook: str, case: dict[str, Any], provider: Provider) -> tuple[CaseResult, str | None]:
+    from .playbooks import run_playbook
+
+    label = f"playbook:{playbook}"
+    total = len(case.get("assertions", []))
+    try:
+        workspace = _context_workspace(case["context"]) if case.get("context") else None
+        result = run_playbook(playbook, case["notes"], provider=provider, workspace=workspace, save=False)
+    except (ProviderError, SkillOutputError, ValueError) as e:
+        return CaseResult(label, case["id"], False, False, 0, total, error=str(e)), None
+    data = result.to_dict()
+    failures = [f"step {k} failed: {v.error}" for k, v in result.steps.items() if v.status == "failed"]
+    passed = 0
+    for a in case.get("assertions", []):
+        ok, message = check_assertion(data, a)
+        if ok:
+            passed += 1
+        else:
+            failures.append(f"{message} ({a['why']})" if a.get("why") else message)
+    no_failed_steps = not any(v.status == "failed" for v in result.steps.values())
+    return CaseResult(label, case["id"], no_failed_steps and passed == total, no_failed_steps, passed, total, failures), None
+
+
 def run_golden(
     provider: Provider | str | None = None,
     skills: list[str] | None = None,
     concurrency: int = 1,
+    playbooks: bool = False,
 ) -> EvalReport:
     """Run every golden case (optionally only for ``skills``) against ``provider``.
 
     ``concurrency`` runs that many cases in parallel threads; results keep file order.
+    ``playbooks=True`` also runs the playbook suites in evals/playbooks/.
     """
     from concurrent.futures import ThreadPoolExecutor
 
     if provider is None or isinstance(provider, str):
         provider = get_provider(provider)
     wanted = set(skills) if skills else None
-    jobs = [(s["skill"], c) for s in load_golden() if not wanted or s["skill"] in wanted for c in s["cases"]]
+    jobs: list[tuple[str, str, dict[str, Any]]] = [
+        ("skill", s["skill"], c) for s in load_golden() if not wanted or s["skill"] in wanted for c in s["cases"]
+    ]
+    if playbooks:
+        jobs += [("playbook", s["playbook"], c) for s in load_playbook_golden() for c in s["cases"]]
+
+    def run(job: tuple[str, str, dict[str, Any]]) -> tuple[CaseResult, str | None]:
+        kind, name, case = job
+        return _run_playbook_case(name, case, provider) if kind == "playbook" else _run_case(name, case, provider)
+
     with ThreadPoolExecutor(max_workers=max(1, concurrency)) as pool:
-        outcomes = list(pool.map(lambda job: _run_case(job[0], job[1], provider), jobs))
+        outcomes = list(pool.map(run, jobs))
     models = [m for _, m in outcomes if m]
     model = models[-1] if models else getattr(provider, "model", provider.name)
     return EvalReport(provider=provider.name, model=str(model), cases=[r for r, _ in outcomes])

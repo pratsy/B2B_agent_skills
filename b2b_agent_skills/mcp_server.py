@@ -71,6 +71,41 @@ def build_server() -> Any:
         description="Load a skill's methodology (instructions) and the JSON Schema its output must follow.",
     )
 
+    from .playbooks import list_playbooks, load_playbook, playbooks_dir
+    from .workspace import find_workspace
+
+    def list_playbooks_tool() -> list[dict[str, str]]:
+        return [{"name": n, "description": load_playbook(n)["description"]} for n in list_playbooks()]
+
+    def get_playbook_tool(name: str) -> dict[str, Any]:
+        spec = load_playbook(name)
+        steps_md = (playbooks_dir() / name / "SKILL.md").read_text(encoding="utf-8")
+        return {
+            "name": name,
+            "description": spec["description"],
+            "instructions": steps_md,
+            "skills_used": [s["skill"] for s in spec["steps"]],
+        }
+
+    server.add_tool(list_playbooks_tool, name="list_playbooks", description="List multi-step GTM playbooks (e.g. call-debrief).")
+    server.add_tool(
+        get_playbook_tool,
+        name="get_playbook",
+        description="Load a playbook's step-by-step instructions and the skills it uses; follow them with get_skill for each step.",
+    )
+
+    workspace = find_workspace()
+    if workspace:
+
+        def get_company_context_tool() -> str:
+            return workspace.company_context()
+
+        server.add_tool(
+            get_company_context_tool,
+            name="get_company_context",
+            description="The company's context (company.md): product, ICP, competitors, proof points. Background, not deal evidence.",
+        )
+
     provider_name = os.getenv("PROVIDER", "").lower()
     if provider_name in {"anthropic", "openai", "claude-code"}:
         from .providers import get_provider
@@ -86,6 +121,18 @@ def build_server() -> Any:
             run_skill_tool,
             name="run_skill",
             description=f"Run a skill server-side on {provider_name} and return schema-validated JSON output.",
+        )
+
+        from .playbooks import run_playbook
+
+        def run_playbook_tool(name: str, notes: str, subject: str | None = None) -> dict[str, Any]:
+            result = run_playbook(name, notes, provider=provider, workspace=workspace, subject=subject)
+            return {"report": result.report, "missing_evidence": result.missing, "saved_to": result.saved_to}
+
+        server.add_tool(
+            run_playbook_tool,
+            name="run_playbook",
+            description=f"Run a playbook server-side on {provider_name} from raw notes; returns the one-page report and saves it to the workspace.",
         )
 
     for slug in list_skills():

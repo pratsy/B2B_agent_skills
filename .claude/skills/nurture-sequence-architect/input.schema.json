@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "nurture-sequence-architect input",
+  "description": "Inputs for the nurture-sequence-architect skill. Generated from b2b-agent-skills-marketing/skills/nurture-sequence-architect/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "entry_segment": {
+      "type": "string",
+      "description": "string - e.g. `\"downloaded buyer's guide, no demo request\"`"
+    },
+    "available_content": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {},
+          "stage": {},
+          "format": {}
+        }
+      },
+      "description": "list[{title, stage, format}] - e.g. content inventory tagged by funnel stage"
+    },
+    "lead_score_at_entry": {
+      "type": "number",
+      "description": "int - e.g. `62`"
+    },
+    "engagement_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {},
+          "opened": {},
+          "clicked": {},
+          "date": {}
+        }
+      },
+      "description": "list[{step, opened, clicked, date}] - e.g. per-lead send history, for the decay calculation"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "executive-sponsor-identifier input",
+  "description": "Inputs for the executive-sponsor-identifier skill. Generated from b2b-agent-skills-sales/skills/executive-sponsor-identifier/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {},
+          "title": {},
+          "function": {},
+          "seniority": {},
+          "engagement_evidence": {}
+        }
+      },
+      "description": "list[{name, title, function, seniority, engagement_evidence}] - e.g. every senior contact identified so far"
+    },
+    "deal_size": {
+      "type": "number",
+      "description": "number - e.g. used to calibrate typical approval seniority"
+    },
+    "champion_notes": {
+      "type": "string",
+      "description": "string - e.g. anything the champion has said about who approves"
+    }
+  }
+}

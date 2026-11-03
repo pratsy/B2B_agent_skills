@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "forecast-bias-detector input",
+  "description": "Inputs for the forecast-bias-detector skill. Generated from b2b-agent-skills-revops/skills/forecast-bias-detector/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "rep_id": {
+      "type": "string",
+      "description": "string"
+    },
+    "period_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "period": {},
+          "self_declared_commit": {},
+          "actual_closed_won_from_commit_deals": {}
+        }
+      },
+      "description": "list[{period, self_declared_commit, actual_closed_won_from_commit_deals}] - e.g. trailing 4+ periods"
+    }
+  }
+}
