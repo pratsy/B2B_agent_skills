@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.0] - Unreleased
+## [0.2.0] - 2026-11-03
 
 Production release: installable package, structured outputs, golden evals, MCP server, Claude Code plugin.
 
