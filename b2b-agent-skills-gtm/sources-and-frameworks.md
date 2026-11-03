@@ -22,3 +22,8 @@ This repo is informed by public GTM strategy, market intelligence, competitor mo
 ### How these inform this repo
 
 These references help structure account prioritization, competitive intelligence, market trend synthesis, and strategic GTM operating insight in a practical B2B setting.
+
+## Product-market fit
+
+- Sean Ellis and Morgan Brown, *Hacking Growth* (2017): the "very disappointed" survey and the 40% benchmark.
+- Rahul Vohra, "How Superhuman Built an Engine to Find Product/Market Fit", First Round Review (2018): segmenting the survey and learning from very-disappointed users.

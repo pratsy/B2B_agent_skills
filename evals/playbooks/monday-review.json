@@ -1,0 +1,84 @@
+{
+  "playbook": "monday-review",
+  "cases": [
+    {
+      "id": "flags-and-evidence",
+      "description": "Overdue and stale deals are flagged in code; the deal with debrief notes is re-scored from them; deals without notes are called out as having no evidence.",
+      "today": "2026-11-09",
+      "deals": [
+        {
+          "Deal Name": "Acme Logistics",
+          "Company": "Acme Logistics",
+          "Amount": "48000",
+          "Deal Stage": "Proposal",
+          "Close Date": "2026-12-15",
+          "Last Activity Date": "2026-10-28"
+        },
+        {
+          "Deal Name": "Brightline Q4",
+          "Company": "Brightline",
+          "Amount": "30000",
+          "Deal Stage": "Negotiation",
+          "Close Date": "2026-10-31",
+          "Last Activity Date": "2026-10-01"
+        },
+        {
+          "Deal Name": "Cobalt pilot",
+          "Company": "Cobalt",
+          "Amount": "12000",
+          "Deal Stage": "Discovery",
+          "Close Date": "2027-01-30",
+          "Last Activity Date": "2026-11-06"
+        }
+      ],
+      "deal_notes": {
+        "acme-logistics": "# acme-logistics\n\n## Call debrief (2026-10-28)\n\nDiscovery call - Acme Logistics - 2026-10-28\nAttendees: Priya Shah (VP Revenue Operations, Acme), Tom Becker (Sales Ops Analyst, Acme), me (founder)\n\nPriya: Our forecast was off by 30% last quarter and our CFO, Martin Gray, had to explain it to the board. That can't happen again.\nPriya: I'm sponsoring this evaluation. I already shared your one-pager with my team and set up the internal review for next Tuesday.\nTom: We're also looking at Clari, mainly because our CRO used it at his last company.\nMe: Who signs off on a purchase like this?\nTom: I think Martin probably signs anything over $50K, but I'm not sure.\nPriya: Honestly, the price you quoted is more than we budgeted for this year.\nMe: Understood. What does the approval process look like after your internal review?\nPriya: Not sure yet, I'd have to check with procurement. We haven't involved legal.\nNext step: Priya to share their evaluation criteria doc by Friday."
+      },
+      "assertions": [
+        {
+          "path": "deals[0].deal.deal_name",
+          "equals": "Brightline Q4",
+          "why": "close date passed + 39 days without activity + no notes"
+        },
+        {
+          "path": "deals[deal_name=Brightline Q4].flags",
+          "contains": "close date passed (2026-10-31)"
+        },
+        {
+          "path": "deals[deal_name=Brightline Q4].flags",
+          "contains": "no activity for 39 days"
+        },
+        {
+          "path": "deals[deal_name=Acme Logistics].notes_file",
+          "equals": "gtm/deals/acme-logistics.md"
+        },
+        {
+          "path": "deals[deal_name=Acme Logistics].risk.single_point_of_failure",
+          "contains": "economic_buyer"
+        },
+        {
+          "path": "deals[deal_name=Cobalt pilot].flags",
+          "contains": "no evidence on file (no debrief notes)"
+        },
+        {
+          "path": "report",
+          "matches": "## This week's focus"
+        },
+        {
+          "path": "report",
+          "matches": "Brightline"
+        },
+        {
+          "path": "report",
+          "matches": "^(?![\\s\\S]*/\\s*40\\b)[\\s\\S]*$",
+          "why": "MEDDPICC is out of 24"
+        },
+        {
+          "path": "report",
+          "matches": "## This week's focus\\s+1\\.\\s*\\**\\s*Brightline",
+          "why": "focus follows the computed priority order"
+        }
+      ]
+    }
+  ]
+}

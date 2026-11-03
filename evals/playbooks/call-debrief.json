@@ -1,0 +1,123 @@
+{
+  "playbook": "call-debrief",
+  "cases": [
+    {
+      "id": "strong-pain-unconfirmed-eb",
+      "description": "Pain is confirmed and the champion is real, but the economic buyer is only named by a non-champion and the paper process is unknown: not Commit, with a budget objection to diagnose.",
+      "notes": "Discovery call - Acme Logistics - 2026-10-28\nAttendees: Priya Shah (VP Revenue Operations, Acme), Tom Becker (Sales Ops Analyst, Acme), me (founder)\n\nPriya: Our forecast was off by 30% last quarter and our CFO, Martin Gray, had to explain it to the board. That can't happen again.\nPriya: I'm sponsoring this evaluation. I already shared your one-pager with my team and set up the internal review for next Tuesday.\nTom: We're also looking at Clari, mainly because our CRO used it at his last company.\nMe: Who signs off on a purchase like this?\nTom: I think Martin probably signs anything over $50K, but I'm not sure.\nPriya: Honestly, the price you quoted is more than we budgeted for this year.\nMe: Understood. What does the approval process look like after your internal review?\nPriya: Not sure yet, I'd have to check with procurement. We haven't involved legal.\nNext step: Priya to share their evaluation criteria doc by Friday.",
+      "assertions": [
+        {
+          "path": "steps.risk.status",
+          "equals": "ok"
+        },
+        {
+          "path": "steps.risk.output.pillar_scores.economic_buyer",
+          "lte": 1,
+          "why": "the CFO is only named, with doubt, by a non-champion"
+        },
+        {
+          "path": "steps.risk.output.pillar_scores.paper_process",
+          "equals": 0,
+          "why": "legal not involved, process unknown"
+        },
+        {
+          "path": "steps.risk.output.single_point_of_failure",
+          "contains": "economic_buyer"
+        },
+        {
+          "path": "steps.risk.output.forecast_recommendation",
+          "matches": "best case|pipeline"
+        },
+        {
+          "path": "steps.stakeholders.output.single_threading_risk",
+          "equals": false,
+          "why": "Priya and Tom are both confirmed contacts"
+        },
+        {
+          "path": "steps.objection.status",
+          "equals": "ok"
+        },
+        {
+          "path": "steps.objection.output.classification",
+          "matches": "price|value|ambiguous"
+        },
+        {
+          "path": "report",
+          "matches": "## Verdict"
+        },
+        {
+          "path": "report",
+          "matches": "## Draft follow-up email"
+        },
+        {
+          "path": "report",
+          "matches": "Martin|CFO"
+        },
+        {
+          "path": "report",
+          "matches": "\\b\\d{1,2}\\s*/\\s*24\\b",
+          "why": "MEDDPICC total is reported out of 24"
+        },
+        {
+          "path": "report",
+          "matches": "^(?![\\s\\S]*/\\s*40\\b)[\\s\\S]*$",
+          "why": "never the wrong scale"
+        },
+        {
+          "path": "report",
+          "matches": "^(?![\\s\\S]*single.threading risk\\W{0,4}yes)[\\s\\S]*$",
+          "why": "report must not contradict the stakeholder skill (2 confirmed contacts)"
+        }
+      ]
+    },
+    {
+      "id": "thin-notes-no-invented-evidence",
+      "description": "'They seemed keen' is not evidence: no pillar above 1, no objection step, and the report says the evidence is missing.",
+      "notes": "Quick call with Dana from Acme. Great conversation, they seemed really keen on the product.\nWill follow up next week.",
+      "assertions": [
+        {
+          "path": "steps.risk.output.pillar_scores.economic_buyer",
+          "equals": 0
+        },
+        {
+          "path": "steps.risk.output.pillar_scores.champion",
+          "lte": 1,
+          "why": "enthusiasm is not a confirmed champion"
+        },
+        {
+          "path": "steps.risk.output.total_score",
+          "lte": 3
+        },
+        {
+          "path": "steps.objection.status",
+          "equals": "skipped"
+        },
+        {
+          "path": "report",
+          "matches": "missing|unknown|not confirmed|no evidence|thin|provisional"
+        }
+      ]
+    },
+    {
+      "id": "no-invented-proof-points",
+      "description": "The seller's context has no proof points; the report and email must not invent customer results or percentages.",
+      "context": "# Northwind Forecasting\n\n## What we sell\n\nForecast risk scoring for B2B sales teams.\n\n## Proof points\n\n_Not filled in yet._",
+      "notes": "Discovery call - Acme Logistics - 2026-10-28\nAttendees: Priya Shah (VP Revenue Operations, Acme), Tom Becker (Sales Ops Analyst, Acme), me (founder)\n\nPriya: Our forecast was off by 30% last quarter and our CFO, Martin Gray, had to explain it to the board. That can't happen again.\nPriya: I'm sponsoring this evaluation. I already shared your one-pager with my team and set up the internal review for next Tuesday.\nTom: We're also looking at Clari, mainly because our CRO used it at his last company.\nMe: Who signs off on a purchase like this?\nTom: I think Martin probably signs anything over $50K, but I'm not sure.\nPriya: Honestly, the price you quoted is more than we budgeted for this year.\nMe: Understood. What does the approval process look like after your internal review?\nPriya: Not sure yet, I'd have to check with procurement. We haven't involved legal.\nNext step: Priya to share their evaluation criteria doc by Friday.",
+      "assertions": [
+        {
+          "path": "steps.risk.status",
+          "equals": "ok"
+        },
+        {
+          "path": "report",
+          "matches": "^(?![\\s\\S]*\\b\\d{1,3}% (improvement|reduction|better|faster|increase|more accurate))[\\s\\S]*$",
+          "why": "no invented customer-result percentages"
+        },
+        {
+          "path": "report",
+          "matches": "## Draft follow-up email"
+        }
+      ]
+    }
+  ]
+}

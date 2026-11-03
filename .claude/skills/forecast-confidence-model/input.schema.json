@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "forecast-confidence-model input",
+  "description": "Inputs for the forecast-confidence-model skill. Generated from b2b-agent-skills-sales/skills/forecast-confidence-model/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "deal_id": {
+      "type": "string",
+      "description": "string - e.g. `opp_5521`"
+    },
+    "meddpicc_score": {
+      "type": "number",
+      "description": "int (0-24) - e.g. from deal-risk-assessor"
+    },
+    "current_stage": {
+      "type": "string",
+      "description": "string - e.g. e.g. `\"negotiation\"`"
+    },
+    "days_in_current_stage": {
+      "type": "number",
+      "description": "int - e.g. `34`"
+    },
+    "historical_median_days_in_stage": {
+      "type": "object",
+      "description": "object - e.g. median days per stage, from closed-won history"
+    },
+    "rep_id": {
+      "type": "string",
+      "description": "string - e.g. `rep_882`"
+    },
+    "rep_trailing_commit_accuracy": {
+      "type": "number",
+      "description": "float - e.g. `0.55`"
+    }
+  }
+}

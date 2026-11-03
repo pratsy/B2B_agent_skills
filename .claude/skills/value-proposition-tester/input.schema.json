@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "value-proposition-tester input",
+  "description": "Inputs for the value-proposition-tester skill. Generated from b2b-agent-skills-marketing/skills/value-proposition-tester/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "customer_jobs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. `[\"Hit quarterly forecast accurately\"]`"
+    },
+    "customer_pains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pain": {},
+          "importance": {}
+        }
+      },
+      "description": "list[{pain, importance}] - e.g. `[{\"pain\": \"Spend 6+ hrs/week manually updating deal risk in spreadsheets\", \"importance\": \"Extreme\"}]`"
+    },
+    "customer_gains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "gain": {},
+          "importance": {}
+        }
+      },
+      "description": "list[{gain, importance}] - e.g. `[{\"gain\": \"Catch at-risk deals before they slip\", \"importance\": \"High\"}]`"
+    },
+    "value_prop_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claim": {},
+          "pain_relievers": {},
+          "gain_creators": {}
+        }
+      },
+      "description": "list[{claim, pain_relievers, gain_creators}] - e.g. candidate messages to test"
+    }
+  }
+}

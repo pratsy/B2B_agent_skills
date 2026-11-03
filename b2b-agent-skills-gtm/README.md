@@ -10,6 +10,7 @@ Open-source AI playbooks for strategic go-to-market intelligence, competitive aw
 - strategic account planning
 - signal interpretation
 - opportunity sizing
+- product-market fit measurement
 
 ## Featured skills
 
@@ -21,6 +22,7 @@ Open-source AI playbooks for strategic go-to-market intelligence, competitive aw
 - account-priority-matrix-builder
 - market-shift-monitor
 - competitor-signal-clusterer
+- pmf-survey-analyzer
 
 ## Standard skill format
 
@@ -35,6 +37,7 @@ Every skill in this library follows the same operational structure — see [`mem
 ## Named methodologies used in this pack
 
 - **TAM/SAM/SOM sizing, reconciled top-down and bottom-up** — `market-sizing-modeler`
+- **Sean Ellis 40% product-market-fit test, segmented** — `pmf-survey-analyzer`
 - **Frequency/decisiveness/win-rate-delta theme scoring** — `win-loss-theme-clusterer`
 - **Move-type taxonomy with overlap/confirmation/pattern materiality scoring** — `competitor-monitor`
 - **Strategic-theme clustering with trajectory (accelerating/stable/fading) scoring** — `competitor-signal-clusterer`

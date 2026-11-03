@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "market-shift-monitor input",
+  "description": "Inputs for the market-shift-monitor skill. Generated from b2b-agent-skills-gtm/skills/market-shift-monitor/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "signal_description": {
+      "type": "string",
+      "description": "string"
+    },
+    "category": {
+      "type": "string",
+      "description": "enum - e.g. regulatory | economic | technological | social | competitive_structural"
+    },
+    "breadth_evidence": {
+      "type": "string",
+      "description": "string - e.g. how many sources/companies/segments show this signal"
+    },
+    "velocity_evidence": {
+      "type": "string",
+      "description": "string - e.g. how fast/recently this has developed"
+    },
+    "durability_rationale": {
+      "type": "string",
+      "description": "string - e.g. why this is/isn't likely a lasting shift"
+    },
+    "breadth_score": {
+      "type": "number",
+      "description": "float (0-1) each"
+    },
+    "velocity_score": {
+      "type": "number",
+      "description": "float (0-1) each"
+    },
+    "durability_score": {
+      "type": "number",
+      "description": "float (0-1) each"
+    }
+  }
+}

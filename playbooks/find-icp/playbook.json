@@ -1,0 +1,12 @@
+{
+  "name": "find-icp",
+  "kind": "icp",
+  "title": "Find my ICP",
+  "description": "Find who you should really sell to: attribute lift from your won vs. lost accounts (computed exactly), patterns from customer interviews, and a proposed gtm/icp.json, with how confident the evidence is.",
+  "inputs": "--customers accounts.csv (with an outcome column) and/or --notes interviews/",
+  "stage": "early",
+  "skills_used": ["icp-refinement-agent", "persona-insight-extractor"],
+  "report": {
+    "headings": ["Who to sell to", "Buying trigger", "Who to avoid", "Evidence", "Confidence", "Proposed ICP"]
+  }
+}

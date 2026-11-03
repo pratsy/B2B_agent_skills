@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "brand-positioning-synthesizer input",
+  "description": "Inputs for the brand-positioning-synthesizer skill. Generated from b2b-agent-skills-marketing/skills/brand-positioning-synthesizer/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "competitive_alternatives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. `[\"Manual spreadsheet tracking\", \"Clari\", \"Status quo / no tool\"]`"
+    },
+    "product_attributes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. `[\"Real-time CRM sync\", \"Explainable AI risk scoring\", \"No-code rule builder\"]`"
+    },
+    "win_loss_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. quotes/themes from closed-won and closed-lost deals"
+    },
+    "customer_segments": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "list[object] - e.g. candidate target markets with size, urgency, current alternative"
+    },
+    "category_candidates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. existing categories buyer already searches for, or a new frame"
+    }
+  }
+}

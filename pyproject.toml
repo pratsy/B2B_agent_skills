@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "b2b-agent-skills"
 dynamic = ["version"]
-description = "45 evidence-grounded AI skills for B2B sales, marketing, RevOps and GTM - with JSON Schema outputs, golden evals, an MCP server and a Claude Code plugin."
+description = "Open-source GTM workspace for founder-led sales: call debriefs, ICP discovery, lead scoring, and pipeline reviews on 46 evidence-grounded skills, with evals, an MCP server, and a Claude Code plugin."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -67,12 +67,16 @@ packages = ["b2b_agent_skills"]
 [tool.hatch.build.targets.wheel.force-include]
 ".claude/skills" = "b2b_agent_skills/_skills"
 "evals/golden" = "b2b_agent_skills/_evals"
+"evals/playbooks" = "b2b_agent_skills/_evals_playbooks"
+"playbooks" = "b2b_agent_skills/_playbooks"
 
 [tool.hatch.build.targets.sdist]
 include = [
   "b2b_agent_skills",
   ".claude/skills",
   "evals/golden",
+  "evals/playbooks",
+  "playbooks",
   "b2b-agent-skills-*",
   "scripts",
   "tests",

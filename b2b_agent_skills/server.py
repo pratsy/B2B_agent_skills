@@ -18,7 +18,7 @@ import logging
 import os
 from typing import Any
 
-from .errors import ProviderError, SkillNotFoundError, SkillOutputError
+from .errors import ProviderError, SkillNotFoundError, SkillOutputError, SkillsError
 from .providers import get_provider
 from .registry import get_skill, list_skills
 from .runner import run_skill
@@ -58,6 +58,10 @@ def create_app(token: str | None = None, provider: Any = None) -> Any:
         if length and int(length) > MAX_BODY_BYTES:
             return JSONResponse(status_code=413, content={"detail": f"request body exceeds {MAX_BODY_BYTES} bytes"})
         return await call_next(request)
+
+    class PlaybookRequest(BaseModel):
+        notes: str = Field(..., description="Transcript or notes text")
+        subject: str | None = Field(None, description="Deal or account name; decides the workspace file")
 
     class RunRequest(BaseModel):
         input: dict[str, Any] = Field(..., description="Skill input data, as described in the skill's SKILL.md")
@@ -101,6 +105,21 @@ def create_app(token: str | None = None, provider: Any = None) -> Any:
             "usage": result.usage,
             "latency_ms": result.latency_ms,
         }
+
+    @app.post("/v1/playbooks/{name}/run", dependencies=[Depends(require_token)])
+    def run_playbook_endpoint(name: str, req: PlaybookRequest) -> dict[str, Any]:
+        """Webhook target, e.g. a recorder or Zapier posting a finished call transcript to call-debrief."""
+        from .playbooks import run_playbook
+        from .workspace import find_workspace
+
+        try:
+            result = run_playbook(name, req.notes, provider=provider, workspace=find_workspace(), subject=req.subject)
+        except SkillsError as e:
+            raise HTTPException(status_code=404 if "Unknown playbook" in str(e) else 422, detail=str(e)) from e
+        except ProviderError as e:
+            logger.warning("provider error for playbook %s: %s", name, e)
+            raise HTTPException(status_code=502, detail="model provider error") from e
+        return {"playbook": name, "report": result.report, "missing_evidence": result.missing, "saved_to": result.saved_to}
 
     return app
 

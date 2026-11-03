@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "renewal-risk-scorer input",
+  "description": "Inputs for the renewal-risk-scorer skill. Generated from b2b-agent-skills-sales/skills/renewal-risk-scorer/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "string"
+    },
+    "usage_trend_90d": {
+      "type": "object",
+      "properties": {
+        "current_period": {},
+        "prior_period": {}
+      },
+      "description": "{current_period, prior_period}"
+    },
+    "active_users": {
+      "type": "object",
+      "properties": {
+        "count": {},
+        "total_licensed_seats": {}
+      },
+      "description": "{count, total_licensed_seats}"
+    },
+    "champion_status": {
+      "type": "string",
+      "description": "enum - e.g. `intact | departed_no_replacement | departed_replaced`"
+    },
+    "support_signals": {
+      "type": "object",
+      "properties": {
+        "ticket_count": {},
+        "unresolved_count": {},
+        "explicit_dissatisfaction_flag": {}
+      },
+      "description": "{ticket_count, unresolved_count, explicit_dissatisfaction_flag}"
+    }
+  }
+}

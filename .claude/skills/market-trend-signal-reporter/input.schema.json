@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "market-trend-signal-reporter input",
+  "description": "Inputs for the market-trend-signal-reporter skill. Generated from b2b-agent-skills-gtm/skills/market-trend-signal-reporter/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "candidate_trend": {
+      "type": "string",
+      "description": "string"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {},
+          "independent": {},
+          "signal_type": {}
+        }
+      },
+      "description": "list[{source, independent, signal_type}] - e.g. signal_type e.g. search/hiring/funding/media"
+    },
+    "observed_periods": {
+      "type": "number",
+      "description": "int - e.g. number of distinct time periods (e.g. months) this has been observed"
+    }
+  }
+}

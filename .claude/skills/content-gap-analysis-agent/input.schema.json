@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "content-gap-analysis-agent input",
+  "description": "Inputs for the content-gap-analysis-agent skill. Generated from b2b-agent-skills-marketing/skills/content-gap-analysis-agent/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "personas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. `[\"RevOps Manager\", \"VP Sales\", \"CFO\"]`"
+    },
+    "existing_content": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {},
+          "format": {},
+          "target_persona": {},
+          "stage_estimate": {}
+        }
+      },
+      "description": "list[{title, format, target_persona, stage_estimate}] - e.g. current content inventory"
+    },
+    "sales_objection_themes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. recurring objections from call notes — used to sanity-check vendor-aware coverage"
+    },
+    "conversion_data_by_stage": {
+      "type": "object",
+      "description": "object (optional) - e.g. drop-off rates by funnel stage if available"
+    }
+  }
+}

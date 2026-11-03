@@ -27,7 +27,7 @@ Hide
 Type "export PS1='$ ' && clear" Enter
 Show
 
-Type "# 45 B2B revenue skills. Here: MEDDPICC deal risk, scored on evidence quality" Enter
+Type "# 46 B2B revenue skills. Here: MEDDPICC deal risk, scored on evidence quality" Enter
 Sleep 1s
 Type "b2b-skills list | head -5" Enter
 Sleep 2s

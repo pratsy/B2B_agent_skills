@@ -1,0 +1,9 @@
+{
+  "name": "score-list",
+  "kind": "list",
+  "title": "Score my list",
+  "description": "Rank a lead or account list (CSV export from Apollo, Clay, HubSpot, LinkedIn) against your ICP: a fit score and tier for every row, plus a reason and opening line for the top ones.",
+  "inputs": "--csv leads.csv (uses gtm/icp.json)",
+  "stage": "early",
+  "skills_used": ["lead-prioritization-agent", "audience-segmentation-optimizer"]
+}

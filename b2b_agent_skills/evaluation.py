@@ -29,7 +29,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
-from .errors import ProviderError, SkillOutputError
+from .errors import ProviderError, SkillOutputError, SkillsError
 from .providers import Provider, get_provider
 from .registry import get_skill
 from .runner import run_skill
@@ -222,23 +222,137 @@ def _run_case(skill: str, case: dict[str, Any], provider: Provider) -> tuple[Cas
     return result, run.model
 
 
+def playbook_golden_dir() -> Path:
+    bundled = _PACKAGE_DIR / "_evals_playbooks"
+    return bundled if bundled.is_dir() else _PACKAGE_DIR.parent / "evals" / "playbooks"
+
+
+def load_playbook_golden() -> list[dict[str, Any]]:
+    root = playbook_golden_dir()
+    return [json.loads(p.read_text(encoding="utf-8")) for p in sorted(root.glob("*.json"))] if root.is_dir() else []
+
+
+def _context_workspace(context: str) -> Any:
+    """A throwaway workspace holding only company.md, for cases that test context handling."""
+    import tempfile
+
+    from .workspace import Workspace
+
+    root = Path(tempfile.mkdtemp(prefix="b2b-eval-"))
+    (root / "company.md").write_text(context, encoding="utf-8")
+    return Workspace(root)
+
+
+def _run_playbook_case(playbook: str, case: dict[str, Any], provider: Provider) -> tuple[CaseResult, str | None]:
+    from .playbooks import load_playbook, run_playbook
+
+    label = f"playbook:{playbook}"
+    total = len(case.get("assertions", []))
+    failures: list[str] = []
+    try:
+        kind = load_playbook(playbook)["kind"]
+        if kind == "notes":
+            workspace = _context_workspace(case["context"]) if case.get("context") else None
+            result = run_playbook(playbook, case["notes"], provider=provider, workspace=workspace, save=False)
+            data = result.to_dict()
+            failures = [f"step {k} failed: {v.error}" for k, v in result.steps.items() if v.status == "failed"]
+        elif kind == "list":
+            from .lists import score_list
+
+            csv_path = _temp_csv(case["rows"])
+            ws = _context_workspace(case["context"]) if case.get("context") else None
+            lr = score_list(
+                csv_path, case["icp"], provider=provider, workspace=ws, top=case.get("top", 50), output=csv_path.with_suffix(".out.csv")
+            )
+            data = {"rows": lr.rows, "counts": lr.counts, "report": lr.report}
+        elif kind == "review":
+            import datetime as _dt
+            import tempfile
+
+            from .review import deals_from_csv, monday_review
+            from .workspace import Workspace
+
+            root = Path(tempfile.mkdtemp(prefix="b2b-eval-"))
+            (root / "company.md").write_text(case.get("context", "# Eval company"), encoding="utf-8")
+            for slug, text in case.get("deal_notes", {}).items():
+                (root / "gtm" / "deals").mkdir(parents=True, exist_ok=True)
+                (root / "gtm" / "deals" / f"{slug}.md").write_text(text, encoding="utf-8")
+            deals = deals_from_csv(_temp_csv(case["deals"]))
+            rr = monday_review(deals, provider=provider, workspace=Workspace(root), today=_dt.date.fromisoformat(case["today"]))
+            data = {
+                "deals": [
+                    {
+                        "deal": r.deal,
+                        "deal_name": r.deal.get("deal_name"),
+                        "flags": r.flags,
+                        "notes_file": r.notes_file,
+                        "risk": r.risk,
+                        "priority": r.priority,
+                    }
+                    for r in rr.deals
+                ],
+                "report": rr.report,
+            }
+        else:
+            from .icp import find_icp
+
+            ir = find_icp(
+                customers_csv=_temp_csv(case["customers"]) if case.get("customers") else None,
+                notes=case.get("notes_list"),
+                provider=provider,
+            )
+            data = {"lifts": ir.lifts, "proposed_icp": ir.proposed_icp, "notes": ir.notes, "report": ir.report, "refinement": ir.refinement}
+    except (ProviderError, SkillOutputError, SkillsError, ValueError) as e:
+        return CaseResult(label, case["id"], False, False, 0, total, error=str(e)), None
+    passed = 0
+    for a in case.get("assertions", []):
+        ok, message = check_assertion(data, a)
+        if ok:
+            passed += 1
+        else:
+            failures.append(f"{message} ({a['why']})" if a.get("why") else message)
+    ok_steps = not failures
+    return CaseResult(label, case["id"], ok_steps and passed == total, ok_steps, passed, total, failures), None
+
+
+def _temp_csv(rows: list[dict[str, Any]]) -> Path:
+    import tempfile
+
+    from .tables import write_csv
+
+    path = Path(tempfile.mkdtemp(prefix="b2b-eval-")) / "rows.csv"
+    write_csv(path, rows)
+    return path
+
+
 def run_golden(
     provider: Provider | str | None = None,
     skills: list[str] | None = None,
     concurrency: int = 1,
+    playbooks: bool = False,
 ) -> EvalReport:
     """Run every golden case (optionally only for ``skills``) against ``provider``.
 
     ``concurrency`` runs that many cases in parallel threads; results keep file order.
+    ``playbooks=True`` also runs the playbook suites in evals/playbooks/.
     """
     from concurrent.futures import ThreadPoolExecutor
 
     if provider is None or isinstance(provider, str):
         provider = get_provider(provider)
     wanted = set(skills) if skills else None
-    jobs = [(s["skill"], c) for s in load_golden() if not wanted or s["skill"] in wanted for c in s["cases"]]
+    jobs: list[tuple[str, str, dict[str, Any]]] = [
+        ("skill", s["skill"], c) for s in load_golden() if not wanted or s["skill"] in wanted for c in s["cases"]
+    ]
+    if playbooks:
+        jobs += [("playbook", s["playbook"], c) for s in load_playbook_golden() for c in s["cases"]]
+
+    def run(job: tuple[str, str, dict[str, Any]]) -> tuple[CaseResult, str | None]:
+        kind, name, case = job
+        return _run_playbook_case(name, case, provider) if kind == "playbook" else _run_case(name, case, provider)
+
     with ThreadPoolExecutor(max_workers=max(1, concurrency)) as pool:
-        outcomes = list(pool.map(lambda job: _run_case(job[0], job[1], provider), jobs))
+        outcomes = list(pool.map(run, jobs))
     models = [m for _, m in outcomes if m]
     model = models[-1] if models else getattr(provider, "model", provider.name)
     return EvalReport(provider=provider.name, model=str(model), cases=[r for r, _ in outcomes])

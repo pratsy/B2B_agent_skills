@@ -1,6 +1,6 @@
 # Claude Code plugin
 
-Install all 45 skills into Claude Code with two commands. No Python, API key, or package install needed: Claude itself applies the methodology.
+Install all 46 skills into Claude Code with two commands. No Python, API key, or package install needed: Claude itself applies the methodology.
 
 ```text
 /plugin marketplace add pratsy/skills-AI

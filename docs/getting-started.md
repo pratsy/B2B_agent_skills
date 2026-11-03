@@ -15,7 +15,7 @@ Python 3.10+. The core package depends only on `jsonschema`. Providers and serve
 The `mock` provider returns each skill's documented worked-example output, so you can explore without an API key:
 
 ```bash
-b2b-skills list -v                         # all 45 skills, with when to use each
+b2b-skills list -v                         # all 46 skills, with when to use each
 b2b-skills show pipeline-health-monitor    # methodology and output fields
 b2b-skills run pipeline-health-monitor -i examples/fixtures/renewal_input.json
 ```

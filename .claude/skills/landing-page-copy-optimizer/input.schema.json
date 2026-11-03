@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "landing-page-copy-optimizer input",
+  "description": "Inputs for the landing-page-copy-optimizer skill. Generated from b2b-agent-skills-marketing/skills/landing-page-copy-optimizer/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "referring_creative": {
+      "type": "string",
+      "description": "string - e.g. the ad headline/copy that drove the click"
+    },
+    "page_headline": {
+      "type": "string",
+      "description": "string - e.g. landing page headline as currently written"
+    },
+    "page_elements": {
+      "type": "object",
+      "description": "object - e.g. presence/description of CTA, social proof, form, objection-handling copy"
+    },
+    "known_top_objection": {
+      "type": "string",
+      "description": "string - e.g. from sales/support, e.g. `\"security/compliance concerns\"`"
+    }
+  }
+}

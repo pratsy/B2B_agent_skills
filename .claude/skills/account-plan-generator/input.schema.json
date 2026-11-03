@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "account-plan-generator input",
+  "description": "Inputs for the account-plan-generator skill. Generated from b2b-agent-skills-sales/skills/account-plan-generator/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "account_name": {
+      "type": "string",
+      "description": "string"
+    },
+    "owned_products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "business_unit": {},
+          "product": {},
+          "usage_health": {}
+        }
+      },
+      "description": "list[{business_unit, product, usage_health}] - e.g. current footprint"
+    },
+    "whitespace_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "business_unit": {},
+          "opportunity_estimate": {},
+          "comparable_customer_reference": {}
+        }
+      },
+      "description": "list[{business_unit, opportunity_estimate, comparable_customer_reference}]"
+    },
+    "relationship_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "business_unit": {},
+          "has_contact": {},
+          "contact_role": {}
+        }
+      },
+      "description": "list[{business_unit, has_contact, contact_role}] - e.g. from the stakeholder map"
+    }
+  }
+}

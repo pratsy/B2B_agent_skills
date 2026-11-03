@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "stakeholder-map-builder input",
+  "description": "Inputs for the stakeholder-map-builder skill. Generated from b2b-agent-skills-sales/skills/stakeholder-map-builder/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "contacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {},
+          "title": {},
+          "role_assumed": {},
+          "role_confirmed": {},
+          "evidence": {}
+        }
+      },
+      "description": "list[{name, title, role_assumed, role_confirmed, evidence}] - e.g. every known contact"
+    },
+    "deal_id": {
+      "type": "string",
+      "description": "string - e.g. `opp_5521`"
+    }
+  }
+}

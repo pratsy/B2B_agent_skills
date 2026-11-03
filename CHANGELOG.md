@@ -1,5 +1,56 @@
 # Changelog
 
+## [0.5.0] - Unreleased
+
+Connect the tools founders work in: HubSpot, call transcripts, Slack, a weekly review, and approvals for every outside change.
+
+### Added
+
+- **`monday-review` playbook**: `b2b-skills playbook monday-review --hubspot` (or `--csv pipeline.csv`). Code flags overdue, silent, and stuck deals and deals with no evidence on file. Deals with debrief notes are re-scored with `deal-risk-assessor` from the raw notes. Priority is computed in code, and the report is checked against it and retried if it re-orders. Writes `gtm/reviews/<date>.md`.
+- **HubSpot connector**: reads open deals with their companies (CRM v3 API, private app token). `b2b-skills hubspot setup` creates four write-back deal properties; `b2b-skills hubspot deals` lists open deals. Tested against a simulated API, not yet a live portal.
+- **Approvals**: playbooks propose outside changes into `gtm/pending/`; `b2b-skills pending`, `approve <id|all> [--dry-run]`, and `reject` act on them. Failed writes stay pending; decisions are kept in `gtm/applied/` and `gtm/rejected/`.
+- **Transcript inbox**: `b2b-skills inbox` debriefs every new file in `gtm/inbox/` (any recorder's text export) and moves it to `processed/`. Deal name comes from the file name.
+- **Webhook**: `POST /v1/playbooks/{name}/run` on `b2b-skills serve`, for Zapier/Make or recorder webhooks.
+- **Slack digests**: `--slack` on `inbox` and `monday-review` (incoming webhook).
+- **Outcomes**: `b2b-skills outcome <deal> won|lost` appends to `gtm/outcomes.csv`, the data future calibration will learn from.
+- **Weekly automation**: `init` writes `.github/workflows/gtm-weekly.yml`, which debriefs the inbox, reviews the pipeline, posts to Slack, and commits notes every Monday, on a Claude subscription token.
+- Docs: Playbooks and Workspace & connectors pages; the README now leads with the founder workspace.
+
+### Changed
+
+- Debriefs now save the raw notes (collapsed) with each report, so later reviews re-score from primary evidence, not a summary.
+
+## [0.4.0] - Unreleased
+
+Lists and ICP: score a lead list, find who to sell to, measure product-market fit.
+
+### Added
+
+- **`score-list` playbook**: `b2b-skills playbook score-list --csv leads.csv` ranks every row of an Apollo/Clay/HubSpot/LinkedIn export against `gtm/icp.json`. Fit is computed in code (exact, instant, no model calls), with an A/B/C/skip tier and reasons per row. Missing data is reported as unknown, not scored as a mismatch. The top rows (default 50) get a why-now and an opening line from the model, which may only use the row's own fields and the company context: no invented statistics, social proof, or numbers. Writes `gtm/lists/<name>-scored.csv` and `gtm/lists/<name>.md`.
+- **`find-icp` playbook**: `b2b-skills playbook find-icp --customers accounts.csv [--notes interviews/]` computes attribute lift from won vs. lost accounts in code, extracts triggers and anxieties from interviews, writes a one-page ICP brief with an honest confidence level, and proposes `gtm/icp.proposed.json` (`--apply` writes `gtm/icp.json`).
+- **`pmf-survey-analyzer` skill** (46th): the Sean Ellis 40% test, segmented, with the top benefit among must-have users. `b2b-skills run pmf-survey-analyzer --csv responses.csv`.
+- **`b2b-skills batch <skill> rows.csv -o out.csv`**: run any skill once per CSV row, with columns matched to the skill's inputs.
+- **`run --csv`**: feed CSV rows into a skill's list input (e.g. survey responses).
+- **Calculators** (`b2b_agent_skills.calculators`): ICP fit scoring and attribute lift, exact and repeatable.
+- **Column mapping** for common export headers (`--map field=Column` overrides), including semicolon-separated files and size ranges like "51-200".
+- Playbook evals for score-list (including checks that fail on invented statistics in opening lines) and find-icp. Both pass on Claude Sonnet 4.5.
+
+## [0.3.0] - Unreleased
+
+Founder workspace: company context, free-text input, and the first playbook.
+
+### Added
+
+- **`b2b-skills init`**: creates a GTM workspace (`company.md`, agent rules in `CLAUDE.md`, `.mcp.json`, `gtm/` for deals and run history). Ten short questions; `--website` drafts the answers from the company's site first and marks them "verify".
+- **Company context**: inside a workspace, `company.md` is added to every skill and playbook call, so output is specific to the company. It goes in the user message, so skill instructions stay cacheable.
+- **Free-text input**: `b2b-skills run <skill> --notes call.txt` extracts the skill's inputs from notes or transcripts (.txt, .md, .vtt, .srt, JSON exports). Every extracted value needs a verbatim quote, and quotes are checked in code: unverifiable values are dropped and become questions for the user.
+- **Input schemas**: `.claude/skills/<skill>/input.schema.json`, generated from each README's Inputs table (drift-checked in CI). `b2b-skills show <skill> --inputs`.
+- **Playbooks**: `b2b-skills playbook call-debrief --notes call.txt` turns a call into a verdict, next 3 actions, missing evidence, stakeholders, objection handling, and a draft follow-up email, appended to `gtm/deals/<deal>.md`. Also available as a Claude Code skill (via the plugin) and over MCP (`list_playbooks`, `get_playbook`, `run_playbook`).
+- **Playbook evals** (`evals/playbooks/`, `b2b-skills eval --playbooks`), including cases that fail if the report invents evidence or proof points. 3/3 pass on Claude Sonnet 4.5.
+- **Stages**: every skill is labeled early, growth, or scale; `b2b-skills list --stage early`.
+- **Small-sample rule**: results built on little data are labeled "provisional (n=...)".
+- **Run log**: every run inside a workspace is appended to `gtm/runs/YYYY-MM.jsonl`.
+
 ## [0.2.0] - 2026-11-03
 
 Production release: installable package, structured outputs, golden evals, MCP server, Claude Code plugin.

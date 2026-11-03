@@ -11,8 +11,10 @@ b2b-skills eval --skill deal-risk-assessor --provider openai --json report.json
 
 The file format, assertion ops, and guidance on writing good cases are in [docs/evals.md](../docs/evals.md).
 
-**Coverage:** all 45 skills, 60 cases (35 mirror a README worked example and are checked offline in CI). Contrast cases that flip a decision are the most useful addition.
+**Coverage:** all 46 skills, 62 cases (36 mirror a README worked example and are checked offline in CI). Contrast cases that flip a decision are the most useful addition.
 
 No API key? `--provider claude-code` runs the evals through your local Claude Code login, including a Claude Pro/Max subscription.
 
-**Latest real-model run:** 59/60 on Claude Sonnet 4.5, see [results/](results/).
+**Latest real-model run (v0.5):** 65/68 skill and playbook cases on Claude Sonnet 4.5, see [results/](results/).
+
+Playbook evals live in [`playbooks/`](playbooks/) (`b2b-skills eval --playbooks`).

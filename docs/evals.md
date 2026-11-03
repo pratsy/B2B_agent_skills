@@ -54,4 +54,4 @@ Paths: `checks.time_in_stage_pass`, `themes[0].name`, and `accounts_ranked[accou
 - Add a **contrast case** that flips the decision (e.g. same fit, no intent → nurture instead of rep call). Contrast cases catch models that pattern-match the example.
 - Use `why` on an assertion to explain the rubric step, so a failure explains itself.
 
-All 45 skills have golden suites (60 cases). Contrast cases and band-boundary cases for skills that have only one case are good first contributions.
+All 46 skills have golden suites (60 cases). Contrast cases and band-boundary cases for skills that have only one case are good first contributions.

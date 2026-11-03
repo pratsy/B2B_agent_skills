@@ -61,7 +61,7 @@ jobs:
           python -m venv /tmp/wheel-env
           /tmp/wheel-env/bin/pip install dist/*.whl
           cd /tmp
-          test "$(/tmp/wheel-env/bin/b2b-skills list | wc -l)" -eq 45
+          test "$(/tmp/wheel-env/bin/b2b-skills list | wc -l)" -eq 46
           /tmp/wheel-env/bin/b2b-skills eval --provider mock --skill renewal-risk-scorer --min-pass-rate 1
       - uses: actions/upload-artifact@v7
         with:

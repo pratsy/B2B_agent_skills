@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "abm-account-priority-ranker input",
+  "description": "Inputs for the abm-account-priority-ranker skill. Generated from b2b-agent-skills-marketing/skills/abm-account-priority-ranker/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "string - e.g. `acct_1190`"
+    },
+    "potential_deal_value": {
+      "type": "number",
+      "description": "number - e.g. `240000`"
+    },
+    "win_probability_at_account": {
+      "type": "number",
+      "description": "int (0-100) - e.g. `35`"
+    },
+    "known_buying_committee_contacts": {
+      "type": "number",
+      "description": "int - e.g. `3`"
+    },
+    "typical_buying_committee_size": {
+      "type": "number",
+      "description": "int - e.g. `7`"
+    },
+    "last_touch_days_ago": {
+      "type": "number",
+      "description": "int - e.g. `18`"
+    },
+    "champion_status": {
+      "type": "string",
+      "description": "enum - e.g. `confirmed | warm | none`"
+    }
+  }
+}

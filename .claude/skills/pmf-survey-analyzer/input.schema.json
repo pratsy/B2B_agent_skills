@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "pmf-survey-analyzer input",
+  "description": "Inputs for the pmf-survey-analyzer skill. Generated from b2b-agent-skills-gtm/skills/pmf-survey-analyzer/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "responses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "respondent_id": {},
+          "disappointment": {},
+          "segment": {},
+          "main_benefit": {},
+          "improvement": {},
+          "active": {}
+        }
+      },
+      "description": "list[{respondent_id, disappointment, segment, main_benefit, improvement, active}] - e.g. one row per survey response; `disappointment` is very / somewhat / not"
+    },
+    "active_user_definition": {
+      "type": "string",
+      "description": "string - e.g. `\"used the product 2+ times in the last 14 days\"`"
+    },
+    "segment_field": {
+      "type": "string",
+      "description": "string - e.g. which attribute to segment by, e.g. `\"role\"` or `\"company_size\"`"
+    }
+  }
+}

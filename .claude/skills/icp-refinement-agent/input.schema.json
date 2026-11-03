@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "icp-refinement-agent input",
+  "description": "Inputs for the icp-refinement-agent skill. Generated from b2b-agent-skills-marketing/skills/icp-refinement-agent/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "closed_won_accounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "account_id": {},
+          "attributes": {},
+          "nrr": {},
+          "expansion_revenue": {},
+          "sales_cycle_days": {}
+        }
+      },
+      "description": "list[{account_id, attributes, nrr, expansion_revenue, sales_cycle_days}] - e.g. full closed-won dataset"
+    },
+    "all_pipeline_accounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "account_id": {},
+          "attributes": {}
+        }
+      },
+      "description": "list[{account_id, attributes}] - e.g. full pipeline for comparison base rates"
+    },
+    "best_account_definition": {
+      "type": "object",
+      "description": "object - e.g. e.g. `{\"metric\": \"nrr\", \"threshold\": \"top 50%\"}`"
+    },
+    "current_icp_definition": {
+      "type": "object",
+      "description": "object - e.g. the ICP as currently documented, for comparison"
+    }
+  }
+}

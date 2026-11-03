@@ -5,77 +5,102 @@
 [![Python](https://img.shields.io/pypi/pyversions/b2b-agent-skills)](https://pypi.org/project/b2b-agent-skills/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**45 AI skills for B2B sales, marketing, RevOps and GTM, each built on a named methodology with a scoring model you can check and a JSON Schema output contract.**
+**An open-source GTM workspace for founder-led sales.** Point it at your call notes, lead lists, and CRM, and it does the go-to-market work with tested methods instead of generic AI advice: debriefs your calls, finds your real ICP, ranks your lead list, and runs your Monday pipeline review.
 
-Most AI prompt libraries give you one instruction and stop there. Each skill here encodes how an experienced operator works the problem: MEDDPICC scored by *evidence quality* rather than rep confidence, pipeline coverage calibrated to *your* win rate, TAM reconciled top-down against bottom-up. The output is a decision you can verify and wire into a pipeline, not generic text.
-
-Use the skills in **Claude Code**, from any **MCP client**, from **Python**, or over **HTTP**. One skill definition powers all four.
+It runs on your Claude subscription through Claude Code, with no API key needed, or on the Anthropic or OpenAI APIs.
 
 ![Demo: scoring a deal with deal-risk-assessor](docs/assets/demo.gif)
 
+## Start in five minutes
+
 ```bash
 pip install b2b-agent-skills
-b2b-skills run deal-risk-assessor -i examples/fixtures/deal_risk_input.json --provider claude-code   # uses your Claude login, no API key
+b2b-skills init my-gtm --website yourcompany.com     # drafts company.md from your site, asks 10 questions
+cd my-gtm
+b2b-skills playbook call-debrief --notes call.txt --provider claude-code
 ```
 
-```json
-{
-  "deal_id": "opp_5521",
-  "pillar_scores": { "metrics": 3, "economic_buyer": 1, "decision_criteria": 2, "decision_process": 0, "paper_process": 0, "identify_pain": 3, "champion": 2, "competition": 1 },
-  "total_score": 12,
-  "risk_band": "high",
-  "single_point_of_failure": ["economic_buyer"],
-  "forecast_recommendation": "Pipeline only; do not forecast as closing this period",
-  "priority_action": "get a direct CFO conversation to confirm they are the economic buyer, validate the decision process, and surface the paper process"
-}
+You get a one-page debrief: the deal verdict (MEDDPICC /24), the next three actions, the evidence nobody has confirmed yet, the stakeholder map, objection handling, and a draft follow-up email. It's saved to `gtm/deals/<deal>.md`, so your workspace builds a memory of every deal.
+
+## Playbooks
+
+| Playbook | Your question | You give it | You get |
+|---|---|---|---|
+| **call-debrief** | "I just had a call. What now?" | a transcript or notes | verdict, next 3 actions, missing evidence, draft follow-up email |
+| **find-icp** | "Who should we really sell to?" | won/lost account list, interview notes | ICP brief with lift numbers, buying trigger, who to avoid, proposed `icp.json` |
+| **score-list** | "Who do I contact this week?" | a lead CSV (Apollo, Clay, HubSpot, LinkedIn) | every row scored and tiered against your ICP; why-now and an opening line for the top 50 |
+| **monday-review** | "Which deals need me this week?" | HubSpot, or a pipeline CSV | this week's focus, deals at risk, deals with no evidence on file; CRM updates proposed for approval |
+
+```bash
+b2b-skills playbook find-icp --customers accounts.csv --notes interviews/
+b2b-skills playbook score-list --csv leads.csv
+b2b-skills playbook monday-review --hubspot --slack
 ```
 
-<sub>Real output (Claude Sonnet via `--provider claude-code`) for the sample deal, recorded in [docs/assets/demo-session.txt](docs/assets/demo-session.txt). Wording varies between runs; the scores follow the rubric.</sub>
+All four also run inside Claude Code through the plugin, and over MCP.
 
-## Quick start
+## How it stays trustworthy
 
-| You want to… | Do this |
+- **Evidence or nothing.** Facts pulled from your notes must quote them word for word, and the quotes are checked in code. Anything that can't be verified is dropped and turned into a question for you. Reports may not invent proof points, statistics, or social proof, and evals fail if they do.
+- **Code does the math.** ICP fit, attribute lift, pipeline flags, and priority order are computed in Python: exact, instant, repeatable. The model does the judgment and the writing.
+- **You approve every outside change.** CRM updates wait in `gtm/pending/` until you run `b2b-skills approve`. Emails are drafted, never sent.
+- **Tested against real models.** 62 golden cases cover all 46 skills, and the playbooks have their own evals, including anti-hallucination cases. Latest full run on Claude Sonnet 4.5: 65/68 (96%), with the one playbook failure fixed and re-verified ([evals/results/](evals/results/)).
+- **Honest about small samples.** Results built on a handful of deals are labeled "provisional (n=8)".
+
+## Your workspace
+
+```
+my-gtm/
+  company.md                 what you sell, to whom, against whom (added to every run)
+  CLAUDE.md                  rules for an agent working here (Claude Code reads it)
+  gtm/
+    icp.json                 your ICP, used to score lists
+    deals/<deal>.md          every debrief, with the raw notes
+    inbox/                   drop call transcripts here; `b2b-skills inbox` debriefs them
+    lists/  reviews/         scored lists, weekly reviews
+    pending/                 proposed CRM changes waiting for approval
+    outcomes.csv             won/lost outcomes (`b2b-skills outcome`)
+    runs/                    a log of every run
+  .github/workflows/gtm-weekly.yml   optional: every Monday, debrief the inbox and review the pipeline
+```
+
+Everything is plain files: readable, editable, and versioned in git. Open the folder in Claude Code and it becomes an agent that works with all of it.
+
+## Connect your tools
+
+| Tool | How |
 |---|---|
-| Use the skills in **Claude Code** | `/plugin marketplace add pratsy/skills-AI`, then `/plugin install b2b-agent-skills@b2b-agent-skills`, then describe your problem |
-| Use them in **Claude Desktop, Cursor, or any MCP client** | `pip install "b2b-agent-skills[mcp]"` and add `b2b-skills mcp` as a server ([guide](docs/mcp.md)) |
-| Call them from **Python** | `run_skill("pipeline-health-monitor", data, provider="anthropic")` ([guide](docs/sdk.md)) |
-| Try them **without an API key** | `b2b-skills run <skill> -i input.json --provider claude-code` runs through your Claude Code login / Claude subscription |
-| Call them from **another service** | `b2b-skills serve` or the Docker image: an authenticated REST API ([guide](docs/http-api.md)) |
+| **HubSpot** | `HUBSPOT_ACCESS_TOKEN` (private app). `b2b-skills hubspot setup` adds the write-back fields; `monday-review --hubspot` reads deals and proposes updates |
+| **Call recorders** (Fathom, Granola, Gong, Otter, Zoom) | drop or forward transcripts into `gtm/inbox/`, or POST them to the webhook `POST /v1/playbooks/call-debrief/run` |
+| **Slack** | `SLACK_WEBHOOK_URL`, then `--slack` on `inbox` and `monday-review` |
+| **Lead lists** (Apollo, Clay, LinkedIn exports) | `score-list --csv`; common column names are recognized, `--map field=Column` for the rest |
+| **Claude Desktop, Cursor** | `b2b-skills mcp` as an MCP server ([guide](docs/mcp.md)) |
 
-Full documentation: **https://pratsy.github.io/skills-AI/**
+## Under the hood: 46 skills
 
-## What's in it
+The playbooks are built on 46 skills, each a named methodology with an explicit scoring model and a JSON Schema output: MEDDPICC deal risk, SPIN discovery, Dunford positioning, Sean Ellis PMF test, TAM/SAM/SOM, forecast bias, and more.
 
 | Pack | Covers | Skills |
 |---|---|---|
-| [Sales](b2b-agent-skills-sales/) | deal risk (MEDDPICC), forecast category, stakeholder maps, discovery (SPIN), objections, negotiation, pricing/ROI, renewals | 17 |
-| [Marketing](b2b-agent-skills-marketing/) | ICP refinement, segmentation, positioning (Dunford), messaging clarity, campaign diagnostics, ABM, lifecycle, content gaps | 15 |
+| [Sales](b2b-agent-skills-sales/) | deal risk, forecast category, stakeholder maps, discovery, objections, negotiation, pricing/ROI, renewals | 17 |
+| [Marketing](b2b-agent-skills-marketing/) | ICP refinement, segmentation, positioning, messaging clarity, campaign diagnostics, ABM, lifecycle, content gaps | 15 |
 | [RevOps](b2b-agent-skills-revops/) | pipeline health, forecast bias, CRM data quality, attribution, handoff quality | 5 |
-| [GTM](b2b-agent-skills-gtm/) | market sizing (TAM/SAM/SOM), competitor and market signals, strategic account selection, win/loss themes | 8 |
+| [GTM](b2b-agent-skills-gtm/) | market sizing, PMF survey analysis, competitor and market signals, strategic accounts, win/loss themes | 9 |
 
-Every skill README has the same parts: when to use it, the methodology, the scoring model, inputs, a worked example with real numbers, common failure patterns, the output schema, and sources. Browse the [skill catalog](https://pratsy.github.io/skills-AI/skills/).
+Skills are labeled by stage: `b2b-skills list --stage early` shows the ones that work with little data. Run any skill directly, from notes, JSON, or a CSV:
 
-## Why you can build on it
-
-- **Structured outputs, validated.** Each skill ships a JSON Schema ([`schema.json`](.claude/skills/deal-risk-assessor/schema.json)). Claude and OpenAI are constrained to it, every response is validated, and invalid output is retried once with the errors as feedback, then raised as an error. You never get unvalidated output silently.
-- **Golden evals check answers, not just shape.** [`evals/golden/`](evals/golden/) has 60 cases covering all 45 skills, e.g. *forecast-confidence-model must call a MEDDPICC-20 deal Best Case when it's stalled at 1.89× the median time-in-stage*. Run them against any model with `b2b-skills eval`, including through your Claude subscription (`--provider claude-code`), or from GitHub Actions.
-- **Production defaults.** Prompt caching on skill instructions, server-side refusal fallbacks on Claude, token usage on every result, a bearer-token HTTP server that refuses to start without auth, and a non-root Docker image.
-- **Minimal footprint.** The core depends only on `jsonschema`. Providers, MCP, and the server are optional extras.
-
-## Repository layout
-
+```bash
+b2b-skills run deal-risk-assessor --notes call.txt
+b2b-skills batch competitor-monitor signals.csv -o scored.csv
 ```
-.claude/skills/<skill>/        SKILL.md + schema.json - the one definition every surface reads
-b2b-agent-skills-<pack>/       human-readable methodology READMEs (source of truth for schemas)
-b2b_agent_skills/              Python package: SDK, CLI, MCP server, HTTP server
-evals/golden/                  golden eval cases
-.claude-plugin/                Claude Code plugin + marketplace manifests
-docs/                          documentation site (MkDocs)
-```
+
+From Python: `run_skill("pipeline-health-monitor", data, provider="anthropic")` ([SDK guide](docs/sdk.md)). Over HTTP: `b2b-skills serve` ([API guide](docs/http-api.md)).
+
+Full documentation: **https://pratsy.github.io/skills-AI/**
 
 ## Contributing
 
-The most useful contributions right now are **more golden eval cases** (contrast and edge cases), fixes to skill methodology, and real-model eval reports. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues privately ([SECURITY.md](SECURITY.md)).
+The most useful contributions right now are real-world playbook feedback, more golden eval cases, and fixes to skill methodology. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues privately ([SECURITY.md](SECURITY.md)).
 
 ## License
 

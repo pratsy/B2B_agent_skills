@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "competitor-monitor input",
+  "description": "Inputs for the competitor-monitor skill. Generated from b2b-agent-skills-gtm/skills/competitor-monitor/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "competitor": {
+      "type": "string",
+      "description": "string"
+    },
+    "signal_description": {
+      "type": "string",
+      "description": "string - e.g. raw signal as observed"
+    },
+    "move_type": {
+      "type": "string",
+      "description": "enum - e.g. product | pricing | gtm_motion | messaging | organizational"
+    },
+    "overlap_with_icp": {
+      "type": "number",
+      "description": "float (0-1)"
+    },
+    "confirmation_level": {
+      "type": "string",
+      "description": "enum - e.g. rumor | confirmed_limited | confirmed_broad"
+    },
+    "related_moves_last_quarter": {
+      "type": "number",
+      "description": "int - e.g. count of similar-type moves from this competitor recently"
+    }
+  }
+}

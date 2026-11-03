@@ -40,6 +40,13 @@ Provider keys are read only from the environment (`ANTHROPIC_API_KEY`, `OPENAI_A
 
 You are responsible for TLS termination and rate limiting in front of it. Every request costs model tokens, so an unthrottled public endpoint is a cost risk even with authentication.
 
+## Connectors and approvals
+
+- **HubSpot:** use a private app token with only the scopes listed in the docs. Playbooks never write to HubSpot directly: changes are proposed into `gtm/pending/` and applied only by `b2b-skills approve`. Applied and rejected changes are kept in `gtm/applied/` and `gtm/rejected/`.
+- **Slack:** the incoming webhook URL is a secret; anyone with it can post to the channel.
+- **Webhook endpoint** (`POST /v1/playbooks/{name}/run`): requires the same bearer token as the rest of the API, and writes into the workspace named by `B2B_WORKSPACE`.
+- **Workspace contents:** `gtm/` holds deal notes and transcripts. Keep a workspace repo private.
+
 ## Prompt injection
 
 Skill inputs often contain text from outside your organization: emails, call transcripts, competitor pages. That text can contain instructions aimed at the model. Structured outputs and schema validation limit what a manipulated response can look like (it must still match the skill's schema), but they can't guarantee the values are honest. Don't let skill output trigger irreversible actions (sending emails, changing CRM stages) without a human or rule-based check.

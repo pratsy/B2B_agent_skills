@@ -16,8 +16,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 PACK_SLUGS = sorted(p.parent.name for p in ROOT.glob("b2b-agent-skills-*/skills/*/README.md"))
 
 
-def test_45_skills_documented_and_packaged():
-    assert len(PACK_SLUGS) == 45
+def test_every_documented_skill_is_packaged():
+    assert len(PACK_SLUGS) >= 46
     assert list_skills() == PACK_SLUGS
 
 

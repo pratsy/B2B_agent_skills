@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "audience-segmentation-optimizer input",
+  "description": "Inputs for the audience-segmentation-optimizer skill. Generated from b2b-agent-skills-marketing/skills/audience-segmentation-optimizer/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "string - e.g. `acct_4821`"
+    },
+    "industry": {
+      "type": "string",
+      "description": "string - e.g. `\"Financial Services\"`"
+    },
+    "employee_count": {
+      "type": "number",
+      "description": "int - e.g. `340`"
+    },
+    "geography": {
+      "type": "string",
+      "description": "string - e.g. `\"US-Northeast\"`"
+    },
+    "tech_stack": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. `[\"Salesforce\", \"Marketo\", \"Snowflake\"]`"
+    },
+    "touches_90d": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {},
+          "type": {},
+          "weight": {}
+        }
+      },
+      "description": "list[{date, type, weight}] - e.g. see worked example"
+    },
+    "intent_topics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "topic": {},
+          "weekly_surge_pct": {}
+        }
+      },
+      "description": "list[{topic, weekly_surge_pct}] - e.g. `[{\"topic\": \"RevOps automation\", \"weekly_surge_pct\": 62}]`"
+    },
+    "icp_definition": {
+      "type": "object",
+      "description": "object - e.g. industry list, size band, geography list, required/competitor tech"
+    }
+  }
+}

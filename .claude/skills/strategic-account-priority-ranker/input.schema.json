@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "strategic-account-priority-ranker input",
+  "description": "Inputs for the strategic-account-priority-ranker skill. Generated from b2b-agent-skills-gtm/skills/strategic-account-priority-ranker/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "description": "string"
+    },
+    "revenue_value": {
+      "type": "number",
+      "description": "number"
+    },
+    "referenceability": {
+      "type": "number",
+      "description": "float (0-1)"
+    },
+    "market_influence": {
+      "type": "number",
+      "description": "float (0-1)"
+    },
+    "expansion_optionality": {
+      "type": "number",
+      "description": "float (0-1) - e.g. from account-plan-generator whitespace score, normalized"
+    },
+    "available_executive_sponsors": {
+      "type": "number",
+      "description": "int - e.g. used to size the final list"
+    }
+  }
+}
