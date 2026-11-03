@@ -157,12 +157,15 @@ def cmd_playbook(args: argparse.Namespace) -> int:
         return _playbook_icp(args)
     if spec["kind"] == "review":
         return _playbook_review(args)
-    if not args.notes:
+    if not args.notes and not args.website:
         raise SkillsError(f"give the material to work from, e.g. b2b-skills playbook {args.name} --notes call.txt")
+    sources = _read_notes(args.notes) if args.notes else []
+    if args.website:
+        from .init_wizard import fetch_website_text
+
+        sources.insert(0, f"[website: {args.website}]\n{fetch_website_text(args.website)}")
     ws = _workspace(args)
-    result = run_playbook(
-        args.name, _read_notes(args.notes), provider=_provider(args), workspace=ws, subject=args.subject, save=not args.no_save
-    )
+    result = run_playbook(args.name, sources, provider=_provider(args), workspace=ws, subject=args.subject, save=not args.no_save)
     if args.json:
         print(json.dumps(result.to_dict(), indent=2, ensure_ascii=False))
     else:
@@ -484,6 +487,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--no-save", action="store_true", help="don't write to the workspace")
     p.add_argument("--no-context", action="store_true", help="ignore the workspace's company.md")
     p.add_argument("--json", action="store_true", help="print the full result as JSON")
+    p.add_argument("--website", help="fix-my-message: read this page as source material")
     p.add_argument("--csv", help="score-list: the lead/account list to score")
     p.add_argument("--icp", help="score-list: ICP JSON file (default: gtm/icp.json)")
     p.add_argument("--top", type=int, default=50, help="score-list: write reasons and opening lines for this many (default 50)")

@@ -200,9 +200,26 @@ def run_playbook(
     return result
 
 
+# Claims about groups of companies or people that a founder's notes can't support.
+UNSUPPORTED_CLAIM = re.compile(
+    r"\bmost\s+(?:[a-z0-9-]+\s+){0,4}(?:teams|companies|orgs|organizations|founders|buyers|leaders|reps|vps|startups|customers)\b"
+    r"|\b(?:customers|teams|buyers|founders|leaders|companies)\s+(?:tell|told)\s+us\b"
+    r"|\bwe\s+(?:talk|speak)\s+(?:to|with)\b"
+    r"|\bcompanies like yours (?:usually|typically|often)\b",
+    re.I,
+)
+
+
+def unsupported_claims(report: str) -> list[str]:
+    return sorted({m.group(0) for m in UNSUPPORTED_CLAIM.finditer(report)})
+
+
 def consistency_problems(report: str, steps: dict[str, StepResult]) -> list[str]:
     """Facts the report must state the same way the skills computed them (checked in code, not trusted to the prompt)."""
-    problems = []
+    problems = [
+        f"unsupported generalization '{c}': the notes don't support claims about groups; rephrase as a question or a specific fact"
+        for c in unsupported_claims(report)
+    ]
     risk = (steps.get("risk") or StepResult("", "", "")).output or {}
     total = risk.get("total_score")
     if isinstance(total, (int, float)):
@@ -211,7 +228,7 @@ def consistency_problems(report: str, steps: dict[str, StepResult]) -> list[str]
             problems.append(f"state the MEDDPICC total as {total:g}/24")
         elif any(abs(float(n) - float(total)) > 0.5 for n in found):
             problems.append(f"the MEDDPICC total is {total:g}/24 (the report says {', '.join(sorted(set(found)))}/24)")
-    if re.search(r"/\s*40\b", report):
+    if "risk" in steps and re.search(r"/\s*40\b", report):
         problems.append("MEDDPICC is out of 24, not 40")
     stakeholders = (steps.get("stakeholders") or StepResult("", "", "")).output or {}
     single = stakeholders.get("single_threading_risk")

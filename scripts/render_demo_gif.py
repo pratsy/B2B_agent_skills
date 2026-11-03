@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Render a captured terminal session to an animated GIF (no VHS/ffmpeg needed).
 
-Capture a real session first, then render it:
+Capture a real session first (it builds a workspace from examples/demo/ and runs real
+playbooks through your Claude login), then render it:
 
-    python scripts/render_demo_gif.py --record docs/assets/demo-session.txt   # runs the demo commands
+    python scripts/render_demo_gif.py --record docs/assets/demo-session.txt
     python scripts/render_demo_gif.py docs/assets/demo-session.txt -o docs/assets/demo.gif
 
 Lines starting with "$ " are animated as typed commands; every other line is
@@ -18,24 +19,36 @@ import subprocess
 import sys
 import textwrap
 from pathlib import Path
+from typing import Any
 
 DEMO_COMMANDS = [
-    "b2b-skills list | head -5",
-    "python3 -c \"import json;print(json.load(open('examples/fixtures/deal_risk_input.json'))['pillar_evidence']['economic_buyer'])\"",
-    "b2b-skills run deal-risk-assessor -i examples/fixtures/deal_risk_input.json --provider claude-code",
+    "b2b-skills playbook list | grep -E '^[a-z]'",
+    "b2b-skills playbook fix-my-message --notes win-loss-and-homepage.md --provider claude-code",
+    "b2b-skills playbook score-list --csv leads.csv --top 3 --provider claude-code",
 ]
-DISPLAY_AS = {1: "jq -r .pillar_evidence.economic_buyer examples/fixtures/deal_risk_input.json"}
+DISPLAY_AS: dict[int, str] = {}
+DEMO_DIR = Path(__file__).resolve().parents[1] / "examples" / "demo"
 
 BG, FG, PROMPT, DIM, KEY, STR, NUM, BAR = "#1e1e2e", "#cdd6f4", "#a6e3a1", "#7f849c", "#89b4fa", "#f9e2af", "#fab387", "#181825"
 COLS, ROWS, FONT_SIZE, PAD = 104, 34, 15, 22
 
 
 def record(path: Path) -> None:
+    """Create a throwaway workspace from examples/demo/ and run the demo commands in it, for real."""
+    import shutil
+    import tempfile
+
+    ws = Path(tempfile.mkdtemp(prefix="b2b-demo-")) / "my-gtm"
+    subprocess.run(["b2b-skills", "init", str(ws), "--yes"], check=True, capture_output=True)
+    shutil.copy(DEMO_DIR / "company.md", ws / "company.md")
+    shutil.copy(DEMO_DIR / "icp.json", ws / "gtm" / "icp.json")
+    for name in ("win-loss-and-homepage.md", "leads.csv"):
+        shutil.copy(DEMO_DIR / name, ws / name)
     lines: list[str] = []
     for i, cmd in enumerate(DEMO_COMMANDS):
         lines.append(f"$ {DISPLAY_AS.get(i, cmd)}")
-        out = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=600)
-        lines += (out.stdout + out.stderr).rstrip("\n").splitlines()
+        out = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=600, cwd=ws)
+        lines += out.stdout.rstrip("\n").splitlines()
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"recorded {len(lines)} lines to {path}")
 
@@ -55,12 +68,32 @@ def _color(line: str) -> list[tuple[str, str]]:
 
     if line.startswith("$ "):
         return [("$ ", PROMPT), (line[2:], FG)]
+    if line.lstrip().startswith("#"):
+        return [(line, PROMPT if line.startswith("## ") else KEY)]
     m = re.match(r'^(\s*)("[^"]+")(:\s*)(.*)$', line)
     if not m:
         return [(line, FG)]
     indent, key, colon, rest = m.groups()
     value_color = STR if rest.startswith('"') else NUM if re.match(r"^-?\d", rest) else FG
     return [(indent, FG), (key, KEY), (colon, FG), (rest, value_color)]
+
+
+def _theme_palette() -> Any:
+    """A fixed palette: each theme color plus anti-aliasing blends toward the background."""
+    from PIL import Image
+
+    def rgb(h: str) -> tuple[int, int, int]:
+        return int(h[1:3], 16), int(h[3:5], 16), int(h[5:7], 16)
+
+    bg = rgb(BG)
+    colors = [bg, rgb(BAR)]
+    for c in (FG, PROMPT, DIM, KEY, STR, NUM, "#f38ba8", "#f9e2af", "#a6e3a1"):
+        target = rgb(c)
+        colors += [tuple(round(b + (x - b) * k / 7) for b, x in zip(bg, target, strict=True)) for k in range(1, 8)]
+    flat = [v for col in dict.fromkeys(colors) for v in col]
+    pal = Image.new("P", (1, 1))
+    pal.putpalette(flat + [0] * (768 - len(flat)))
+    return pal
 
 
 def render(session: Path, out: Path) -> None:
@@ -72,6 +105,7 @@ def render(session: Path, out: Path) -> None:
     width, height = PAD * 2 + cw * COLS, PAD * 2 + 36 + lh * ROWS
     raw = session.read_text(encoding="utf-8").splitlines()
     lines = [ln.encode().decode("unicode_escape") if "\\u" in ln else ln for ln in raw]
+    lines = [ln if ln.startswith("$ ") else ln.replace("**", "") for ln in lines]  # show markdown as a terminal would
     wrapped: list[str] = []
     for ln in lines:
         if len(ln) <= COLS or ln.startswith("$ "):
@@ -103,20 +137,24 @@ def render(session: Path, out: Path) -> None:
         durations.append(ms)
 
     screen: list[str] = []
+    pending_output = 0
     for line in lines:
         if line.startswith("$ "):
             snap([*screen, "$ "], 500, cursor=True)
             cmd = line[2:]
-            step = max(1, len(cmd) // 25)
+            step = max(1, len(cmd) // 12)
             for i in range(step, len(cmd) + step, step):
                 snap([*screen, "$ " + cmd[:i]], 45, cursor=True)
             screen.append(line)
             snap(screen, 900 if "run " in cmd else 350)
         else:
             screen.append(line)
-            snap(screen, 60)
-    durations[-1] = 6000
-    frames[0].save(out, save_all=True, append_images=frames[1:], duration=durations, loop=0, optimize=True)
+            pending_output += 1
+            if pending_output % 2 == 0:  # two lines per frame keeps the GIF small
+                snap(screen, 110)
+    snap(screen, 6000)
+    paletted = [f.quantize(palette=_theme_palette(), dither=Image.Dither.NONE) for f in frames]
+    paletted[0].save(out, save_all=True, append_images=paletted[1:], duration=durations, loop=0, optimize=True, disposal=1)
     print(f"wrote {out} ({len(frames)} frames, {out.stat().st_size // 1024} KB)")
 
 

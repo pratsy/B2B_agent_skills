@@ -5,11 +5,11 @@
 [![Python](https://img.shields.io/pypi/pyversions/b2b-agent-skills)](https://pypi.org/project/b2b-agent-skills/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**An open-source GTM workspace for founder-led sales.** Point it at your call notes, lead lists, and CRM, and it does the go-to-market work with tested methods instead of generic AI advice: debriefs your calls, finds your real ICP, ranks your lead list, and runs your Monday pipeline review.
+**An open-source GTM workspace for early-stage B2B teams: sales, marketing, and RevOps.** Point it at what you already have (call notes, your website, lead lists, a customer list, your CRM) and it does the go-to-market work with tested methods instead of generic AI advice.
 
 It runs on your Claude subscription through Claude Code, with no API key needed, or on the Anthropic or OpenAI APIs.
 
-![Demo: scoring a deal with deal-risk-assessor](docs/assets/demo.gif)
+![Demo: running GTM playbooks](docs/assets/demo.gif)
 
 ## Start in five minutes
 
@@ -17,27 +17,42 @@ It runs on your Claude subscription through Claude Code, with no API key needed,
 pip install b2b-agent-skills
 b2b-skills init my-gtm --website yourcompany.com     # drafts company.md from your site, asks 10 questions
 cd my-gtm
-b2b-skills playbook call-debrief --notes call.txt --provider claude-code
+b2b-skills playbook fix-my-message --website yourcompany.com --notes win-loss.md --provider claude-code
 ```
-
-You get a one-page debrief: the deal verdict (MEDDPICC /24), the next three actions, the evidence nobody has confirmed yet, the stakeholder map, objection handling, and a draft follow-up email. It's saved to `gtm/deals/<deal>.md`, so your workspace builds a memory of every deal.
 
 ## Playbooks
 
-| Playbook | Your question | You give it | You get |
-|---|---|---|---|
-| **call-debrief** | "I just had a call. What now?" | a transcript or notes | verdict, next 3 actions, missing evidence, draft follow-up email |
-| **find-icp** | "Who should we really sell to?" | won/lost account list, interview notes | ICP brief with lift numbers, buying trigger, who to avoid, proposed `icp.json` |
-| **score-list** | "Who do I contact this week?" | a lead CSV (Apollo, Clay, HubSpot, LinkedIn) | every row scored and tiered against your ICP; why-now and an opening line for the top 50 |
-| **monday-review** | "Which deals need me this week?" | HubSpot, or a pipeline CSV | this week's focus, deals at risk, deals with no evidence on file; CRM updates proposed for approval |
+Each playbook takes material you already have and returns a one-page answer, saved to your workspace.
+
+| Team | Playbook | Your question | You give it | You get |
+|---|---|---|---|---|
+| Marketing | **fix-my-message** | "Why isn't our homepage or outbound landing?" | your website, win/loss notes | positioning statement, claim-by-claim scores, rewritten headline, 3 outbound angles, the proof you still need |
+| Marketing · GTM | **find-icp** | "Who should we really sell to?" | won/lost account list, interview notes | ICP brief with exact lift numbers, buying trigger, who to avoid, proposed `icp.json` |
+| Sales · SDR | **score-list** | "Who do I contact this week?" | a lead CSV (Apollo, Clay, HubSpot, LinkedIn) | every row scored against your ICP; why-now and an opening line for the top 50 |
+| Sales | **call-debrief** | "I just had a call. What now?" | a transcript or notes | verdict (MEDDPICC /24), next 3 actions, missing evidence, draft follow-up email |
+| RevOps · founder | **monday-review** | "Which deals need attention this week?" | HubSpot, or a pipeline CSV | this week's focus, deals at risk, deals with no evidence; CRM updates proposed for approval |
 
 ```bash
 b2b-skills playbook find-icp --customers accounts.csv --notes interviews/
 b2b-skills playbook score-list --csv leads.csv
+b2b-skills playbook call-debrief --notes call.txt
 b2b-skills playbook monday-review --hubspot --slack
 ```
 
-All four also run inside Claude Code through the plugin, and over MCP.
+All five also run inside Claude Code through the plugin, and over MCP.
+
+## More jobs, by team
+
+Beyond the playbooks, any of the 46 skills runs directly on notes, JSON, or a CSV:
+
+| Team | Jobs | Example |
+|---|---|---|
+| **Marketing** | positioning (Dunford), messaging clarity, landing page message-match, value-prop testing, ad variants with test sample size, nurture sequences, content gaps, campaign diagnosis, ABM tiers | `b2b-skills run landing-page-copy-optimizer --notes page-and-ad.txt` |
+| **Product · founder** | product-market fit from a Sean Ellis survey, market sizing (TAM/SAM/SOM), market and competitor signals | `b2b-skills run pmf-survey-analyzer --csv survey.csv` |
+| **Sales** | discovery questions (SPIN), objection handling, stakeholder maps, multi-threading plans, negotiation prep, pricing/ROI justification, renewal risk | `b2b-skills run objection-response-coach --notes call.txt` |
+| **RevOps** | pipeline health, forecast category and bias, CRM data quality, attribution model sensitivity, handoff quality | `b2b-skills batch crm-data-cleaner opportunities.csv -o cleanup.csv` |
+
+`b2b-skills list --stage early` shows the skills that work with little data; the rest are labeled for when you have a team and history.
 
 ## How it stays trustworthy
 
@@ -78,7 +93,7 @@ Everything is plain files: readable, editable, and versioned in git. Open the fo
 
 ## Under the hood: 46 skills
 
-The playbooks are built on 46 skills, each a named methodology with an explicit scoring model and a JSON Schema output: MEDDPICC deal risk, SPIN discovery, Dunford positioning, Sean Ellis PMF test, TAM/SAM/SOM, forecast bias, and more.
+The playbooks and jobs above are built on 46 skills, each a named methodology with an explicit scoring model and a JSON Schema output: MEDDPICC deal risk, SPIN discovery, Dunford positioning, Sean Ellis PMF test, TAM/SAM/SOM, forecast bias, and more.
 
 | Pack | Covers | Skills |
 |---|---|---|
@@ -86,13 +101,6 @@ The playbooks are built on 46 skills, each a named methodology with an explicit 
 | [Marketing](b2b-agent-skills-marketing/) | ICP refinement, segmentation, positioning, messaging clarity, campaign diagnostics, ABM, lifecycle, content gaps | 15 |
 | [RevOps](b2b-agent-skills-revops/) | pipeline health, forecast bias, CRM data quality, attribution, handoff quality | 5 |
 | [GTM](b2b-agent-skills-gtm/) | market sizing, PMF survey analysis, competitor and market signals, strategic accounts, win/loss themes | 9 |
-
-Skills are labeled by stage: `b2b-skills list --stage early` shows the ones that work with little data. Run any skill directly, from notes, JSON, or a CSV:
-
-```bash
-b2b-skills run deal-risk-assessor --notes call.txt
-b2b-skills batch competitor-monitor signals.csv -o scored.csv
-```
 
 From Python: `run_skill("pipeline-health-monitor", data, provider="anthropic")` ([SDK guide](docs/sdk.md)). Over HTTP: `b2b-skills serve` ([API guide](docs/http-api.md)).
 

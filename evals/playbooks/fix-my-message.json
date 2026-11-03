@@ -1,0 +1,66 @@
+{
+  "playbook": "fix-my-message",
+  "cases": [
+    {
+      "id": "generic-homepage-mid-market-wins",
+      "description": "Generic 'all-in-one' copy scores low; wins concentrate in mid-market teams without RevOps, so positioning targets them against Clari/spreadsheets; rewrites use placeholders instead of invented proof.",
+      "notes": "Homepage copy (current):\nHeadline: The all-in-one revenue platform.\nSubhead: Our platform empowers revenue teams to unlock their full potential with AI-powered insights.\nSupporting points: Real-time CRM sync. Explainable AI risk scoring. No-code rule builder. 15-minute setup.\n\nWin/loss notes (last quarter):\n- Won: mid-market sales org (120 reps), no RevOps team. Champion said: \"Setup took one afternoon and the reps actually trust the score because it shows why.\"\n- Won: mid-market SaaS (80 reps), no RevOps team, switched from spreadsheets. \"We couldn't run Clari without an admin.\"\n- Lost: enterprise (600 reps) with a 5-person RevOps team, chose Clari for breadth of forecasting features.\n- Lost: enterprise (450 reps), chose Clari; \"your tool is too light for our process.\"\n- 40% of reps ignored the previous black-box tool's score because they couldn't see the reasoning.\n\nCompetitors and alternatives: Clari, spreadsheets, doing nothing.",
+      "assertions": [
+        {
+          "path": "steps.positioning.status",
+          "equals": "ok"
+        },
+        {
+          "path": "steps.positioning.output.selected_target_market",
+          "matches": "mid.market",
+          "why": "every win is mid-market without RevOps; every loss is enterprise"
+        },
+        {
+          "path": "steps.messaging.status",
+          "equals": "ok"
+        },
+        {
+          "path": "steps.messaging.output.asset_score",
+          "lte": 15,
+          "why": "not 'strong' (17+): the specific supporting points can't rescue an abstract headline and subhead"
+        },
+        {
+          "path": "report",
+          "matches": "## Positioning"
+        },
+        {
+          "path": "report",
+          "matches": "## Rewritten headline and subhead"
+        },
+        {
+          "path": "report",
+          "matches": "## Proof you still need"
+        },
+        {
+          "path": "report",
+          "matches": "[Mm]id.market"
+        },
+        {
+          "path": "report",
+          "matches": "^(?![\\s\\S]*\\b\\d{2,}\\+?\\s+(customers|teams|companies|revops teams)\\b)[\\s\\S]*$",
+          "why": "no invented customer counts"
+        },
+        {
+          "path": "report",
+          "matches": "\\[[^\\]]{3,}\\]",
+          "why": "missing proof shown as a bracketed placeholder"
+        },
+        {
+          "path": "report",
+          "matches": "(?i)all.in.one",
+          "why": "the generic headline is called out under What's not landing"
+        },
+        {
+          "path": "report",
+          "matches": "^(?![\\s\\S]*(?i:\\bmost\\s+(?:[a-z0-9-]+\\s+){0,4}(?:teams|companies|orgs|organizations|founders|buyers|leaders|reps|vps|startups|customers)\\b|\\b(?:customers|teams|buyers|founders|leaders|companies)\\s+(?:tell|told)\\s+us\\b|\\bwe\\s+(?:talk|speak)\\s+(?:to|with)\\b|\\bone (vp|cro|head|director)[^.\\n]{0,30}told us\\b))[\\s\\S]*$",
+          "why": "no unsupported generalizations or invented speakers"
+        }
+      ]
+    }
+  ]
+}

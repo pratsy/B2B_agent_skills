@@ -1,0 +1,32 @@
+{
+  "industries": [
+    "fintech",
+    "financial services",
+    "saas"
+  ],
+  "employee_range": [
+    50,
+    500
+  ],
+  "geographies": [
+    "US",
+    "Canada",
+    "UK"
+  ],
+  "titles": [
+    "vp sales",
+    "revenue operations",
+    "revops",
+    "sales director",
+    "cro"
+  ],
+  "technologies": [
+    "salesforce",
+    "hubspot"
+  ],
+  "exclude": {
+    "titles": [
+      "intern"
+    ]
+  }
+}

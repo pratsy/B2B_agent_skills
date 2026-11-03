@@ -44,13 +44,29 @@ def _angles(chunk: list[dict[str, Any]], provider: Provider, context: str | None
     user = (
         f"## Company context (the seller)\n\n{context}\n\n" if context else ""
     ) + f"## Leads\n\n```json\n{json.dumps(payload, indent=2)}\n```"
-    completion = provider.complete(system=ANGLES_PROMPT, user=user, schema=None, skill="score-list:angles")
-    try:
-        data = extract_json(completion.text)
-    except ValueError:
-        return {}
-    leads = data.get("leads", []) if isinstance(data, dict) else []
-    return {int(x["row"]): x for x in leads if isinstance(x, dict) and str(x.get("row", "")).isdigit()}
+    from .playbooks import unsupported_claims
+
+    out: dict[int, dict[str, str]] = {}
+    message = user
+    for _ in range(2):
+        completion = provider.complete(system=ANGLES_PROMPT, user=message, schema=None, skill="score-list:angles")
+        try:
+            data = extract_json(completion.text)
+        except ValueError:
+            return out
+        leads = data.get("leads", []) if isinstance(data, dict) else []
+        out = {int(x["row"]): x for x in leads if isinstance(x, dict) and str(x.get("row", "")).isdigit()}
+        bad = sorted({c for x in out.values() for c in unsupported_claims(f"{x.get('why', '')} {x.get('opening_line', '')}")})
+        if not bad:
+            return out
+        message = (
+            user
+            + f"\n\nYour previous answer made unsupported generalizations ({'; '.join(bad)}). Rewrite every line using only the lead's own fields."
+        )
+    for x in out.values():  # still generalizing after a retry: drop those lines rather than ship them
+        if unsupported_claims(f"{x.get('why', '')} {x.get('opening_line', '')}"):
+            x["why"], x["opening_line"] = "", ""
+    return out
 
 
 def score_list(

@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- **`fix-my-message` playbook** (marketing): `b2b-skills playbook fix-my-message --website <url> --notes win-loss.md` turns your current copy and win/loss evidence into a positioning statement, claim-by-claim clarity scores, a rewritten headline and subhead, three outbound angles, and the proof you still need. Never invents proof points: gaps become bracketed placeholders. Evals fail on invented customer counts or unsupported generalizations. Passes 3/3 on Claude Sonnet 4.5.
+- `--website` on notes playbooks reads a web page as source material.
+
+### Changed
+
+- The README and docs present the workspace for sales, marketing, and RevOps, with jobs by team; previously they pitched founder-led sales only.
+- New demo GIF of real playbook runs.
+
 ## [0.5.0] - Unreleased
 
 Connect the tools founders work in: HubSpot, call transcripts, Slack, a weekly review, and approvals for every outside change.

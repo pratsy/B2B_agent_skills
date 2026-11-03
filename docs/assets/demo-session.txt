@@ -1,29 +1,72 @@
-$ b2b-skills list | head -5
-abm-account-priority-ranker
-account-plan-generator
-account-priority-matrix-builder
-ad-copy-variant-generator
-attribution-model-reviewer
-$ jq -r .pillar_evidence.economic_buyer examples/fixtures/deal_risk_input.json
-A procurement analyst (not the champion) said the CFO 'probably' signs. Neither the champion nor the CFO has confirmed it.
-$ b2b-skills run deal-risk-assessor -i examples/fixtures/deal_risk_input.json --provider claude-code
-{
-  "deal_id": "opp_5521",
-  "pillar_scores": {
-    "metrics": 3,
-    "economic_buyer": 1,
-    "decision_criteria": 2,
-    "decision_process": 0,
-    "paper_process": 0,
-    "identify_pain": 3,
-    "champion": 2,
-    "competition": 1
-  },
-  "total_score": 12,
-  "risk_band": "high",
-  "single_point_of_failure": [
-    "economic_buyer"
-  ],
-  "forecast_recommendation": "Pipeline only; do not forecast as closing this period",
-  "priority_action": "get a direct CFO conversation to confirm they are the economic buyer, validate the decision process, and surface the paper process"
-}
+$ b2b-skills playbook list | grep -E '^[a-z]'
+call-debrief  [early]
+find-icp  [early]
+fix-my-message  [early]
+monday-review  [early]
+score-list  [early]
+$ b2b-skills playbook fix-my-message --notes win-loss-and-homepage.md --provider claude-code
+## Positioning
+
+For mid-market sales orgs without dedicated RevOps teams, Northwind Forecasting is the AI deal risk scoring tool that flags at-risk deals two weeks early with explainable scores reps trust—unlike black-box forecasting platforms like Clari—because it sets up in 15 minutes with no admin overhead and shows the reasoning behind every risk flag.
+
+This segment scores highest (14/15) because the win/loss notes show two mid-market wins (80 and 120 reps, both without RevOps) where ease of setup and explainability drove the decision, versus two enterprise losses (450 and 600 reps, both with RevOps teams) who chose Clari for breadth. The two wins both cited no-RevOps-required as the reason they could adopt.
+
+## What's not landing
+
+**Current headline:** "The all-in-one revenue platform."  
+**Score:** 5/20 (rewrite)  
+**Why it fails:** Generic—Clari, Gong, any revenue tool could claim this. Doesn't signal forecast risk scoring or the no-RevOps advantage.
+
+**Current subhead:** "Our platform empowers revenue teams to unlock their full potential with AI-powered insights."  
+**Score:** 5/20 (rewrite)  
+**Why it fails:** Corporate jargon ("empower", "unlock", "insights") with zero specificity or proof. Competitor could copy-paste this tomorrow.
+
+**"Real-time CRM sync."**  
+**Score:** 11/20 (rewrite)  
+**Why it fails:** Table-stakes feature—every modern CRM tool syncs. Doesn't differentiate from Clari or highlight the no-RevOps setup advantage.
+
+## Rewritten headline and subhead
+
+**Option A:**  
+Headline: *Flag at-risk deals two weeks before the forecast call—no RevOps team required.*  
+Subhead: *120-rep sales orgs set up risk scoring in one afternoon. Reps trust the score because it shows why a deal is flagged.*
+
+**Option B:**  
+Headline: *Deal risk scoring that doesn't need a RevOps admin to run.*  
+Subhead: *Mid-market teams go live in 15 minutes. Explainable AI shows reps why each deal is flagged, so they actually use it.*
+
+## Three outbound angles
+
+1. **Admin overhead trigger:** "If you've looked at Clari but don't have a RevOps team to run it, you're stuck with spreadsheets—120-rep teams set up Northwind in one afternoon."
+
+2. **Adoption pain:** "40% of reps ignore black-box risk scores. Northwind shows the reasoning behind every flag, so your team actually trusts the forecast."
+
+3. **Manual work trigger:** "Still updating deal risk in spreadsheets each week? Northwind flags at-risk deals two weeks early with 15-minute CRM setup—no admin required."
+
+## Proof you still need
+
+- **[customer result: % forecast accuracy improvement]** — Referenced in Option A subhead alternative. Get this from the two mid-market wins: ask for before/after forecast accuracy or time-to-close surprise rate.
+- **[customer result: adoption rate or % reps using the tool weekly]** — Supports "reps actually use it" claim. Ask the 120-rep and 80-rep wins for login data or survey results post-launch.
+- **[customer result: hours saved per week on forecast prep]** — Supports the spreadsheet-replacement angle. Ask the 80-rep win (who switched from spreadsheets) to quantify time saved.
+$ b2b-skills playbook score-list --csv leads.csv --top 3 --provider claude-code
+# Scored list
+
+6 rows: 3 A, 0 B, 0 C, 2 skip, 1 unknown
+
+Tiers: A (80+) contact this week · B (60-79) next · C (40-59) nurture · skip (<40 or excluded) · unknown (not enough data to score)
+
+Columns used: company ← "Company", industry ← "Industry", employees ← "Employees", geography ← "Country", title ← "Title", name ← "Name", technologies ← "Technologies"
+
+## Top 3
+
+1. **Ana Ruiz - VP Sales @ PayFlow** - fit 100 (A)
+   - Why: Ana leads sales at a 120-employee Fintech using Salesforce and Outreach, making her a strong fit for forecast risk scoring that integrates directly with her existing CRM stack.
+   - Opening line: Ana, do you have visibility into which deals in your Salesforce pipeline might slip before your forecast calls?
+2. **Ben Ito - Head of Revenue Operations @ LedgerLoop** - fit 100 (A)
+   - Why: Ben owns revenue operations at a 51-200 employee Financial Services company using HubSpot, putting him in the right role to evaluate tools that flag at-risk deals from CRM data.
+   - Opening line: Ben, how do you currently identify which deals in HubSpot are at risk two weeks before your team's forecast review?
+3. **Eli Moss - Sales Director @ Quanta SaaS** - fit 88 (A)
+   - Why: Eli directs sales at a 700-employee SaaS company using Salesforce, positioning him to care about early warning signals for deal risk pulled directly from the CRM.
+   - Opening line: Eli, does your team surface which Salesforce opportunities might slip before they hit the forecast call?
+
+1 rows couldn't be scored (too few known fields). Enrich them with industry, size, and title, then re-run.

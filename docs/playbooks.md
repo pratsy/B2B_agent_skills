@@ -1,8 +1,20 @@
 # Playbooks
 
-Playbooks chain skills into the jobs a founder actually does. Each one takes the material you already have, uses code for anything that's math, and returns a one-page answer saved to your workspace.
+Playbooks chain skills into the jobs an early-stage team actually does across marketing, sales, and RevOps. Each one takes the material you already have, uses code for anything that's math, and returns a one-page answer saved to your workspace.
 
 Run them from the CLI (inside a workspace from `b2b-skills init`), from Claude Code (the plugin includes them as skills), or over MCP.
+
+## fix-my-message
+
+**"Why isn't our homepage or outbound landing?"**
+
+```bash
+b2b-skills playbook fix-my-message --website yourcompany.com --notes win-loss.md
+```
+
+- **Input:** your website (`--website` reads the page) and/or notes: current copy, win/loss notes, customer interviews, competitors.
+- **Steps:** `brand-positioning-synthesizer` works out who you win with, against which alternative, and why. `messaging-clarity-auditor` scores each claim out of 20 on specificity, differentiation, proof, and jargon. `value-proposition-tester` runs too when the notes include customer pains.
+- **Output:** Positioning, What's not landing (scored claims, weakest first), Rewritten headline and subhead, Three outbound angles, Proof you still need. Saved to `gtm/messaging/<segment>.md`. Rewrites never invent proof: missing proof becomes a bracketed placeholder like `[customer result: % reduction in X]`, listed with how to get it.
 
 ## call-debrief
 
