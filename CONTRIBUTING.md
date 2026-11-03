@@ -41,7 +41,7 @@ Open a *Propose a new skill* issue first. Check the existing skills for overlap:
 2. Write `SKILL.md` (copy any existing one as the format reference) and end it with the standard *Output format* section pointing at `schema.json`.
 3. Run `python scripts/generate_schemas.py`.
 4. Add at least one golden case.
-5. Update the skill count wherever the tests or docs assert 45.
+5. Update the skill count in the docs (the tests count skills automatically).
 
 ## Changing an existing skill's output schema
 

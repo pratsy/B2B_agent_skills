@@ -101,6 +101,14 @@ def cmd_run(args: argparse.Namespace) -> int:
     ws = _workspace(args)
     context = ws.company_context() if ws else None
     data = _read_input(args.input) or {}
+    if args.csv:
+        from .tables import read_csv
+
+        _, rows = read_csv(args.csv)
+        skill = get_skill(args.skill)
+        arrays = [k for k, v in skill.input_schema.get("properties", {}).items() if v.get("type") == "array"]
+        field = args.csv_field or (arrays[0] if arrays else "rows")
+        data[field] = rows
 
     if args.notes:
         from .extraction import _set_path, extract_inputs
@@ -142,6 +150,11 @@ def cmd_playbook(args: argparse.Namespace) -> int:
             spec = load_playbook(name)
             print(f"{name}  [{spec.get('stage', 'early')}]\n    {spec['description']}\n")
         return 0
+    spec = load_playbook(args.name)
+    if spec["kind"] == "list":
+        return _playbook_list(args)
+    if spec["kind"] == "icp":
+        return _playbook_icp(args)
     if not args.notes:
         raise SkillsError(f"give the material to work from, e.g. b2b-skills playbook {args.name} --notes call.txt")
     ws = _workspace(args)
@@ -156,6 +169,79 @@ def cmd_playbook(args: argparse.Namespace) -> int:
             print(f"\n(saved to {result.saved_to})", file=sys.stderr)
         elif not ws:
             print("\n(not saved: run inside a workspace created with `b2b-skills init` to keep a history)", file=sys.stderr)
+    return 0
+
+
+def _playbook_list(args: argparse.Namespace) -> int:
+    from .lists import score_list
+    from .tables import parse_overrides
+
+    if not args.csv:
+        raise SkillsError("give the list to score: b2b-skills playbook score-list --csv leads.csv")
+    ws = _workspace(args)
+    icp = json.loads(Path(args.icp).read_text(encoding="utf-8")) if args.icp else (ws.icp() if ws else {})
+    provider = None if args.no_angles else _provider(args)
+    result = score_list(
+        args.csv,
+        icp,
+        provider=provider,
+        workspace=ws,
+        overrides=parse_overrides(args.map),
+        top=args.top,
+        output=args.output,
+        concurrency=args.concurrency,
+    )
+    print(result.report)
+    for path in filter(None, (result.saved_csv, result.saved_report)):
+        print(f"(saved {path})", file=sys.stderr)
+    return 0
+
+
+def _playbook_icp(args: argparse.Namespace) -> int:
+    from .icp import find_icp
+    from .tables import parse_overrides
+
+    ws = _workspace(args)
+    result = find_icp(
+        customers_csv=args.customers,
+        notes=_read_notes(args.notes) if args.notes else None,
+        provider=_provider(args),
+        workspace=ws,
+        overrides=parse_overrides(args.map),
+        apply=args.apply,
+    )
+    print(result.report)
+    for kind, path in result.saved.items():
+        print(f"(saved {kind}: {path})", file=sys.stderr)
+    if result.saved.get("icp", "").endswith("icp.proposed.json"):
+        print("Review gtm/icp.proposed.json; re-run with --apply (or rename it to icp.json) to use it for list scoring.", file=sys.stderr)
+    return 0
+
+
+def cmd_batch(args: argparse.Namespace) -> int:
+    from .lists import batch_skill
+    from .tables import parse_overrides
+
+    ws = _workspace(args)
+    out, mapping = batch_skill(
+        args.skill,
+        args.csv,
+        provider=_provider(args),
+        overrides=parse_overrides(args.map),
+        output=args.output,
+        concurrency=args.concurrency,
+        context=ws.company_context() if ws else None,
+        limit=args.limit,
+    )
+    ok = sum(1 for r in out if r.get("_valid"))
+    print(
+        f"{ok}/{len(out)} rows scored with {args.skill}. Columns used: " + ", ".join(f"{f} <- {h}" for f, h in mapping.items()),
+        file=sys.stderr,
+    )
+    if args.output:
+        print(f"(saved {args.output})", file=sys.stderr)
+    else:
+        print(json.dumps(out, indent=2, ensure_ascii=False))
     return 0
 
 
@@ -247,9 +333,22 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--show-inputs", action="store_true", help="print the extracted inputs and their evidence to stderr")
     p.add_argument("--no-questions", action="store_true", help="don't ask about missing inputs")
     p.add_argument("--no-context", action="store_true", help="ignore the workspace's company.md")
+    p.add_argument("--csv", help="CSV whose rows become one list input (e.g. survey responses)")
+    p.add_argument("--csv-field", help="input field for the --csv rows (default: the skill's first list input)")
     p.add_argument("--full", action="store_true", help="print the full result (validation, usage, raw text)")
     _provider_args(p)
     p.set_defaults(func=cmd_run)
+
+    p = sub.add_parser("batch", help="run a skill once per CSV row and write the results as CSV")
+    p.add_argument("skill")
+    p.add_argument("csv")
+    p.add_argument("-o", "--output", help="output CSV (default: print JSON)")
+    p.add_argument("--map", action="append", help="input_field=Column Name (repeatable)")
+    p.add_argument("--concurrency", type=int, default=2)
+    p.add_argument("--limit", type=int, help="only the first N rows")
+    p.add_argument("--no-context", action="store_true", help="ignore the workspace's company.md")
+    _provider_args(p)
+    p.set_defaults(func=cmd_batch)
 
     p = sub.add_parser("playbook", help="run a playbook (or `playbook list`)")
     p.add_argument("name", help="playbook name, or `list`")
@@ -258,6 +357,15 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--no-save", action="store_true", help="don't write to the workspace")
     p.add_argument("--no-context", action="store_true", help="ignore the workspace's company.md")
     p.add_argument("--json", action="store_true", help="print the full result as JSON")
+    p.add_argument("--csv", help="score-list: the lead/account list to score")
+    p.add_argument("--icp", help="score-list: ICP JSON file (default: gtm/icp.json)")
+    p.add_argument("--top", type=int, default=50, help="score-list: write reasons and opening lines for this many (default 50)")
+    p.add_argument("--no-angles", action="store_true", help="score-list: scores only, no LLM calls")
+    p.add_argument("-o", "--output", help="score-list: output CSV path")
+    p.add_argument("--customers", help="find-icp: account list with an outcome column (won/lost)")
+    p.add_argument("--apply", action="store_true", help="find-icp: write gtm/icp.json directly instead of icp.proposed.json")
+    p.add_argument("--map", action="append", help="field=Column Name, when a column isn't recognized (repeatable)")
+    p.add_argument("--concurrency", type=int, default=2)
     _provider_args(p)
     p.set_defaults(func=cmd_playbook)
 

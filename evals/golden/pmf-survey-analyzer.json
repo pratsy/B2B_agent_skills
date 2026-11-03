@@ -1,0 +1,793 @@
+{
+  "skill": "pmf-survey-analyzer",
+  "cases": [
+    {
+      "id": "close-overall-strong-segment",
+      "description": "37.5% overall is 'close', but RevOps leaders are at 60%: focus there.",
+      "source": "Worked example in b2b-agent-skills-gtm/skills/pmf-survey-analyzer/README.md",
+      "readme_example": true,
+      "input": {
+        "active_user_definition": "used the product 2+ times in the last 14 days",
+        "segment_field": "segment",
+        "responses": [
+          {
+            "respondent_id": "Rev0",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "forecast calls take half the time",
+            "active": true
+          },
+          {
+            "respondent_id": "Rev1",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "forecast calls take half the time",
+            "active": true
+          },
+          {
+            "respondent_id": "Rev2",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "forecast calls take half the time",
+            "active": true
+          },
+          {
+            "respondent_id": "Rev3",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "forecast calls take half the time",
+            "active": true
+          },
+          {
+            "respondent_id": "Rev4",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "forecast calls take half the time",
+            "active": true
+          },
+          {
+            "respondent_id": "Rev5",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "forecast calls take half the time",
+            "active": true
+          },
+          {
+            "respondent_id": "Rev6",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "forecast calls take half the time",
+            "active": true
+          },
+          {
+            "respondent_id": "Rev7",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "forecast calls take half the time",
+            "active": true
+          },
+          {
+            "respondent_id": "Rev8",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "forecast calls take half the time",
+            "active": true
+          },
+          {
+            "respondent_id": "Rev9",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "forecast calls take half the time",
+            "active": true
+          },
+          {
+            "respondent_id": "Rev10",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "forecast calls take half the time",
+            "active": true
+          },
+          {
+            "respondent_id": "Rev0",
+            "disappointment": "very",
+            "segment": "RevOps leader",
+            "main_benefit": "cleaner CRM data",
+            "active": true
+          },
+          {
+            "respondent_id": "Res0",
+            "disappointment": "somewhat",
+            "segment": "RevOps leader",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Res1",
+            "disappointment": "somewhat",
+            "segment": "RevOps leader",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Res2",
+            "disappointment": "somewhat",
+            "segment": "RevOps leader",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Res3",
+            "disappointment": "somewhat",
+            "segment": "RevOps leader",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Res4",
+            "disappointment": "somewhat",
+            "segment": "RevOps leader",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ren0",
+            "disappointment": "not",
+            "segment": "RevOps leader",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ren1",
+            "disappointment": "not",
+            "segment": "RevOps leader",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ren2",
+            "disappointment": "not",
+            "segment": "RevOps leader",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Sav0",
+            "disappointment": "very",
+            "segment": "Sales manager",
+            "main_benefit": "faster deal reviews",
+            "active": true
+          },
+          {
+            "respondent_id": "Sav1",
+            "disappointment": "very",
+            "segment": "Sales manager",
+            "main_benefit": "faster deal reviews",
+            "active": true
+          },
+          {
+            "respondent_id": "Sav2",
+            "disappointment": "very",
+            "segment": "Sales manager",
+            "main_benefit": "faster deal reviews",
+            "active": true
+          },
+          {
+            "respondent_id": "Sav3",
+            "disappointment": "very",
+            "segment": "Sales manager",
+            "main_benefit": "faster deal reviews",
+            "active": true
+          },
+          {
+            "respondent_id": "Sas0",
+            "disappointment": "somewhat",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Sas1",
+            "disappointment": "somewhat",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Sas2",
+            "disappointment": "somewhat",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Sas3",
+            "disappointment": "somewhat",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Sas4",
+            "disappointment": "somewhat",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Sas5",
+            "disappointment": "somewhat",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Sas6",
+            "disappointment": "somewhat",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Sas7",
+            "disappointment": "somewhat",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Sas8",
+            "disappointment": "somewhat",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "San0",
+            "disappointment": "not",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "San1",
+            "disappointment": "not",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "San2",
+            "disappointment": "not",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "San3",
+            "disappointment": "not",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "San4",
+            "disappointment": "not",
+            "segment": "Sales manager",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Fov0",
+            "disappointment": "very",
+            "segment": "Founder",
+            "main_benefit": "one place for pipeline data",
+            "active": true
+          },
+          {
+            "respondent_id": "Fov1",
+            "disappointment": "very",
+            "segment": "Founder",
+            "main_benefit": "one place for pipeline data",
+            "active": true
+          },
+          {
+            "respondent_id": "Fos0",
+            "disappointment": "somewhat",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Fos1",
+            "disappointment": "somewhat",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Fos2",
+            "disappointment": "somewhat",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Fos3",
+            "disappointment": "somewhat",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Fos4",
+            "disappointment": "somewhat",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Fos5",
+            "disappointment": "somewhat",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Fon0",
+            "disappointment": "not",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Fon1",
+            "disappointment": "not",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "x0",
+            "disappointment": "not",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": false
+          },
+          {
+            "respondent_id": "x1",
+            "disappointment": "not",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": false
+          },
+          {
+            "respondent_id": "x2",
+            "disappointment": "not",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": false
+          },
+          {
+            "respondent_id": "x3",
+            "disappointment": "not",
+            "segment": "Founder",
+            "main_benefit": "",
+            "active": false
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "active_responses",
+          "equals": 48
+        },
+        {
+          "path": "excluded_inactive",
+          "equals": 4
+        },
+        {
+          "path": "very_disappointed",
+          "equals": 18
+        },
+        {
+          "path": "pmf_score_pct",
+          "approx": 37.5,
+          "tol": 0.1
+        },
+        {
+          "path": "pmf_band",
+          "equals": "close"
+        },
+        {
+          "path": "strongest_segment",
+          "matches": "revops"
+        },
+        {
+          "path": "segments[segment=RevOps leader].pmf_score_pct",
+          "approx": 60,
+          "tol": 0.1
+        },
+        {
+          "path": "top_benefit_among_very_disappointed",
+          "matches": "forecast call"
+        }
+      ]
+    },
+    {
+      "id": "clear-pmf-signal",
+      "description": "25 of 50 active users very disappointed is a PMF signal.",
+      "source": "Sean Ellis 40% benchmark",
+      "input": {
+        "active_user_definition": "weekly active",
+        "segment_field": "segment",
+        "responses": [
+          {
+            "respondent_id": "Opv0",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv1",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv2",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv3",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv4",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv5",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv6",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv7",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv8",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv9",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv10",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv11",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv12",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv13",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv14",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv15",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv16",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv17",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv18",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv19",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv20",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv21",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv22",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv23",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Opv24",
+            "disappointment": "very",
+            "segment": "Ops lead",
+            "main_benefit": "saves hours on reporting",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops0",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops1",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops2",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops3",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops4",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops5",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops6",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops7",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops8",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops9",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops10",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops11",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops12",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops13",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Ops14",
+            "disappointment": "somewhat",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Opn0",
+            "disappointment": "not",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Opn1",
+            "disappointment": "not",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Opn2",
+            "disappointment": "not",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Opn3",
+            "disappointment": "not",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Opn4",
+            "disappointment": "not",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Opn5",
+            "disappointment": "not",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Opn6",
+            "disappointment": "not",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Opn7",
+            "disappointment": "not",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Opn8",
+            "disappointment": "not",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          },
+          {
+            "respondent_id": "Opn9",
+            "disappointment": "not",
+            "segment": "Ops lead",
+            "main_benefit": "",
+            "active": true
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "path": "pmf_score_pct",
+          "approx": 50,
+          "tol": 0.1
+        },
+        {
+          "path": "pmf_band",
+          "matches": "signal"
+        },
+        {
+          "path": "pmf_band",
+          "matches": "^(?!no).*"
+        }
+      ]
+    }
+  ]
+}

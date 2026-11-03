@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.4.0] - Unreleased
+
+Lists and ICP: score a lead list, find who to sell to, measure product-market fit.
+
+### Added
+
+- **`score-list` playbook**: `b2b-skills playbook score-list --csv leads.csv` ranks every row of an Apollo/Clay/HubSpot/LinkedIn export against `gtm/icp.json`. Fit is computed in code (exact, instant, no model calls), with an A/B/C/skip tier and reasons per row. Missing data is reported as unknown, not scored as a mismatch. The top rows (default 50) get a why-now and an opening line from the model, which may only use the row's own fields and the company context: no invented statistics, social proof, or numbers. Writes `gtm/lists/<name>-scored.csv` and `gtm/lists/<name>.md`.
+- **`find-icp` playbook**: `b2b-skills playbook find-icp --customers accounts.csv [--notes interviews/]` computes attribute lift from won vs. lost accounts in code, extracts triggers and anxieties from interviews, writes a one-page ICP brief with an honest confidence level, and proposes `gtm/icp.proposed.json` (`--apply` writes `gtm/icp.json`).
+- **`pmf-survey-analyzer` skill** (46th): the Sean Ellis 40% test, segmented, with the top benefit among must-have users. `b2b-skills run pmf-survey-analyzer --csv responses.csv`.
+- **`b2b-skills batch <skill> rows.csv -o out.csv`**: run any skill once per CSV row, with columns matched to the skill's inputs.
+- **`run --csv`**: feed CSV rows into a skill's list input (e.g. survey responses).
+- **Calculators** (`b2b_agent_skills.calculators`): ICP fit scoring and attribute lift, exact and repeatable.
+- **Column mapping** for common export headers (`--map field=Column` overrides), including semicolon-separated files and size ranges like "51-200".
+- Playbook evals for score-list (including checks that fail on invented statistics in opening lines) and find-icp. Both pass on Claude Sonnet 4.5.
+
 ## [0.3.0] - Unreleased
 
 Founder workspace: company context, free-text input, and the first playbook.

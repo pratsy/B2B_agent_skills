@@ -29,7 +29,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
-from .errors import ProviderError, SkillOutputError
+from .errors import ProviderError, SkillOutputError, SkillsError
 from .providers import Provider, get_provider
 from .registry import get_skill
 from .runner import run_skill
@@ -244,17 +244,38 @@ def _context_workspace(context: str) -> Any:
 
 
 def _run_playbook_case(playbook: str, case: dict[str, Any], provider: Provider) -> tuple[CaseResult, str | None]:
-    from .playbooks import run_playbook
+    from .playbooks import load_playbook, run_playbook
 
     label = f"playbook:{playbook}"
     total = len(case.get("assertions", []))
+    failures: list[str] = []
     try:
-        workspace = _context_workspace(case["context"]) if case.get("context") else None
-        result = run_playbook(playbook, case["notes"], provider=provider, workspace=workspace, save=False)
-    except (ProviderError, SkillOutputError, ValueError) as e:
+        kind = load_playbook(playbook)["kind"]
+        if kind == "notes":
+            workspace = _context_workspace(case["context"]) if case.get("context") else None
+            result = run_playbook(playbook, case["notes"], provider=provider, workspace=workspace, save=False)
+            data = result.to_dict()
+            failures = [f"step {k} failed: {v.error}" for k, v in result.steps.items() if v.status == "failed"]
+        elif kind == "list":
+            from .lists import score_list
+
+            csv_path = _temp_csv(case["rows"])
+            ws = _context_workspace(case["context"]) if case.get("context") else None
+            lr = score_list(
+                csv_path, case["icp"], provider=provider, workspace=ws, top=case.get("top", 50), output=csv_path.with_suffix(".out.csv")
+            )
+            data = {"rows": lr.rows, "counts": lr.counts, "report": lr.report}
+        else:
+            from .icp import find_icp
+
+            ir = find_icp(
+                customers_csv=_temp_csv(case["customers"]) if case.get("customers") else None,
+                notes=case.get("notes_list"),
+                provider=provider,
+            )
+            data = {"lifts": ir.lifts, "proposed_icp": ir.proposed_icp, "notes": ir.notes, "report": ir.report, "refinement": ir.refinement}
+    except (ProviderError, SkillOutputError, SkillsError, ValueError) as e:
         return CaseResult(label, case["id"], False, False, 0, total, error=str(e)), None
-    data = result.to_dict()
-    failures = [f"step {k} failed: {v.error}" for k, v in result.steps.items() if v.status == "failed"]
     passed = 0
     for a in case.get("assertions", []):
         ok, message = check_assertion(data, a)
@@ -262,8 +283,18 @@ def _run_playbook_case(playbook: str, case: dict[str, Any], provider: Provider) 
             passed += 1
         else:
             failures.append(f"{message} ({a['why']})" if a.get("why") else message)
-    no_failed_steps = not any(v.status == "failed" for v in result.steps.values())
-    return CaseResult(label, case["id"], no_failed_steps and passed == total, no_failed_steps, passed, total, failures), None
+    ok_steps = not failures
+    return CaseResult(label, case["id"], ok_steps and passed == total, ok_steps, passed, total, failures), None
+
+
+def _temp_csv(rows: list[dict[str, Any]]) -> Path:
+    import tempfile
+
+    from .tables import write_csv
+
+    path = Path(tempfile.mkdtemp(prefix="b2b-eval-")) / "rows.csv"
+    write_csv(path, rows)
+    return path
 
 
 def run_golden(

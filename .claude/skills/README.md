@@ -1,6 +1,6 @@
 # Claude Code skills
 
-All 45 skills in this repo are packaged here as real [Claude Code Skills](https://code.claude.com/docs/en/skills) — `SKILL.md` files Claude discovers and can invoke directly, not just markdown you read and copy-paste.
+All 46 skills in this repo are packaged here as real [Claude Code Skills](https://code.claude.com/docs/en/skills) — `SKILL.md` files Claude discovers and can invoke directly, not just markdown you read and copy-paste.
 
 ## How to use these
 
@@ -27,14 +27,14 @@ The Python SDK, CLI, MCP server, and HTTP API (package `b2b_agent_skills`) read 
 
 ## Directory
 
-45 skills, matching the four packs exactly:
+46 skills, matching the four packs exactly:
 
 | Domain | Skills |
 |---|---|
 | Sales (17) | `account-plan-generator`, `champion-advocacy-builder`, `competitive-differentiation-coach`, `deal-committee-readiness-coach`, `deal-risk-assessor`, `discovery-question-generator`, `executive-briefing-builder`, `executive-sponsor-identifier`, `forecast-confidence-model`, `lead-prioritization-agent`, `multi-threading-plan-builder`, `negotiation-readiness-coach`, `objection-response-coach`, `pricing-justification-builder`, `renewal-risk-scorer`, `stakeholder-map-builder`, `territory-prioritization-agent` |
 | Marketing (15) | `abm-account-priority-ranker`, `ad-copy-variant-generator`, `audience-segmentation-optimizer`, `brand-perception-monitor`, `brand-positioning-synthesizer`, `campaign-performance-diagnostician`, `content-gap-analysis-agent`, `customer-journey-friction-audit`, `icp-refinement-agent`, `landing-page-copy-optimizer`, `lifecycle-email-optimizer`, `messaging-clarity-auditor`, `nurture-sequence-architect`, `persona-insight-extractor`, `value-proposition-tester` |
 | RevOps (5) | `attribution-model-reviewer`, `crm-data-cleaner`, `forecast-bias-detector`, `pipeline-health-monitor`, `sales-handoff-quality-auditor` |
-| GTM (8) | `account-priority-matrix-builder`, `competitor-monitor`, `competitor-signal-clusterer`, `market-shift-monitor`, `market-sizing-modeler`, `market-trend-signal-reporter`, `strategic-account-priority-ranker`, `win-loss-theme-clusterer` |
+| GTM (9) | `account-priority-matrix-builder`, `competitor-monitor`, `competitor-signal-clusterer`, `market-shift-monitor`, `market-sizing-modeler`, `market-trend-signal-reporter`, `pmf-survey-analyzer`, `strategic-account-priority-ranker`, `win-loss-theme-clusterer` |
 
 ## Adding or editing a skill
 

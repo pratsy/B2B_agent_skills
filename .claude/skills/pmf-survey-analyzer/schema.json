@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "pmf-survey-analyzer",
+  "description": "Output of the pmf-survey-analyzer skill. Generated from b2b-agent-skills-gtm/skills/pmf-survey-analyzer/README.md by scripts/generate_schemas.py - edit the README, not this file.",
+  "type": "object",
+  "properties": {
+    "active_responses": {
+      "type": "number"
+    },
+    "excluded_inactive": {
+      "type": "number"
+    },
+    "very_disappointed": {
+      "type": "number"
+    },
+    "somewhat_disappointed": {
+      "type": "number"
+    },
+    "not_disappointed": {
+      "type": "number"
+    },
+    "pmf_score_pct": {
+      "type": "number"
+    },
+    "pmf_band": {
+      "type": "string"
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "segment": {
+            "type": "string"
+          },
+          "responses": {
+            "type": "number"
+          },
+          "very_disappointed": {
+            "type": "number"
+          },
+          "pmf_score_pct": {
+            "type": "number"
+          },
+          "confidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "segment",
+          "responses",
+          "very_disappointed",
+          "pmf_score_pct",
+          "confidence"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "strongest_segment": {
+      "type": "string"
+    },
+    "top_benefit_among_very_disappointed": {
+      "type": "string"
+    },
+    "recommended_focus": {
+      "type": "string"
+    },
+    "confidence_note": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "active_responses",
+    "excluded_inactive",
+    "very_disappointed",
+    "somewhat_disappointed",
+    "not_disappointed",
+    "pmf_score_pct",
+    "pmf_band",
+    "segments",
+    "strongest_segment",
+    "top_benefit_among_very_disappointed",
+    "recommended_focus",
+    "confidence_note"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "active_responses": 48,
+      "excluded_inactive": 4,
+      "very_disappointed": 18,
+      "somewhat_disappointed": 20,
+      "not_disappointed": 10,
+      "pmf_score_pct": 37.5,
+      "pmf_band": "close",
+      "segments": [
+        {
+          "segment": "RevOps leader",
+          "responses": 20,
+          "very_disappointed": 12,
+          "pmf_score_pct": 60,
+          "confidence": "provisional"
+        },
+        {
+          "segment": "Sales manager",
+          "responses": 18,
+          "very_disappointed": 4,
+          "pmf_score_pct": 22.2,
+          "confidence": "provisional"
+        }
+      ],
+      "strongest_segment": "RevOps leader",
+      "top_benefit_among_very_disappointed": "forecast calls take half the time",
+      "recommended_focus": "narrow ICP and messaging to RevOps leaders; protect the forecast-call workflow",
+      "confidence_note": "provisional (n=48 active responses; segments under 30)"
+    }
+  ]
+}

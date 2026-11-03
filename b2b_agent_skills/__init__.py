@@ -12,7 +12,7 @@ from .providers import AnthropicProvider, ClaudeCodeProvider, MockProvider, Open
 from .registry import Skill, get_skill, list_skills
 from .runner import SkillResult, run_skill
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 __all__ = [
     "AnthropicProvider",

@@ -1,6 +1,6 @@
 # B2B Agent Skills
 
-**45 AI skills for B2B sales, marketing, RevOps and GTM.** Each one encodes a named methodology an experienced operator would use, such as MEDDPICC, SPIN, Dunford positioning or TAM/SAM/SOM, as an explicit scoring model with a JSON Schema output contract. You get decisions you can check and wire into a pipeline, not generic AI prose.
+**46 AI skills for B2B sales, marketing, RevOps and GTM.** Each one encodes a named methodology an experienced operator would use, such as MEDDPICC, SPIN, Dunford positioning or TAM/SAM/SOM, as an explicit scoring model with a JSON Schema output contract. You get decisions you can check and wire into a pipeline, not generic AI prose.
 
 ![Demo: scoring a deal with deal-risk-assessor](assets/demo.gif)
 

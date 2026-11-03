@@ -1,0 +1,159 @@
+{
+  "playbook": "score-list",
+  "cases": [
+    {
+      "id": "rank-a-messy-export",
+      "description": "Exact fit tiers from an Apollo-style export: ICP matches first, intern excluded, empty row unscored, and opening lines only from row data.",
+      "rows": [
+        {
+          "Name": "Ana Ruiz",
+          "Title": "VP Sales",
+          "Company": "PayFlow",
+          "Industry": "Fintech",
+          "Employees": "120",
+          "Country": "US",
+          "Technologies": "Salesforce, Outreach"
+        },
+        {
+          "Name": "Ben Ito",
+          "Title": "Head of Revenue Operations",
+          "Company": "LedgerLoop",
+          "Industry": "Financial Services",
+          "Employees": "51-200",
+          "Country": "Canada",
+          "Technologies": "HubSpot"
+        },
+        {
+          "Name": "Cara Doyle",
+          "Title": "Marketing Intern",
+          "Company": "PayFlow",
+          "Industry": "Fintech",
+          "Employees": "120",
+          "Country": "US",
+          "Technologies": "Salesforce"
+        },
+        {
+          "Name": "Dev Patel",
+          "Title": "CTO",
+          "Company": "BrickMart",
+          "Industry": "Retail",
+          "Employees": "8000",
+          "Country": "India",
+          "Technologies": "SAP"
+        },
+        {
+          "Name": "Eli Moss",
+          "Title": "Sales Director",
+          "Company": "Quanta SaaS",
+          "Industry": "SaaS",
+          "Employees": "700",
+          "Country": "UK",
+          "Technologies": "Salesforce"
+        },
+        {
+          "Name": "Fay Lin",
+          "Title": "",
+          "Company": "Unknown Co",
+          "Industry": "",
+          "Employees": "",
+          "Country": "",
+          "Technologies": ""
+        }
+      ],
+      "icp": {
+        "industries": [
+          "fintech",
+          "financial services",
+          "saas"
+        ],
+        "employee_range": [
+          50,
+          500
+        ],
+        "geographies": [
+          "US",
+          "Canada",
+          "UK"
+        ],
+        "titles": [
+          "vp sales",
+          "revenue operations",
+          "revops",
+          "sales director",
+          "cro"
+        ],
+        "technologies": [
+          "salesforce",
+          "hubspot"
+        ],
+        "exclude": {
+          "titles": [
+            "intern"
+          ]
+        }
+      },
+      "top": 3,
+      "assertions": [
+        {
+          "path": "rows[Name=Ana Ruiz].fit_tier",
+          "equals": "A"
+        },
+        {
+          "path": "rows[Name=Ana Ruiz].fit_score",
+          "equals": 100
+        },
+        {
+          "path": "rows[Name=Ben Ito].fit_tier",
+          "equals": "A"
+        },
+        {
+          "path": "rows[Name=Cara Doyle].fit_tier",
+          "equals": "skip",
+          "why": "interns are excluded"
+        },
+        {
+          "path": "rows[Name=Dev Patel].fit_tier",
+          "equals": "skip"
+        },
+        {
+          "path": "rows[Name=Eli Moss].fit_tier",
+          "equals": "A",
+          "why": "700 employees is near range (half credit): 87.5"
+        },
+        {
+          "path": "rows[Name=Fay Lin].fit_tier",
+          "equals": "unknown"
+        },
+        {
+          "path": "rows[0].Name",
+          "equals": "Ana Ruiz"
+        },
+        {
+          "path": "report",
+          "matches": "## Top 3"
+        },
+        {
+          "path": "rows[0].opening_line",
+          "matches": "^(?![\\s\\S]*(tell us|told us|\\bmost [a-z ]{2,40}(lose|struggle|miss|waste)|\\d+\\s*%|\\d+-\\d+ deals|\\b126\\b))[\\s\\S]*$",
+          "why": "no invented stats, social proof, or computed numbers"
+        },
+        {
+          "path": "rows[1].opening_line",
+          "matches": "^(?![\\s\\S]*(tell us|told us|\\bmost [a-z ]{2,40}(lose|struggle|miss|waste)|\\d+\\s*%|\\d+-\\d+ deals|\\b126\\b))[\\s\\S]*$",
+          "why": "no invented stats, social proof, or computed numbers"
+        },
+        {
+          "path": "rows[2].opening_line",
+          "matches": "^(?![\\s\\S]*(tell us|told us|\\bmost [a-z ]{2,40}(lose|struggle|miss|waste)|\\d+\\s*%|\\d+-\\d+ deals|\\b126\\b))[\\s\\S]*$",
+          "why": "no invented stats, social proof, or computed numbers"
+        },
+        {
+          "path": "rows[0].opening_line",
+          "matches": "\\w",
+          "why": "top leads get an opening line"
+        }
+      ],
+      "context": "# Northwind Forecasting\n\n## What we sell\n\nForecast risk scoring for B2B sales teams: flags at-risk deals from CRM data two weeks before the forecast call.\n\n## Proof points\n\n_Not filled in yet._"
+    }
+  ]
+}

@@ -5,7 +5,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/b2b-agent-skills)](https://pypi.org/project/b2b-agent-skills/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**45 AI skills for B2B sales, marketing, RevOps and GTM, each built on a named methodology with a scoring model you can check and a JSON Schema output contract.**
+**46 AI skills for B2B sales, marketing, RevOps and GTM, each built on a named methodology with a scoring model you can check and a JSON Schema output contract.**
 
 Most AI prompt libraries give you one instruction and stop there. Each skill here encodes how an experienced operator works the problem: MEDDPICC scored by *evidence quality* rather than rep confidence, pipeline coverage calibrated to *your* win rate, TAM reconciled top-down against bottom-up. The output is a decision you can verify and wire into a pipeline, not generic text.
 
@@ -51,14 +51,14 @@ Full documentation: **https://pratsy.github.io/skills-AI/**
 | [Sales](b2b-agent-skills-sales/) | deal risk (MEDDPICC), forecast category, stakeholder maps, discovery (SPIN), objections, negotiation, pricing/ROI, renewals | 17 |
 | [Marketing](b2b-agent-skills-marketing/) | ICP refinement, segmentation, positioning (Dunford), messaging clarity, campaign diagnostics, ABM, lifecycle, content gaps | 15 |
 | [RevOps](b2b-agent-skills-revops/) | pipeline health, forecast bias, CRM data quality, attribution, handoff quality | 5 |
-| [GTM](b2b-agent-skills-gtm/) | market sizing (TAM/SAM/SOM), competitor and market signals, strategic account selection, win/loss themes | 8 |
+| [GTM](b2b-agent-skills-gtm/) | market sizing (TAM/SAM/SOM), PMF survey analysis, competitor and market signals, strategic account selection, win/loss themes | 9 |
 
 Every skill README has the same parts: when to use it, the methodology, the scoring model, inputs, a worked example with real numbers, common failure patterns, the output schema, and sources. Browse the [skill catalog](https://pratsy.github.io/skills-AI/skills/).
 
 ## Why you can build on it
 
 - **Structured outputs, validated.** Each skill ships a JSON Schema ([`schema.json`](.claude/skills/deal-risk-assessor/schema.json)). Claude and OpenAI are constrained to it, every response is validated, and invalid output is retried once with the errors as feedback, then raised as an error. You never get unvalidated output silently.
-- **Golden evals check answers, not just shape.** [`evals/golden/`](evals/golden/) has 60 cases covering all 45 skills, e.g. *forecast-confidence-model must call a MEDDPICC-20 deal Best Case when it's stalled at 1.89× the median time-in-stage*. Run them against any model with `b2b-skills eval`, including through your Claude subscription (`--provider claude-code`), or from GitHub Actions.
+- **Golden evals check answers, not just shape.** [`evals/golden/`](evals/golden/) has 60 cases covering all 46 skills, e.g. *forecast-confidence-model must call a MEDDPICC-20 deal Best Case when it's stalled at 1.89× the median time-in-stage*. Run them against any model with `b2b-skills eval`, including through your Claude subscription (`--provider claude-code`), or from GitHub Actions.
 - **Production defaults.** Prompt caching on skill instructions, server-side refusal fallbacks on Claude, token usage on every result, a bearer-token HTTP server that refuses to start without auth, and a non-root Docker image.
 - **Minimal footprint.** The core depends only on `jsonschema`. Providers, MCP, and the server are optional extras.
 

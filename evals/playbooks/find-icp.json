@@ -1,0 +1,287 @@
+{
+  "playbook": "find-icp",
+  "cases": [
+    {
+      "id": "fintech-wins-retail-doesnt",
+      "description": "Wins concentrate in mid-size fintech (lift ~2); enterprise retail rarely closes. Small sample must be labeled provisional.",
+      "customers": [
+        {
+          "Account": "Finwon0120",
+          "Industry": "Fintech",
+          "Employees": "120",
+          "Country": "US",
+          "Buyer Title": "VP Sales",
+          "Status": "won"
+        },
+        {
+          "Account": "Finwon1120",
+          "Industry": "Fintech",
+          "Employees": "120",
+          "Country": "US",
+          "Buyer Title": "VP Sales",
+          "Status": "won"
+        },
+        {
+          "Account": "Finwon2120",
+          "Industry": "Fintech",
+          "Employees": "120",
+          "Country": "US",
+          "Buyer Title": "VP Sales",
+          "Status": "won"
+        },
+        {
+          "Account": "Finwon3120",
+          "Industry": "Fintech",
+          "Employees": "120",
+          "Country": "US",
+          "Buyer Title": "VP Sales",
+          "Status": "won"
+        },
+        {
+          "Account": "Finwon4120",
+          "Industry": "Fintech",
+          "Employees": "120",
+          "Country": "US",
+          "Buyer Title": "VP Sales",
+          "Status": "won"
+        },
+        {
+          "Account": "Finwon5120",
+          "Industry": "Fintech",
+          "Employees": "120",
+          "Country": "US",
+          "Buyer Title": "VP Sales",
+          "Status": "won"
+        },
+        {
+          "Account": "Finwon6120",
+          "Industry": "Fintech",
+          "Employees": "120",
+          "Country": "US",
+          "Buyer Title": "VP Sales",
+          "Status": "won"
+        },
+        {
+          "Account": "Finwon7120",
+          "Industry": "Fintech",
+          "Employees": "120",
+          "Country": "US",
+          "Buyer Title": "VP Sales",
+          "Status": "won"
+        },
+        {
+          "Account": "Finwon8120",
+          "Industry": "Fintech",
+          "Employees": "120",
+          "Country": "US",
+          "Buyer Title": "VP Sales",
+          "Status": "won"
+        },
+        {
+          "Account": "Finlost090",
+          "Industry": "Fintech",
+          "Employees": "90",
+          "Country": "US",
+          "Buyer Title": "Head of RevOps",
+          "Status": "lost"
+        },
+        {
+          "Account": "Finlost190",
+          "Industry": "Fintech",
+          "Employees": "90",
+          "Country": "US",
+          "Buyer Title": "Head of RevOps",
+          "Status": "lost"
+        },
+        {
+          "Account": "Finlost290",
+          "Industry": "Fintech",
+          "Employees": "90",
+          "Country": "US",
+          "Buyer Title": "Head of RevOps",
+          "Status": "lost"
+        },
+        {
+          "Account": "Retwon03000",
+          "Industry": "Retail",
+          "Employees": "3000",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "won"
+        },
+        {
+          "Account": "Retwon13000",
+          "Industry": "Retail",
+          "Employees": "3000",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "won"
+        },
+        {
+          "Account": "Retlost02500",
+          "Industry": "Retail",
+          "Employees": "2500",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Retlost12500",
+          "Industry": "Retail",
+          "Employees": "2500",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Retlost22500",
+          "Industry": "Retail",
+          "Employees": "2500",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Retlost32500",
+          "Industry": "Retail",
+          "Employees": "2500",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Retlost42500",
+          "Industry": "Retail",
+          "Employees": "2500",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Retlost52500",
+          "Industry": "Retail",
+          "Employees": "2500",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Retlost62500",
+          "Industry": "Retail",
+          "Employees": "2500",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Retlost72500",
+          "Industry": "Retail",
+          "Employees": "2500",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Retlost82500",
+          "Industry": "Retail",
+          "Employees": "2500",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Retlost92500",
+          "Industry": "Retail",
+          "Employees": "2500",
+          "Country": "US",
+          "Buyer Title": "CTO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Saawon0150",
+          "Industry": "SaaS",
+          "Employees": "150",
+          "Country": "UK",
+          "Buyer Title": "VP Sales",
+          "Status": "won"
+        },
+        {
+          "Account": "Saalost04000",
+          "Industry": "SaaS",
+          "Employees": "4000",
+          "Country": "UK",
+          "Buyer Title": "CIO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Saalost14000",
+          "Industry": "SaaS",
+          "Employees": "4000",
+          "Country": "UK",
+          "Buyer Title": "CIO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Saalost24000",
+          "Industry": "SaaS",
+          "Employees": "4000",
+          "Country": "UK",
+          "Buyer Title": "CIO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Saalost34000",
+          "Industry": "SaaS",
+          "Employees": "4000",
+          "Country": "UK",
+          "Buyer Title": "CIO",
+          "Status": "lost"
+        },
+        {
+          "Account": "Saalost44000",
+          "Industry": "SaaS",
+          "Employees": "4000",
+          "Country": "UK",
+          "Buyer Title": "CIO",
+          "Status": "lost"
+        }
+      ],
+      "assertions": [
+        {
+          "path": "lifts[value=fintech].lift",
+          "approx": 1.88,
+          "tol": 0.02,
+          "why": "9 of 12 best accounts vs 12 of 30 overall"
+        },
+        {
+          "path": "lifts[value=retail].signal",
+          "equals": "negative"
+        },
+        {
+          "path": "proposed_icp.industries",
+          "contains": "fintech"
+        },
+        {
+          "path": "proposed_icp.employee_range",
+          "length": 2
+        },
+        {
+          "path": "notes",
+          "contains": "provisional (n=12 best accounts): lift on fewer than ~15 accounts is noisy"
+        },
+        {
+          "path": "report",
+          "matches": "## Who to sell to"
+        },
+        {
+          "path": "report",
+          "matches": "provisional"
+        },
+        {
+          "path": "report",
+          "matches": "[Ff]intech"
+        }
+      ]
+    }
+  ]
+}

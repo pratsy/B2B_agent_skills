@@ -48,7 +48,10 @@ def load_playbook(name: str) -> dict[str, Any]:
     if not path.is_file():
         raise SkillsError(f"Unknown playbook '{name}'. Available: {', '.join(list_playbooks())}")
     spec = json.loads(path.read_text(encoding="utf-8"))
-    spec["report_instructions"] = (path.parent / "report.md").read_text(encoding="utf-8")
+    spec.setdefault("kind", "notes")
+    spec.setdefault("steps", [])
+    report_md = path.parent / "report.md"
+    spec["report_instructions"] = report_md.read_text(encoding="utf-8") if report_md.is_file() else ""
     return spec
 
 
@@ -126,6 +129,10 @@ def run_playbook(
     file it is saved to in the workspace. ``known`` holds user answers per step id.
     """
     spec = load_playbook(name)
+    if spec["kind"] != "notes":
+        raise SkillsError(
+            f"'{name}' doesn't take notes; run it with `b2b-skills playbook {name}` and its inputs ({spec.get('inputs', '')})"
+        )
     if provider is None or isinstance(provider, str):
         provider = get_provider(provider)
     texts = [sources] if isinstance(sources, str) else list(sources)

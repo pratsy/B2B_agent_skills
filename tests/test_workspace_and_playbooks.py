@@ -173,9 +173,11 @@ def test_playbook_golden_suite_is_well_formed():
 
     suites = load_playbook_golden()
     assert {s["playbook"] for s in suites} == set(list_playbooks())
+    inputs = {"notes": "notes", "list": "rows", "icp": "customers"}
     for s in suites:
+        kind = load_playbook(s["playbook"])["kind"]
         for c in s["cases"]:
-            assert c["notes"] and c["assertions"]
+            assert c[inputs[kind]] and c["assertions"]
 
 
 def test_cli_playbook_list(capsys):

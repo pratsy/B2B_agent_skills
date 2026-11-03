@@ -5,13 +5,13 @@ import json
 
 import pytest
 
-from b2b_agent_skills import MockProvider
+from b2b_agent_skills import MockProvider, list_skills
 from b2b_agent_skills.cli import main
 
 
 def test_cli_list_and_show(capsys):
     assert main(["list"]) == 0
-    assert len(capsys.readouterr().out.split()) == 45
+    assert len(capsys.readouterr().out.split()) == len(list_skills())
     assert main(["show", "deal-risk-assessor", "--schema"]) == 0
     assert json.loads(capsys.readouterr().out)["title"] == "deal-risk-assessor"
 
@@ -42,7 +42,7 @@ def test_mcp_server_exposes_tools_and_prompts(monkeypatch):
     tools = {t.name for t in asyncio.run(server.list_tools())}
     assert tools == {"list_skills", "get_skill", "list_playbooks", "get_playbook"}, "run_* tools only appear with a real provider"
     prompts = asyncio.run(server.list_prompts())
-    assert len(prompts) == 45
+    assert len(prompts) == len(list_skills())
     rendered = asyncio.run(server.get_prompt("deal-risk-assessor", {"input_json": '{"deal_id": "opp_9"}'}))
     text = rendered.messages[0].content.text
     assert "MEDDPICC" in text and "opp_9" in text
@@ -70,7 +70,7 @@ def test_http_server_requires_auth_and_runs_skills():
     assert client.get("/v1/skills", headers={"Authorization": "Bearer wrong"}).status_code == 401
 
     auth = {"Authorization": "Bearer s3cret"}
-    assert len(client.get("/v1/skills", headers=auth).json()) == 45
+    assert len(client.get("/v1/skills", headers=auth).json()) == len(list_skills())
     assert client.get("/v1/skills/nope", headers=auth).status_code == 404
     res = client.post("/v1/skills/pipeline-health-monitor/run", headers=auth, json={"input": {"open_pipeline_value": 1}})
     assert res.status_code == 200 and res.json()["output"]["overall_health"] == "at risk"
