@@ -1,9 +1,9 @@
 # Contributing
 
-See [CONTRIBUTING.md](https://github.com/pratsy/skills-AI/blob/main/CONTRIBUTING.md) for the full guide. In short:
+See [CONTRIBUTING.md](https://github.com/pratsy/B2B_agent_skills/blob/main/CONTRIBUTING.md) for the full guide. In short:
 
 ```bash
-git clone https://github.com/pratsy/skills-AI && cd skills-AI
+git clone https://github.com/pratsy/B2B_agent_skills && cd B2B_agent_skills
 pip install -e ".[dev]"
 pre-commit install
 pytest

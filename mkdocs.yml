@@ -1,8 +1,8 @@
 site_name: B2B Agent Skills
 site_description: Evidence-grounded AI skills for B2B sales, marketing, RevOps and GTM teams.
-site_url: https://pratsy.github.io/skills-AI/
-repo_url: https://github.com/pratsy/skills-AI
-repo_name: pratsy/skills-AI
+site_url: https://pratsy.github.io/B2B_agent_skills/
+repo_url: https://github.com/pratsy/B2B_agent_skills
+repo_name: pratsy/B2B_agent_skills
 edit_uri: edit/main/docs/
 
 theme:

@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- The repository is now `pratsy/B2B_agent_skills` (was `pratsy/skills-AI`). GitHub redirects old repo and clone URLs; the docs site moved to https://pratsy.github.io/B2B_agent_skills/.
+
 ### Added
 
 - **`fix-my-message` playbook** (marketing): `b2b-skills playbook fix-my-message --website <url> --notes win-loss.md` turns your current copy and win/loss evidence into a positioning statement, claim-by-claim clarity scores, a rewritten headline and subhead, three outbound angles, and the proof you still need. Never invents proof points: gaps become bracketed placeholders. Evals fail on invented customer counts or unsupported generalizations. Passes 3/3 on Claude Sonnet 4.5.

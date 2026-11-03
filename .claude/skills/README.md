@@ -7,7 +7,7 @@ All 46 skills in this repo are packaged here as real [Claude Code Skills](https:
 **As a Claude Code plugin** (recommended):
 
 ```text
-/plugin marketplace add pratsy/skills-AI
+/plugin marketplace add pratsy/B2B_agent_skills
 /plugin install b2b-agent-skills@b2b-agent-skills
 ```
 

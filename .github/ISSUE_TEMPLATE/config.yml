@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/pratsy/skills-AI/security/advisories/new
+    url: https://github.com/pratsy/B2B_agent_skills/security/advisories/new
     about: Report security issues privately, not in a public issue.
   - name: Questions and ideas
-    url: https://github.com/pratsy/skills-AI/discussions
+    url: https://github.com/pratsy/B2B_agent_skills/discussions
     about: Ask how to use a skill, share a workflow, or discuss ideas.

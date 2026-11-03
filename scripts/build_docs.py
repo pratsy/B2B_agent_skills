@@ -18,7 +18,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DOCS = REPO_ROOT / "docs"
-GITHUB_BLOB = "https://github.com/pratsy/skills-AI/blob/main/"
+GITHUB_BLOB = "https://github.com/pratsy/B2B_agent_skills/blob/main/"
 PACKS = {
     "b2b-agent-skills-sales": "Sales",
     "b2b-agent-skills-marketing": "Marketing",

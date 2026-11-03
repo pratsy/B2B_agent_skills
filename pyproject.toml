@@ -52,11 +52,11 @@ docs = ["mkdocs-material>=9.5"]
 b2b-skills = "b2b_agent_skills.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/pratsy/skills-AI"
-Documentation = "https://pratsy.github.io/skills-AI/"
-Repository = "https://github.com/pratsy/skills-AI"
-Issues = "https://github.com/pratsy/skills-AI/issues"
-Changelog = "https://github.com/pratsy/skills-AI/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/pratsy/B2B_agent_skills"
+Documentation = "https://pratsy.github.io/B2B_agent_skills/"
+Repository = "https://github.com/pratsy/B2B_agent_skills"
+Issues = "https://github.com/pratsy/B2B_agent_skills/issues"
+Changelog = "https://github.com/pratsy/B2B_agent_skills/blob/main/CHANGELOG.md"
 
 [tool.hatch.version]
 path = "b2b_agent_skills/__init__.py"

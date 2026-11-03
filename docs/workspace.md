@@ -28,7 +28,7 @@ It creates:
 cd my-gtm && claude
 ```
 
-With the plugin installed (`/plugin marketplace add pratsy/skills-AI`, then `/plugin install b2b-agent-skills@b2b-agent-skills`), Claude Code reads `CLAUDE.md` and `company.md` and has every skill and playbook. Ask in plain language: *"debrief the Acme call in gtm/inbox"*, *"who should I contact from leads.csv?"*, *"what needs my attention this week?"*
+With the plugin installed (`/plugin marketplace add pratsy/B2B_agent_skills`, then `/plugin install b2b-agent-skills@b2b-agent-skills`), Claude Code reads `CLAUDE.md` and `company.md` and has every skill and playbook. Ask in plain language: *"debrief the Acme call in gtm/inbox"*, *"who should I contact from leads.csv?"*, *"what needs my attention this week?"*
 
 ## HubSpot
 

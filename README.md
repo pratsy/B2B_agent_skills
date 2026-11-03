@@ -1,6 +1,6 @@
 # B2B Agent Skills
 
-[![CI](https://github.com/pratsy/skills-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/pratsy/skills-AI/actions/workflows/ci.yml)
+[![CI](https://github.com/pratsy/B2B_agent_skills/actions/workflows/ci.yml/badge.svg)](https://github.com/pratsy/B2B_agent_skills/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/b2b-agent-skills)](https://pypi.org/project/b2b-agent-skills/)
 [![Python](https://img.shields.io/pypi/pyversions/b2b-agent-skills)](https://pypi.org/project/b2b-agent-skills/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -104,7 +104,7 @@ The playbooks and jobs above are built on 46 skills, each a named methodology wi
 
 From Python: `run_skill("pipeline-health-monitor", data, provider="anthropic")` ([SDK guide](docs/sdk.md)). Over HTTP: `b2b-skills serve` ([API guide](docs/http-api.md)).
 
-Full documentation: **https://pratsy.github.io/skills-AI/**
+Full documentation: **https://pratsy.github.io/B2B_agent_skills/**
 
 ## Contributing
 
