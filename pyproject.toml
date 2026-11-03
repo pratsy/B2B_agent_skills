@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "b2b-agent-skills"
 dynamic = ["version"]
-description = "Open-source GTM workspace for early-stage B2B teams (sales, marketing, RevOps): messaging, ICP discovery, lead scoring, call debriefs, and pipeline reviews on 46 evidence-grounded skills."
+description = "Open-source AI tool for early-stage B2B founders across sales, marketing, GTM and RevOps. Point it at your notes, leads and CRM: it sharpens your message, finds your ICP, scores who to call, debriefs every deal, and reviews your pipeline. Runs on Claude."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]

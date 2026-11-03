@@ -1,7 +1,7 @@
 {
   "name": "b2b-agent-skills",
   "version": "0.5.0",
-  "description": "GTM workspace for early-stage B2B teams (sales, marketing, RevOps): messaging fixes, ICP discovery, lead scoring, call debriefs, and pipeline reviews, built on 46 evidence-grounded skills (Dunford positioning, MEDDPICC, SPIN, Sean Ellis PMF test, and more).",
+  "description": "Open-source AI tool for early-stage B2B founders across sales, marketing, GTM and RevOps. Point it at your notes, leads and CRM: it sharpens your message, finds your ICP, scores who to call, debriefs every deal, and reviews your pipeline. Runs on Claude.",
   "author": {
     "name": "pratsy",
     "url": "https://github.com/pratsy"
@@ -9,6 +9,17 @@
   "homepage": "https://pratsy.github.io/B2B_agent_skills/",
   "repository": "https://github.com/pratsy/B2B_agent_skills",
   "license": "MIT",
-  "keywords": ["sales", "marketing", "revops", "gtm", "meddpicc", "forecasting", "b2b"],
-  "skills": ["./.claude/skills/", "./playbooks/"]
+  "keywords": [
+    "sales",
+    "marketing",
+    "revops",
+    "gtm",
+    "meddpicc",
+    "forecasting",
+    "b2b"
+  ],
+  "skills": [
+    "./.claude/skills/",
+    "./playbooks/"
+  ]
 }
