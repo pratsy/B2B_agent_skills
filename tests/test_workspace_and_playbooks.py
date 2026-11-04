@@ -179,7 +179,8 @@ def test_playbook_golden_suite_is_well_formed():
     for s in suites:
         kind = load_playbook(s["playbook"])["kind"]
         for c in s["cases"]:
-            assert c[inputs[kind]] and c["assertions"]
+            given = c.get(inputs[kind]) or (c.get("documents") if kind == "checkup" else None)
+            assert given and c["assertions"]
 
 
 def test_cli_playbook_list(capsys):

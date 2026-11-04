@@ -1,15 +1,16 @@
 """GTM checkup: an honest scorecard of an early-stage B2B company's go-to-market.
 
-    b2b-skills checkup [yourcompany.com] [--answers answers.json] [--survey responses.csv] [--pipeline deals.csv]
+    b2b-skills checkup [yourcompany.com] [--answers answers.json] [--docs folder-or-files ...]
 
 Inputs, all optional but at least one required:
-- the founder's answers to ten questions (asked interactively, or from --answers): the main input
+- the founder's answers to ten questions (asked interactively, or from --answers)
+- documents the founder already has (--docs): lead sheets, CRM/deal exports, customer lists,
+  PMF surveys, call notes, the pitch deck. Spreadsheets are summarized in code (documents.py)
 - the website: what a buyer reads (positioning, messaging, proof)
-- data: a PMF survey, a pipeline export
 
 Eight areas, each owned by a role on a GTM team (CMO, Strategy, Growth, Head of Sales, RevOps),
 scored by named methods. The math is done in code; every point quotes its source (the page or
-the founder's answer); areas without data say "unknown" and what would unlock them.
+the founder's answer or document); areas without data say "unknown" and what would unlock them.
 """
 
 from __future__ import annotations
@@ -23,6 +24,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
+from .documents import DocumentSet, read_documents
 from .errors import ProviderError, SkillOutputError, SkillsError
 from .extraction import extract_inputs, quote_in_source
 from .providers import Provider, get_provider
@@ -82,14 +84,14 @@ AREAS = [
 ]
 
 UNLOCK = {
-    "icp": "Answer questions 2-3 (best customers, churn), and/or `b2b-skills playbook find-icp --customers accounts.csv`",
-    "pmf": "Answer question 8 (retention), and/or send the Sean Ellis survey and add `--survey responses.csv`",
+    "icp": "Answer questions 2-3 (best customers, churn), and/or add a customer list with won/lost: `--docs accounts.csv`",
+    "pmf": "Answer question 8 (retention), and/or send the Sean Ellis survey and add `--docs responses.csv`",
     "positioning": "Add your website: `b2b-skills checkup yourcompany.com`",
     "proof": "Add your website: `b2b-skills checkup yourcompany.com`",
-    "demand": "Answer question 4 (where leads come from)",
+    "demand": "Answer question 4 (where leads come from), and/or add your lead sheet: `--docs leads.csv`",
     "pricing": "Answer question 7 (pricing, deal size, discounting)",
-    "sales_motion": "Answer questions 5-6 (process, win rate, cycle), then debrief real calls with `b2b-skills playbook call-debrief`",
-    "pipeline": "Answer question 9 (pipeline vs. target), and/or add `--pipeline deals.csv`",
+    "sales_motion": "Answer questions 5-6 (process, win rate, cycle), add a CRM export with closed deals (`--docs deals.csv`), then debrief real calls with `b2b-skills playbook call-debrief`",
+    "pipeline": "Answer question 9 (pipeline vs. target), and/or add your CRM deal export: `--docs deals.csv`",
 }
 
 SINGLE_CRITERION_CAP = 60.0  # an area scored from one answered criterion is at most "decent"
@@ -130,6 +132,7 @@ class CheckupResult:
     overall: float | None
     scored: int
     biggest_risk: str = ""
+    documents: list[dict[str, str]] = field(default_factory=list)
     saved_to: str | None = None
     raw: dict[str, Any] = field(default_factory=dict)
 
@@ -141,6 +144,7 @@ class CheckupResult:
             "biggest_risk": self.biggest_risk,
             "areas": [{**asdict(a), "band": a.band} for a in self.areas],
             "fixes": self.fixes,
+            "documents": self.documents,
             "saved_to": self.saved_to,
         }
 
@@ -228,11 +232,17 @@ def _pmf_score(pct: Any) -> float | None:
 
 
 def _pipeline_from_csv(path: str | Path) -> tuple[float, str]:
-    from .review import code_flags, deals_from_csv
+    from .review import deals_from_csv
 
     deals = deals_from_csv(path)
     if not deals:
         raise SkillsError(f"{path} has no deals")
+    return _pipeline_score(deals)
+
+
+def _pipeline_score(deals: list[dict[str, Any]]) -> tuple[float, str]:
+    from .review import code_flags
+
     bad = [d for d in deals if code_flags(d, _dt.date.today())]
     return round(
         100 * (1 - len(bad) / len(deals)), 1
@@ -254,6 +264,23 @@ AREA_QUESTIONS = {
 }
 
 
+def quote_sources(quote: str, named_sources: list[tuple[str, str]]) -> list[str]:
+    """Which sources a verified quote came from. Evidence joined from several places ("… ") may span several files."""
+    from .extraction import _FRAGMENT_SPLIT
+
+    whole = [name for name, text in named_sources if text and quote_in_source(quote, text)]
+    if whole:
+        return whole[:1]
+    found: list[str] = []
+    for fragment in _FRAGMENT_SPLIT.split(quote):
+        if len(fragment.strip(".\"' ")) < 4:
+            continue
+        name = next((n for n, text in named_sources if text and quote_in_source(fragment, text)), None)
+        if name and name not in found:
+            found.append(name)
+    return found
+
+
 def _answered(area: str, answers: dict[str, str]) -> bool:
     return any(answers.get(q, "").strip() for q in AREA_QUESTIONS[area])
 
@@ -270,6 +297,7 @@ def run_checkup(
     survey_csv: str | Path | None = None,
     pipeline_csv: str | Path | None = None,
     competitors: list[str] | None = None,
+    documents: Sequence[str | Path] | DocumentSet | None = None,
     provider: Provider | str | None = None,
     workspace: Workspace | None = None,
 ) -> CheckupResult:
@@ -284,29 +312,36 @@ def run_checkup(
             f"only {len(page_text.strip())} characters of text came back from {website} (it may render with JavaScript). "
             "Save the homepage text to a file and pass --text homepage.txt"
         )
-    if not answers and not page_text and not survey_csv and not pipeline_csv:
-        raise SkillsError("give the checkup something to work with: answer the questions, add your website, or both")
+    docs = documents if isinstance(documents, DocumentSet) else read_documents(list(documents or []))
+    if documents and not docs and not answers and not page_text:
+        raise SkillsError("none of the documents could be read: " + "; ".join(docs.skipped))
+    if not answers and not page_text and not survey_csv and not pipeline_csv and not docs:
+        raise SkillsError("give the checkup something to work with: answer the questions, point it at your documents, add your website")
 
     context = workspace.company_context() if workspace else None
     qa = answers_text(answers)
+    # What the founder told us: their answers plus their documents. Every founder-side point must quote this.
+    founder_src = "\n\n".join(x for x in (qa, docs.evidence_text()) if x)
     raw: dict[str, Any] = {}
     errors: list[str] = []
 
+    named = [("your answers", qa), *((d.name, d.text) for d in docs.docs)]
+    founder_input: dict[str, Any] = {"answers": answers}
+    if docs:
+        founder_input["documents"] = docs.for_skill()
+
     def founder() -> None:
-        if not qa:
+        if not founder_src:
             return
-        out = (
-            run_skill("gtm-founder-diagnostic", {"answers": answers}, provider=provider, context=context, raise_on_invalid=False).output
-            or {}
-        )
+        out = run_skill("gtm-founder-diagnostic", founder_input, provider=provider, context=context, raise_on_invalid=False).output or {}
         missed = [
             area
             for area in FOUNDER_RUBRIC
-            if _answered(area, answers) and score_founder_area(area, (out.get(area) or {}).get("items", []), qa)[0] is None
+            if _answered(area, answers) and score_founder_area(area, (out.get(area) or {}).get("items", []), founder_src)[0] is None
         ]
         if missed:  # the founder answered these, so a second look must quote them
             feedback = {
-                "answers": answers,
+                **founder_input,
                 "_feedback": f"The founder answered the questions for {', '.join(missed)}, but your evidence for those areas was "
                 "missing or not word-for-word. Score them again, quoting the founder's exact words in each evidence field.",
             }
@@ -348,10 +383,12 @@ def run_checkup(
             ).output
 
     def pmf() -> None:
+        rows = docs.survey_rows
         if survey_csv:
             from .tables import read_csv
 
             _, rows = read_csv(survey_csv)
+        if rows:
             raw["pmf"] = run_skill(
                 "pmf-survey-analyzer", {"responses": rows}, provider=provider, context=context, raise_on_invalid=False
             ).output
@@ -369,17 +406,23 @@ def run_checkup(
     fdx = raw.get("founder") or {}
     for key in FOUNDER_RUBRIC:
         block = fdx.get(key) or {}
-        score, checked = score_founder_area(key, block.get("items", []), qa) if qa else (None, [])
+        score, checked = score_founder_area(key, block.get("items", []), founder_src) if founder_src else (None, [])
         if score is not None:
             a = areas[key]
             answered = [c for c in checked if not c.get("unanswered")]
+            for c in answered:  # where each quote came from: the answers, or which documents
+                c["source"] = ", ".join(quote_sources(c["evidence"], named)) or ("your answers" if qa else "your documents")
             missing = [c["criterion"].replace("_", " ") for c in checked if c.get("unanswered")]
-            if len(answered) == 1:
-                # One fact can't make an area strong: cap it and say what's still unknown.
+            sources = list(dict.fromkeys(src for c in answered for src in c["source"].split(", ")))
+            # One call note or one deck is one voice: like a single answered criterion, it can't make an area strong.
+            single_note = len(answered) > 1 and len(sources) == 1 and docs.kind_of(sources[0]) in {"notes", "deck"}
+            if len(answered) == 1 or single_note:
                 score = min(score, SINGLE_CRITERION_CAP)
-            a.score, a.evidence, a.sources = score, checked, ["your answers"]
+            a.score, a.evidence, a.sources = score, checked, sources
             weak = _weak(checked)
             a.finding = ("weak on: " + ", ".join(weak)) if weak else "solid on what you described"
+            if single_note:
+                a.finding = f"provisional (all from one document, {sources[0]}); {a.finding}"
             if len(answered) == 1:
                 a.finding = f"provisional (1 of {len(checked)} criteria answered; unknown: {', '.join(missing)}); {a.finding}"
             a.fix = str(block.get("fix") or "")
@@ -422,13 +465,15 @@ def run_checkup(
     if raw.get("pmf"):
         p, a = raw["pmf"], areas["pmf"]
         a.score = _pmf_score(p.get("pmf_score_pct"))
-        a.sources = ["PMF survey (Sean Ellis)"]
+        a.sources = [f"PMF survey ({docs.survey_name})" if docs.survey_rows and not survey_csv else "PMF survey (Sean Ellis)"]
         a.finding = f"{p.get('pmf_score_pct')}% very disappointed ({p.get('pmf_band')}); strongest segment: {p.get('strongest_segment')}"
-    if pipeline_csv:
+    if pipeline_csv or docs.open_deals:
         try:
-            score, finding = _pipeline_from_csv(pipeline_csv)
+            score, finding = _pipeline_from_csv(pipeline_csv) if pipeline_csv else _pipeline_score(docs.open_deals)
             a = areas["pipeline"]
-            a.score, a.finding, a.sources = _mean([a.score, score]), finding, [*a.sources, "pipeline export"]
+            label = "pipeline export" if pipeline_csv else docs.pipeline_name
+            a.score, a.finding = _mean([a.score, score]), finding
+            a.sources = list(dict.fromkeys([*a.sources, label]))
         except (SkillsError, ValueError) as e:
             errors.append(f"pipeline: {e}")
     for key, text in UNLOCK.items():
@@ -436,17 +481,25 @@ def run_checkup(
             areas[key].unlock = text
 
     ordered = [areas[k] for k, *_ in AREAS]
-    from_answers = sum(1 for a in ordered if "your answers" in a.sources)
-    # A GTM score needs the founder's side of the story; a website alone only gets a website score.
-    overall = _mean([a.score for a in ordered]) if from_answers >= 3 else None
+    founder_side = sum(1 for a in ordered if a.score is not None and any(s != "website" for s in a.sources))
+    # A GTM score needs the founder's side of the story (answers or documents); a website alone only gets a website score.
+    overall = _mean([a.score for a in ordered]) if founder_side >= 3 else None
     website_score = _mean(
         [a.score for a in ordered if a.sources == ["website"]] + ([site["icp_clarity"][0]] if "icp_clarity" in site else [])
     )
-    fixes = build_fixes(ordered, raw, sources=[s for s in (page_text, qa) if s])
-    grounding = [s for s in (page_text, qa) if s]
+    grounding = [s for s in (page_text, founder_src) if s]
+    fixes = build_fixes(ordered, raw, sources=grounding)
     risk = _grounded(str(fdx.get("biggest_risk") or ""), grounding) or _grounded(str(audit_out.get("biggest_gap") or ""), grounding)
     report = render_report(
-        website, ordered, overall, fixes, risk, audit_out.get("headline"), errors, site_score=website_score if page_text else None
+        website,
+        ordered,
+        overall,
+        fixes,
+        risk,
+        audit_out.get("headline"),
+        errors,
+        site_score=website_score if page_text else None,
+        documents=docs,
     )
     result = CheckupResult(
         website=website,
@@ -456,6 +509,7 @@ def run_checkup(
         overall=overall,
         scored=sum(1 for a in ordered if a.score is not None),
         biggest_risk=risk,
+        documents=docs.to_list(),
         raw=raw,
     )
     if workspace:
@@ -463,7 +517,9 @@ def run_checkup(
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(report, encoding="utf-8")
         result.saved_to = str(path.relative_to(workspace.root))
-        workspace.log_run({"type": "checkup", "website": website, "answers": answers, "result": result.to_dict()})
+        workspace.log_run(
+            {"type": "checkup", "website": website, "answers": answers, "documents": docs.to_list(), "result": result.to_dict()}
+        )
     return result
 
 
@@ -487,13 +543,22 @@ NUMBER_WORDS = (
 )
 
 
+UNITS = r"(?:days?|weeks?|months?|quarters?|years?|hours?|minutes?|seats?|deals?|customers?|leads?|accounts?|calls?|reps?|users?)"
+
+
 def numbers_supported(text: str, sources: list[str]) -> bool:
-    """Every number in a suggested fix or finding (digits, or words like "two weeks") must appear in the answers or on the site."""
-    joined = " ".join(sources).lower()
-    haystack = re.sub(r"[,\s]", "", joined)
-    for n in re.findall(r"\d[\d,.]*\s*[kmb%+]?", text.lower()):
-        core = re.sub(r"[,\s+]", "", n).rstrip(".")
-        if core and core not in haystack:
+    """Every number in a suggested fix or finding must appear in the sources: as a whole number (not inside "51-200"),
+    with its "$" if it's money, and with its unit if it has one ("60 days"; number words: "two weeks")."""
+    joined = re.sub(r"(?<=\d),(?=\d)", "", " ".join(sources).lower())
+    squeezed = re.sub(r"\s+", "", joined)
+    pattern = r"(\$)?(\d[\d,.]*\d|\d)\s*([kmb]\b|%)?(\s*" + UNITS + r"\b)?"
+    for m in re.finditer(pattern, text.lower()):
+        dollar, core, suffix, unit = m.group(1), m.group(2).replace(",", ""), m.group(3) or "", m.group(4)
+        if not re.search(rf"(?<![\d.\-–]){re.escape(core)}(?!\d|\.\d)", joined):
+            return False
+        if dollar and f"${core}{suffix}" not in squeezed:
+            return False
+        if unit and not re.search(rf"(?<![\d.]){re.escape(core)}\s*{unit.strip().rstrip('s')}", joined):
             return False
     # A number word must appear with the word after it ("two weeks"), not just anywhere ("two agencies").
     phrases = re.findall(r"\b((?:" + "|".join(NUMBER_WORDS) + r")\s+[a-z]+)", text.lower())
@@ -559,6 +624,7 @@ def render_report(
     headline: Any,
     errors: list[str],
     site_score: float | None = None,
+    documents: DocumentSet | None = None,
 ) -> str:
     scored = [a for a in areas if a.score is not None]
     lines = [f"# GTM checkup{': ' + website if website else ''}", ""]
@@ -569,7 +635,8 @@ def render_report(
             f"**Website score: {site_score:.0f}/100** ({band(site_score)}). This covers only what a buyer reads on your site.",
             "",
             "> This is not your GTM score: product-market fit, demand, pricing, sales motion, and pipeline can't be judged "
-            "from a website. Answer the 10 questions (`b2b-skills checkup` without `--website-only`, about 3 minutes) to score them.",
+            "from a website. Answer the 10 questions (`b2b-skills checkup` without `--website-only`, about 3 minutes) "
+            "or point it at your documents (`--docs leads.csv deals.csv notes/`) to score them.",
         ]
     if risk:
         lines += ["", f"**Biggest risk:** {risk}"]
@@ -589,11 +656,15 @@ def render_report(
     unknown = [a for a in areas if a.score is None]
     if unknown:
         lines += ["", "## Unlock the rest", ""] + [f"- **{a.name}**: {a.unlock}" for a in unknown]
+    if documents and (documents.docs or documents.skipped):
+        lines += ["", "## What we read", ""] + [f"- `{d.name}`: {d.summary}" for d in documents.docs]
+        lines += [f"- skipped `{s}`" for s in documents.skipped]
     quotes = [(a, e) for a in areas for e in a.evidence if e.get("evidence")]
     if quotes:
         lines += ["", "## Evidence", ""]
         for a, e in quotes[:14]:
-            where = "site" if e.get("source") == "website" else "you said"
+            src = e.get("source") or "your answers"
+            where = "site" if src == "website" else "you said" if src == "your answers" else src
             lines.append(f'- {a.name} · {e["criterion"].replace("_", " ")} {e["points"]}/{e["max"]} ({where}): "{e["evidence"]}"')
     if headline:
         lines += ["", f'Homepage headline as written: "{headline}"']
@@ -601,6 +672,6 @@ def render_report(
         lines += ["", "> Some checks didn't complete: " + "; ".join(errors)]
     lines += [
         "",
-        "_Scored with named methods (Dunford positioning, Sean Ellis PMF test, MEDDPICC-style qualification, pipeline coverage); every point quotes your answers or your site._",
+        "_Scored with named methods (Dunford positioning, Sean Ellis PMF test, MEDDPICC-style qualification, pipeline coverage); every point quotes your answers, your documents, or your site._",
     ]
     return "\n".join(lines) + "\n"

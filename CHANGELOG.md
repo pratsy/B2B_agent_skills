@@ -4,6 +4,7 @@
 
 ### Added
 
+- **Checkup reads your documents** (`--docs PATH ...`, files or folders): CRM deal exports, lead sheets, customer lists, PMF surveys (CSV or XLSX), and call notes, transcripts, decks, and docs (TXT, MD, VTT, SRT, DOCX, PPTX, HTML; PDF with the new `docs-reader` extra). Files are recognized by content. Spreadsheet numbers (win rate, deal size, sales cycle, lost reasons, lead-source mix, customer-attribute lift, stale open deals) are computed in code and given to the model as quotable sentences. Every score names the file it came from; documents alone can produce a GTM score; one call note or deck alone can't make an area strong. Sample files in `examples/demo/docs/`.
 - **GTM checkup** (`b2b-skills checkup [yourcompany.com]`): the new front door. Ten quick questions plus the website produce a scorecard across 8 areas (ICP, product-market fit, positioning and messaging, proof, demand and channels, pricing, sales motion, pipeline), each owned by a GTM role, with the biggest risk, the top 3 fixes, and what would unlock unknown areas. Optional `--survey` and `--pipeline` data deepen it. Rubric points and every score are computed in code; every point quotes the founder's answers or the page; unknown is never scored as zero; one answered criterion can't make an area strong; a website alone gets a website score, not a GTM score. Passes its evals on Claude Sonnet 4.5, and was checked on two real startup websites.
 - **`gtm-founder-diagnostic`** and **`gtm-website-audit`** skills (now 48): the founder interview scored on six rubrics, and the website scored on ICP clarity, Dunford positioning components, the swap test, and proof.
 - The page reader now keeps the page title, meta description, and image alt text (customer logos are often images).
@@ -12,6 +13,7 @@
 
 ### Changed
 
+- Numbers in suggested fixes must appear whole in the sources, with their "$" and unit: "$200/seat" no longer passes because "51-200" is in a lead sheet, and "60 days" needs "60 days".
 - The README leads with the checkup and presents the skills as a GTM team: CMO, Head of Sales, RevOps lead, Strategy advisor.
 - Evidence gathered from several places on a page is accepted when every fragment is verbatim.
 - The repository is now `pratsy/B2B_agent_skills` (was `pratsy/skills-AI`). GitHub redirects old repo and clone URLs; the docs site moved to https://pratsy.github.io/B2B_agent_skills/.

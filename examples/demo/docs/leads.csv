@@ -1,0 +1,61 @@
+First Name,Company,Job Title,Industry,# Employees,Lead Source,Email
+Lead1,Company 1,Founder,Fintech,51-200,Founder referral,lead1@example.com
+Lead2,Company 2,VP Sales,Fintech,201-500,Founder referral,lead2@example.com
+Lead3,Company 3,Founder,Agency,1-10,LinkedIn,lead3@example.com
+Lead4,Company 4,Marketing Manager,SaaS,51-200,Founder referral,lead4@example.com
+Lead5,Company 5,Head of RevOps,Fintech,201-500,LinkedIn,lead5@example.com
+Lead6,Company 6,VP Sales,SaaS,1-10,LinkedIn,lead6@example.com
+Lead7,Company 7,Founder,Fintech,51-200,Website,lead7@example.com
+Lead8,Company 8,Head of RevOps,Ecommerce,51-200,LinkedIn,lead8@example.com
+Lead9,Company 9,Head of RevOps,Fintech,51-200,LinkedIn,lead9@example.com
+Lead10,Company 10,VP Sales,Fintech,201-500,Founder referral,lead10@example.com
+Lead11,Company 11,CRO,Fintech,51-200,Founder referral,lead11@example.com
+Lead12,Company 12,VP Sales,Fintech,11-50,Founder referral,lead12@example.com
+Lead13,Company 13,Head of RevOps,Fintech,51-200,Founder referral,lead13@example.com
+Lead14,Company 14,VP Sales,Fintech,11-50,Founder referral,lead14@example.com
+Lead15,Company 15,VP Sales,Agency,51-200,Founder referral,lead15@example.com
+Lead16,Company 16,Head of RevOps,Fintech,51-200,LinkedIn,lead16@example.com
+Lead17,Company 17,CRO,Fintech,11-50,Founder referral,lead17@example.com
+Lead18,Company 18,Head of RevOps,SaaS,51-200,Founder referral,lead18@example.com
+Lead19,Company 19,CRO,Fintech,1-10,Founder referral,lead19@example.com
+Lead20,Company 20,Head of RevOps,Fintech,51-200,Founder referral,lead20@example.com
+Lead21,Company 21,VP Sales,Fintech,201-500,Founder referral,lead21@example.com
+Lead22,Company 22,Marketing Manager,SaaS,11-50,Founder referral,lead22@example.com
+Lead23,Company 23,Marketing Manager,Fintech,11-50,Founder referral,lead23@example.com
+Lead24,Company 24,VP Sales,Agency,51-200,Website,lead24@example.com
+Lead25,Company 25,VP Sales,Agency,51-200,Website,lead25@example.com
+Lead26,Company 26,VP Sales,SaaS,1-10,LinkedIn,lead26@example.com
+Lead27,Company 27,VP Sales,Ecommerce,11-50,Founder referral,lead27@example.com
+Lead28,Company 28,Founder,Ecommerce,11-50,Website,lead28@example.com
+Lead29,Company 29,CRO,Fintech,11-50,Founder referral,lead29@example.com
+Lead30,Company 30,VP Sales,Fintech,11-50,LinkedIn,lead30@example.com
+Lead31,Company 31,Head of RevOps,Agency,11-50,Founder referral,lead31@example.com
+Lead32,Company 32,CRO,SaaS,11-50,Founder referral,lead32@example.com
+Lead33,Company 33,Founder,Agency,51-200,Founder referral,lead33@example.com
+Lead34,Company 34,CRO,Fintech,51-200,LinkedIn,lead34@example.com
+Lead35,Company 35,VP Sales,Fintech,51-200,Founder referral,lead35@example.com
+Lead36,Company 36,CRO,Fintech,51-200,LinkedIn,lead36@example.com
+Lead37,Company 37,Founder,SaaS,51-200,Founder referral,lead37@example.com
+Lead38,Company 38,Founder,Fintech,51-200,Founder referral,lead38@example.com
+Lead39,Company 39,Founder,Agency,51-200,Founder referral,lead39@example.com
+Lead40,Company 40,VP Sales,Fintech,51-200,Founder referral,lead40@example.com
+Lead41,Company 41,Head of RevOps,Fintech,201-500,Founder referral,lead41@example.com
+Lead42,Company 42,Marketing Manager,Fintech,11-50,Founder referral,lead42@example.com
+Lead43,Company 43,Founder,SaaS,201-500,Founder referral,lead43@example.com
+Lead44,Company 44,Marketing Manager,Fintech,11-50,Website,lead44@example.com
+Lead45,Company 45,Founder,Agency,11-50,Founder referral,lead45@example.com
+Lead46,Company 46,VP Sales,SaaS,51-200,Founder referral,lead46@example.com
+Lead47,Company 47,VP Sales,Fintech,11-50,Founder referral,lead47@example.com
+Lead48,Company 48,Head of RevOps,Fintech,11-50,Founder referral,lead48@example.com
+Lead49,Company 49,Marketing Manager,Agency,11-50,LinkedIn,lead49@example.com
+Lead50,Company 50,Head of RevOps,Agency,51-200,Website,lead50@example.com
+Lead51,Company 51,VP Sales,Ecommerce,11-50,Founder referral,lead51@example.com
+Lead52,Company 52,Marketing Manager,Fintech,51-200,Founder referral,lead52@example.com
+Lead53,Company 53,Head of RevOps,Fintech,11-50,Founder referral,lead53@example.com
+Lead54,Company 54,VP Sales,Fintech,51-200,Founder referral,lead54@example.com
+Lead55,Company 55,Founder,Fintech,11-50,Founder referral,lead55@example.com
+Lead56,Company 56,Head of RevOps,Fintech,201-500,Founder referral,lead56@example.com
+Lead57,Company 57,Founder,Ecommerce,51-200,LinkedIn,lead57@example.com
+Lead58,Company 58,Head of RevOps,Agency,201-500,Founder referral,lead58@example.com
+Lead59,Company 59,CRO,SaaS,51-200,Website,lead59@example.com
+Lead60,Company 60,Marketing Manager,Agency,51-200,Founder referral,lead60@example.com
