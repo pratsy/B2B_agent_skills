@@ -11,6 +11,9 @@
     "stage": {
       "type": "string",
       "description": "string - e.g. `\"first customers\"`, `\"repeatable\"`, `\"scaling\"` (optional; from q1)"
+    },
+    "documents": {
+      "description": "array - e.g. files the founder shared, each `{\"name\", \"kind\", \"text\"}`: lead sheets, deal exports, customer lists, call notes, decks. Spreadsheets arrive already summarized in code, e.g. `{\"name\": \"deals.csv\", \"kind\": \"deal export\", \"text\": \"Win rate on closed deals: 9 of 31 (29%).\"}` (optional)"
     }
   }
 }

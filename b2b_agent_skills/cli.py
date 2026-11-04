@@ -388,6 +388,15 @@ def cmd_checkup(args: argparse.Namespace) -> int:
             if a:
                 answers[f"q{i}"] = a
         print("", file=sys.stderr)
+    docs = [p for group in args.docs or [] for p in group]
+    if not docs and not args.website_only and _interactive(args):
+        import shlex
+
+        extra = input(
+            "Any documents? Lead sheets, CRM exports, customer lists, call notes, your deck: files or a folder (Enter to skip)\n> "
+        ).strip()
+        docs = shlex.split(extra) if extra else []
+        print("", file=sys.stderr)
     page_text = Path(args.text).read_text(encoding="utf-8") if args.text else None
     ws = _workspace(args)
     result = run_checkup(
@@ -397,6 +406,7 @@ def cmd_checkup(args: argparse.Namespace) -> int:
         survey_csv=args.survey,
         pipeline_csv=args.pipeline,
         competitors=args.competitor,
+        documents=docs,
         provider=_provider(args),
         workspace=ws,
     )
@@ -485,6 +495,14 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("checkup", help="GTM checkup: score your go-to-market across 8 areas, with the top 3 fixes")
     p.add_argument("website", nargs="?", help="your website (optional, but scores positioning, messaging, and proof)")
     p.add_argument("--answers", help="answers to the 10 questions, as JSON or 'q1: ...' lines (otherwise asked interactively)")
+    p.add_argument(
+        "--docs",
+        nargs="+",
+        action="append",
+        metavar="PATH",
+        help="files or folders you already have: lead sheets, CRM/deal exports, customer lists, PMF surveys (CSV/XLSX), "
+        "call notes, decks (TXT/MD/DOCX/PPTX/PDF)",
+    )
     p.add_argument("--text", help="homepage text from a file, if the site can't be fetched")
     p.add_argument("--survey", help="Sean Ellis PMF survey responses (CSV)")
     p.add_argument("--pipeline", help="open deals export (CSV)")

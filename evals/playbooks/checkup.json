@@ -109,6 +109,60 @@
           ]
         }
       ]
+    },
+    {
+      "id": "documents-only",
+      "description": "No answers and no website: only a CRM deal export, a lead sheet, and one customer call note. Wins and leads come mostly from founder referrals, half the open deals are stale, and the only PMF evidence is one customer's call.",
+      "documents": {
+        "hubspot-deals.csv": "Deal Name,Company,Deal Stage,Amount,Create Date,Close Date,Last Activity Date,Lost Reason,Lead Source\nLedgerly - Forecasting,Ledgerly,Closed Won,6000,2026-03-29,2026-05-21,2026-05-21,,Founder referral\nPayCircle - Forecasting,PayCircle,Closed Won,6000,2026-08-14,2026-10-02,2026-10-02,,Founder referral\nVaultline - Forecasting,Vaultline,Closed Won,4200,2026-03-18,2026-04-29,2026-04-29,,Founder referral\nClearbank - Forecasting,Clearbank,Closed Won,6000,2026-07-04,2026-08-08,2026-08-08,,Founder referral\nFinch Lending - Forecasting,Finch Lending,Closed Won,4800,2026-05-07,2026-06-14,2026-06-14,,LinkedIn\nMosaic Pay - Forecasting,Mosaic Pay,Closed Won,6000,2026-01-09,2026-02-25,2026-02-25,,Founder referral\nRamply - Forecasting,Ramply,Closed Won,4200,2026-09-04,2026-10-13,2026-10-13,,Founder referral\nTallyfin - Forecasting,Tallyfin,Closed Won,4200,2026-03-09,2026-04-17,2026-04-17,,Founder referral\nBrightledger - Forecasting,Brightledger,Closed Won,7200,2026-07-18,2026-08-30,2026-08-30,,LinkedIn\nCorelend - Forecasting,Corelend,Closed Lost,4800,2026-04-05,2026-05-31,2026-05-31,Went with Clari,Website\nNorthstar Credit - Forecasting,Northstar Credit,Closed Lost,4800,2026-07-26,2026-09-13,2026-09-13,No budget,Founder referral\nQuanta Pay - Forecasting,Quanta Pay,Closed Lost,6000,2026-02-09,2026-03-06,2026-03-06,No budget,Founder referral\nIronvault - Forecasting,Ironvault,Closed Lost,9000,2026-05-10,2026-07-04,2026-07-04,Champion left,LinkedIn\nBluepeak Finance - Forecasting,Bluepeak Finance,Closed Lost,9000,2026-03-24,2026-06-12,2026-06-12,No budget,LinkedIn\nCopperline - Forecasting,Copperline,Closed Lost,6000,2026-07-30,2026-09-13,2026-09-13,Went with Clari,LinkedIn\nSable Payments - Forecasting,Sable Payments,Closed Lost,9000,2026-01-15,2026-03-01,2026-03-01,No budget,Founder referral\nAtlas Treasury - Forecasting,Atlas Treasury,Closed Lost,6000,2026-05-16,2026-07-10,2026-07-10,No budget,Website\nKitebank - Forecasting,Kitebank,Closed Lost,9000,2026-05-17,2026-07-17,2026-07-17,Champion left,Founder referral\nHarbor Pay - Forecasting,Harbor Pay,Closed Lost,6000,2026-07-17,2026-09-16,2026-09-16,Chose spreadsheet / status quo,Website\nPlume Capital - Forecasting,Plume Capital,Closed Lost,4800,2026-08-21,2026-10-09,2026-10-09,Chose spreadsheet / status quo,Founder referral\nSummit Ledger - Forecasting,Summit Ledger,Closed Lost,6000,2026-04-09,2026-05-29,2026-05-29,No budget,LinkedIn\nOrbit Pay - Forecasting,Orbit Pay,Closed Lost,4800,2026-01-09,2026-02-20,2026-02-20,Went with Clari,Founder referral\nGranite Credit - Forecasting,Granite Credit,Closed Lost,4800,2026-08-30,2026-09-24,2026-09-24,No budget,Website\nLumen Finance - Forecasting,Lumen Finance,Closed Lost,9000,2026-08-15,2026-10-10,2026-10-10,No budget,Founder referral\nPinecrest Pay - Forecasting,Pinecrest Pay,Closed Lost,4800,2026-06-14,2026-07-06,2026-07-06,No budget,Founder referral\nArcbank - Forecasting,Arcbank,Closed Lost,9000,2026-06-15,2026-07-24,2026-07-24,Went with Clari,Founder referral\nFathom Lending - Forecasting,Fathom Lending,Closed Lost,4800,2026-01-28,2026-02-26,2026-02-26,Champion left,Founder referral\nTidal Pay - Forecasting,Tidal Pay,Closed Lost,4800,2026-07-18,2026-10-02,2026-10-02,Chose spreadsheet / status quo,LinkedIn\nCobalt Treasury - Forecasting,Cobalt Treasury,Closed Lost,9000,2026-07-03,2026-09-09,2026-09-09,Chose spreadsheet / status quo,Founder referral\nEmber Finance - Forecasting,Ember Finance,Closed Lost,4800,2026-06-13,2026-07-04,2026-07-04,No budget,Founder referral\nBrook Agency - Forecasting,Brook Agency,Closed Lost,4800,2026-05-12,2026-06-22,2026-06-22,Chose spreadsheet / status quo,Founder referral\nPixel & Co Agency - Forecasting,Pixel & Co Agency,Discovery,6000,2026-09-04,2026-11-14,2026-10-30,,Founder referral\nStudio Nine - Forecasting,Studio Nine,Demo,6000,2026-10-08,2026-10-29,2026-10-15,,Founder referral\nLoop Marketing - Forecasting,Loop Marketing,Proposal,4800,2026-08-27,2026-10-23,2026-11-01,,Founder referral\nVector Agency - Forecasting,Vector Agency,Demo,4800,2026-10-13,2026-11-29,2026-11-02,,Founder referral\nCrestline Pay - Forecasting,Crestline Pay,Discovery,7200,2026-09-29,2026-11-01,2026-10-04,,Founder referral\nDelta Ledger - Forecasting,Delta Ledger,Proposal,7200,2026-10-01,2026-11-18,2026-11-03,,Founder referral\nMeridian Credit - Forecasting,Meridian Credit,Negotiation,7200,2026-08-19,2026-10-15,2026-10-17,,Founder referral\nNova Pay - Forecasting,Nova Pay,Discovery,4800,2026-09-09,2026-12-14,2026-10-29,,Founder referral\n",
+        "leads.csv": "First Name,Company,Job Title,Industry,# Employees,Lead Source,Email\nLead1,Company 1,Founder,Fintech,51-200,Founder referral,lead1@example.com\nLead2,Company 2,VP Sales,Fintech,201-500,Founder referral,lead2@example.com\nLead3,Company 3,Founder,Agency,1-10,LinkedIn,lead3@example.com\nLead4,Company 4,Marketing Manager,SaaS,51-200,Founder referral,lead4@example.com\nLead5,Company 5,Head of RevOps,Fintech,201-500,LinkedIn,lead5@example.com\nLead6,Company 6,VP Sales,SaaS,1-10,LinkedIn,lead6@example.com\nLead7,Company 7,Founder,Fintech,51-200,Website,lead7@example.com\nLead8,Company 8,Head of RevOps,Ecommerce,51-200,LinkedIn,lead8@example.com\nLead9,Company 9,Head of RevOps,Fintech,51-200,LinkedIn,lead9@example.com\nLead10,Company 10,VP Sales,Fintech,201-500,Founder referral,lead10@example.com\nLead11,Company 11,CRO,Fintech,51-200,Founder referral,lead11@example.com\nLead12,Company 12,VP Sales,Fintech,11-50,Founder referral,lead12@example.com\nLead13,Company 13,Head of RevOps,Fintech,51-200,Founder referral,lead13@example.com\nLead14,Company 14,VP Sales,Fintech,11-50,Founder referral,lead14@example.com\nLead15,Company 15,VP Sales,Agency,51-200,Founder referral,lead15@example.com\nLead16,Company 16,Head of RevOps,Fintech,51-200,LinkedIn,lead16@example.com\nLead17,Company 17,CRO,Fintech,11-50,Founder referral,lead17@example.com\nLead18,Company 18,Head of RevOps,SaaS,51-200,Founder referral,lead18@example.com\nLead19,Company 19,CRO,Fintech,1-10,Founder referral,lead19@example.com\nLead20,Company 20,Head of RevOps,Fintech,51-200,Founder referral,lead20@example.com\nLead21,Company 21,VP Sales,Fintech,201-500,Founder referral,lead21@example.com\nLead22,Company 22,Marketing Manager,SaaS,11-50,Founder referral,lead22@example.com\nLead23,Company 23,Marketing Manager,Fintech,11-50,Founder referral,lead23@example.com\nLead24,Company 24,VP Sales,Agency,51-200,Website,lead24@example.com\nLead25,Company 25,VP Sales,Agency,51-200,Website,lead25@example.com\nLead26,Company 26,VP Sales,SaaS,1-10,LinkedIn,lead26@example.com\nLead27,Company 27,VP Sales,Ecommerce,11-50,Founder referral,lead27@example.com\nLead28,Company 28,Founder,Ecommerce,11-50,Website,lead28@example.com\nLead29,Company 29,CRO,Fintech,11-50,Founder referral,lead29@example.com\nLead30,Company 30,VP Sales,Fintech,11-50,LinkedIn,lead30@example.com\nLead31,Company 31,Head of RevOps,Agency,11-50,Founder referral,lead31@example.com\nLead32,Company 32,CRO,SaaS,11-50,Founder referral,lead32@example.com\nLead33,Company 33,Founder,Agency,51-200,Founder referral,lead33@example.com\nLead34,Company 34,CRO,Fintech,51-200,LinkedIn,lead34@example.com\nLead35,Company 35,VP Sales,Fintech,51-200,Founder referral,lead35@example.com\nLead36,Company 36,CRO,Fintech,51-200,LinkedIn,lead36@example.com\nLead37,Company 37,Founder,SaaS,51-200,Founder referral,lead37@example.com\nLead38,Company 38,Founder,Fintech,51-200,Founder referral,lead38@example.com\nLead39,Company 39,Founder,Agency,51-200,Founder referral,lead39@example.com\nLead40,Company 40,VP Sales,Fintech,51-200,Founder referral,lead40@example.com\nLead41,Company 41,Head of RevOps,Fintech,201-500,Founder referral,lead41@example.com\nLead42,Company 42,Marketing Manager,Fintech,11-50,Founder referral,lead42@example.com\nLead43,Company 43,Founder,SaaS,201-500,Founder referral,lead43@example.com\nLead44,Company 44,Marketing Manager,Fintech,11-50,Website,lead44@example.com\nLead45,Company 45,Founder,Agency,11-50,Founder referral,lead45@example.com\nLead46,Company 46,VP Sales,SaaS,51-200,Founder referral,lead46@example.com\nLead47,Company 47,VP Sales,Fintech,11-50,Founder referral,lead47@example.com\nLead48,Company 48,Head of RevOps,Fintech,11-50,Founder referral,lead48@example.com\nLead49,Company 49,Marketing Manager,Agency,11-50,LinkedIn,lead49@example.com\nLead50,Company 50,Head of RevOps,Agency,51-200,Website,lead50@example.com\nLead51,Company 51,VP Sales,Ecommerce,11-50,Founder referral,lead51@example.com\nLead52,Company 52,Marketing Manager,Fintech,51-200,Founder referral,lead52@example.com\nLead53,Company 53,Head of RevOps,Fintech,11-50,Founder referral,lead53@example.com\nLead54,Company 54,VP Sales,Fintech,51-200,Founder referral,lead54@example.com\nLead55,Company 55,Founder,Fintech,11-50,Founder referral,lead55@example.com\nLead56,Company 56,Head of RevOps,Fintech,201-500,Founder referral,lead56@example.com\nLead57,Company 57,Founder,Ecommerce,51-200,LinkedIn,lead57@example.com\nLead58,Company 58,Head of RevOps,Agency,201-500,Founder referral,lead58@example.com\nLead59,Company 59,CRO,SaaS,51-200,Website,lead59@example.com\nLead60,Company 60,Marketing Manager,Agency,51-200,Founder referral,lead60@example.com\n",
+        "call-notes-ledgerly.md": "# Call with Ledgerly (renewal check-in), Oct 28\n\nAttendees: Dana (VP Sales, Ledgerly), me\n\n- Dana: \"Honestly if you turned this off tomorrow I'd have to rebuild the forecast in spreadsheets again. My board asks for this view every month.\"\n- They added 4 more seats in September after the RevOps lead started using it for weekly pipeline review.\n- Asked for: Salesforce support (their parent company uses Salesforce), a Slack digest.\n- Pricing: she said $500/month is \"a rounding error\" next to one missed quarter. Asked why we don't charge per seat.\n- Referred us to the CRO at Tallyfin.\n"
+      },
+      "assertions": [
+        {
+          "path": "overall",
+          "gte": 1,
+          "why": "documents are the founder's side of the story, so a GTM score is allowed"
+        },
+        {
+          "path": "scored",
+          "gte": 5
+        },
+        {
+          "path": "areas[key=demand].score",
+          "lte": 50,
+          "why": "78% of won deals and 68% of leads come from founder referrals"
+        },
+        {
+          "path": "areas[key=demand].evidence[criterion=source_mix_known].points",
+          "gte": 15,
+          "why": "the lead sheet and deal export give the source mix in numbers"
+        },
+        {
+          "path": "areas[key=pipeline].score",
+          "lte": 50,
+          "why": "4 of 8 open deals are stale; $48,000 open"
+        },
+        {
+          "path": "areas[key=sales_motion].evidence[criterion=metrics_known].points",
+          "gte": 20,
+          "why": "win rate and cycle computed from the CRM export"
+        },
+        {
+          "path": "areas[key=pmf].score",
+          "lte": 60,
+          "why": "one customer's call is an anecdote: capped"
+        },
+        {
+          "path": "areas[key=positioning].score",
+          "equals": null,
+          "why": "no website: unknown, not zero"
+        },
+        {
+          "path": "report",
+          "contains": "hubspot-deals.csv"
+        }
+      ]
     }
   ]
 }

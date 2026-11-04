@@ -34,7 +34,8 @@ openai = ["openai>=1.40"]
 mcp = ["mcp>=2.0"]
 server = ["fastapi>=0.110", "uvicorn>=0.29"]
 dotenv = ["python-dotenv>=1.0"]
-all = ["b2b-agent-skills[anthropic,openai,mcp,server,dotenv]"]
+docs-reader = ["pypdf>=4"]
+all = ["b2b-agent-skills[anthropic,openai,mcp,server,dotenv,docs-reader]"]
 dev = [
   "b2b-agent-skills[all]",
   "pytest>=8",

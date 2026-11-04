@@ -268,7 +268,15 @@ def _run_playbook_case(playbook: str, case: dict[str, Any], provider: Provider) 
         elif kind == "checkup":
             from .checkup import run_checkup
 
-            cr = run_checkup(answers=case.get("answers"), page_text=case.get("website_text"), provider=provider)
+            doc_paths: list[str | Path] = []
+            if case.get("documents"):
+                import tempfile
+
+                folder = Path(tempfile.mkdtemp(prefix="b2b-eval-docs-"))
+                for name, content in case["documents"].items():
+                    (folder / name).write_text(content, encoding="utf-8")
+                doc_paths = [folder]
+            cr = run_checkup(answers=case.get("answers"), page_text=case.get("website_text"), documents=doc_paths, provider=provider)
             data = {**cr.to_dict(), "report": cr.report, "scored": cr.scored}
         elif kind == "review":
             import datetime as _dt

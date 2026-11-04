@@ -65,12 +65,17 @@ one fact can't make an area strong
 Bands: 80-100 strong · 60-79 decent · 40-59 weak · <40 missing · no answered criteria = unknown
 ```
 
+### Documents as evidence
+
+When the founder shares documents, they answer criteria just as the questions do, and often better: a CRM export's win rate beats "maybe a third". Evidence may quote the answers or any document word for word. Spreadsheets arrive as sentences computed in code ("Lead source: Referral 41 of 60 (68%)"), so quote those sentences and never recompute or extrapolate them. Where a document and an answer disagree, score the document and say so in the fix. A document can answer a criterion even if the founder skipped the question; a document that doesn't mention a criterion leaves it unanswered. A lead sheet or deal list kept in a spreadsheet is evidence for `source_mix_known` or `metrics_known`, but not for `tracked_in_crm` unless it says it came from a CRM.
+
 ## Inputs
 
 | Field | Type | Example |
 |---|---|---|
 | `answers` | object | question number → the founder's answer, e.g. `{"q2": "Mid-market fintech RevOps leads; they bought after a bad forecast miss"}` |
 | `stage` | string | `"first customers"`, `"repeatable"`, `"scaling"` (optional; from q1) |
+| `documents` | array | files the founder shared, each `{"name", "kind", "text"}`: lead sheets, deal exports, customer lists, call notes, decks. Spreadsheets arrive already summarized in code, e.g. `{"name": "deals.csv", "kind": "deal export", "text": "Win rate on closed deals: 9 of 31 (29%)."}` (optional) |
 
 ## Worked example
 

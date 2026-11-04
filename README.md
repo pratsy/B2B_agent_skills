@@ -15,10 +15,10 @@ It runs on your Claude subscription through Claude Code, with no API key needed,
 
 ```bash
 pip install b2b-agent-skills
-b2b-skills checkup yourcompany.com --provider claude-code
+b2b-skills checkup yourcompany.com --docs ./gtm-files --provider claude-code
 ```
 
-Answer 10 quick questions (about 3 minutes) and get an honest scorecard of your go-to-market:
+Answer 10 quick questions (about 3 minutes), point it at what you already have (CRM export, lead sheet, customer list, call notes, deck), and get an honest scorecard of your go-to-market:
 
 | Area | Owner | What it tells you |
 |---|---|---|
@@ -31,7 +31,7 @@ Answer 10 quick questions (about 3 minutes) and get an honest scorecard of your 
 | Sales motion | Head of Sales | are deals run on a process and evidence? |
 | Pipeline & RevOps | RevOps | can the pipeline hit the target? |
 
-You get a score per area with the evidence behind it (your words or your site, quoted), the biggest risk, the **top 3 fixes** with the next step for each, and what would unlock any area it can't judge yet. Unknown is never scored as zero. Add a PMF survey (`--survey`) or a pipeline export (`--pipeline`) to go deeper. Re-run it monthly to see the score move.
+You get a score per area with the evidence behind it (your words, your files, or your site, quoted, with the file named), the biggest risk, the **top 3 fixes** with the next step for each, and what would unlock any area it can't judge yet. Unknown is never scored as zero. Numbers from spreadsheets (win rate, lead-source mix, stale deals) are computed in code, never by the model. Re-run it monthly to see the score move.
 
 ## Your GTM team
 
