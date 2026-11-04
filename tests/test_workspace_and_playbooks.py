@@ -60,6 +60,8 @@ def test_quote_matching_is_normalized_but_strict():
     assert quote_in_source("Martin, the CFO, probably signs", NOTES)
     assert quote_in_source("“I’m sponsoring this evaluation”", NOTES.replace("I'm", "I’m"))
     assert not quote_in_source("Martin confirmed he signs", NOTES)
+    assert quote_in_source("I'm sponsoring this evaluation … the price is more than we budgeted", NOTES), "multi-fragment evidence"
+    assert not quote_in_source("I'm sponsoring this evaluation … the CFO confirmed", NOTES), "every fragment must be verbatim"
 
 
 def test_extraction_drops_unverified_values_and_asks_instead():
@@ -173,7 +175,7 @@ def test_playbook_golden_suite_is_well_formed():
 
     suites = load_playbook_golden()
     assert {s["playbook"] for s in suites} == set(list_playbooks())
-    inputs = {"notes": "notes", "list": "rows", "icp": "customers", "review": "deals"}
+    inputs = {"notes": "notes", "list": "rows", "icp": "customers", "review": "deals", "checkup": "answers"}
     for s in suites:
         kind = load_playbook(s["playbook"])["kind"]
         for c in s["cases"]:

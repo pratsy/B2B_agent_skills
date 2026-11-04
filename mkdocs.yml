@@ -38,6 +38,7 @@ validation:
 nav:
   - Home: index.md
   - Getting started: getting-started.md
+  - GTM checkup: checkup.md
   - Playbooks: playbooks.md
   - Workspace & connectors: workspace.md
   - Skill catalog: skills.md

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "gtm-founder-diagnostic input",
+  "description": "Inputs for the gtm-founder-diagnostic skill. Generated from b2b-agent-skills-gtm/skills/gtm-founder-diagnostic/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "answers": {
+      "type": "object",
+      "description": "object - e.g. question number → the founder's answer, e.g. `{\"q2\": \"Mid-market fintech RevOps leads; they bought after a bad forecast miss\"}`"
+    },
+    "stage": {
+      "type": "string",
+      "description": "string - e.g. `\"first customers\"`, `\"repeatable\"`, `\"scaling\"` (optional; from q1)"
+    }
+  }
+}

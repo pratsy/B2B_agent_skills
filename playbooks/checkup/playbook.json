@@ -1,0 +1,9 @@
+{
+  "name": "checkup",
+  "kind": "checkup",
+  "title": "GTM checkup",
+  "description": "An honest scorecard of your go-to-market: ICP, product-market fit, positioning and messaging, proof, demand, pricing, sales motion, and pipeline, scored from your answers to 10 questions plus your website, with the top 3 fixes.",
+  "inputs": "b2b-skills checkup [yourcompany.com] (asks 10 questions; --answers, --survey, --pipeline optional)",
+  "stage": "early",
+  "skills_used": ["gtm-founder-diagnostic", "gtm-website-audit", "messaging-clarity-auditor", "brand-positioning-synthesizer", "pmf-survey-analyzer"]
+}

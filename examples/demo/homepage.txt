@@ -1,0 +1,6 @@
+Headline: The all-in-one revenue platform.
+Subhead: Our platform empowers revenue teams to unlock their full potential with AI-powered insights.
+Supporting points: Real-time CRM sync. Explainable AI risk scoring. No-code rule builder. 15-minute setup.
+
+
+Northwind Forecasting. Flag at-risk deals from your CRM. Book a demo. Pricing: $500 per month. About us: we are a small team building forecasting tools for sales leaders.

@@ -64,7 +64,7 @@ def main() -> None:
     lines = [
         "# Skill catalog",
         "",
-        "All 46 skills. Each page has the methodology, scoring model, inputs, a worked example, and the output schema. ",
+        "All 48 skills. Each page has the methodology, scoring model, inputs, a worked example, and the output schema. ",
         "✅ marks skills with golden eval cases that check the actual answer, not just the output shape.",
         "",
     ]

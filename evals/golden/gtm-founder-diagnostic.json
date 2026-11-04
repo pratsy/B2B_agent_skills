@@ -1,0 +1,59 @@
+{
+  "skill": "gtm-founder-diagnostic",
+  "cases": [
+    {
+      "id": "strong-icp-weak-demand",
+      "description": "Clear ICP and strong retention, but founder-network demand, constant discounting, a founder-run process, and pipeline far below target.",
+      "source": "Worked example in b2b-agent-skills-gtm/skills/gtm-founder-diagnostic/README.md",
+      "readme_example": true,
+      "input": {
+        "answers": {
+          "q1": "Seed stage, 12 paying customers.",
+          "q2": "Mid-market fintech companies, the VP Sales buys after a forecast miss in front of the board.",
+          "q3": "Two agencies who never set it up.",
+          "q4": "Mostly from my network and a few LinkedIn posts.",
+          "q5": "I run every call, no set process.",
+          "q6": "No idea, maybe a third. About 6 weeks.",
+          "q7": "$500/month flat, I discount for almost everyone.",
+          "q8": "11 of 12 renewed.",
+          "q9": "Maybe $40K, target is $60K this quarter.",
+          "q10": "Getting enough good leads without me doing everything."
+        }
+      },
+      "assertions": [
+        {
+          "path": "icp.items[criterion=best_customer_pattern].points",
+          "equals": 40
+        },
+        {
+          "path": "pmf.items[criterion=retention].points",
+          "equals": 40,
+          "why": "11 of 12 renewed"
+        },
+        {
+          "path": "demand.items[criterion=repeatable_channel].points",
+          "equals": 0,
+          "why": "mostly the founder's network"
+        },
+        {
+          "path": "pricing.items[criterion=discount_discipline].points",
+          "equals": 0,
+          "why": "discounts for almost everyone"
+        },
+        {
+          "path": "sales_motion.items[criterion=defined_process].points",
+          "equals": 0
+        },
+        {
+          "path": "pipeline.items[criterion=coverage].points",
+          "equals": 0,
+          "why": "$40K vs. the ~$180K a 1/3 win rate needs for $60K"
+        },
+        {
+          "path": "biggest_risk",
+          "matches": "network|discount|demand|lead"
+        }
+      ]
+    }
+  ]
+}

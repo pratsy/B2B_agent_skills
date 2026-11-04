@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "gtm-website-audit input",
+  "description": "Inputs for the gtm-website-audit skill. Generated from b2b-agent-skills-gtm/skills/gtm-website-audit/README.md by scripts/generate_schemas.py. Every field is optional: send what you have, and the skill asks for what's missing.",
+  "type": "object",
+  "properties": {
+    "website": {
+      "type": "string",
+      "description": "string - e.g. `\"northwind.example\"`"
+    },
+    "page_text": {
+      "type": "string",
+      "description": "string - e.g. the visible text of the homepage (and pricing/about pages if available)"
+    },
+    "known_competitors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "list[string] - e.g. `[\"Clari\", \"spreadsheets\"]`, used for the swap test"
+    }
+  }
+}

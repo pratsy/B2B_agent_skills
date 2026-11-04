@@ -1,6 +1,6 @@
 # MCP server
 
-Expose all 46 skills to any [MCP](https://modelcontextprotocol.io) client: Claude Desktop, Claude Code, Cursor, and others.
+Expose all 48 skills to any [MCP](https://modelcontextprotocol.io) client: Claude Desktop, Claude Code, Cursor, and others.
 
 ```bash
 pip install "b2b-agent-skills[mcp]"

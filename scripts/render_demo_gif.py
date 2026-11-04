@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import subprocess
 import sys
 import textwrap
@@ -22,9 +23,8 @@ from pathlib import Path
 from typing import Any
 
 DEMO_COMMANDS = [
-    "b2b-skills playbook list | grep -E '^[a-z]'",
-    "b2b-skills playbook fix-my-message --notes win-loss-and-homepage.md --provider claude-code",
-    "b2b-skills playbook score-list --csv leads.csv --top 3 --provider claude-code",
+    "head -4 answers.txt",
+    "b2b-skills checkup northwind.example --text homepage.txt --answers answers.txt --brief --provider claude-code",
 ]
 DISPLAY_AS: dict[int, str] = {}
 DEMO_DIR = Path(__file__).resolve().parents[1] / "examples" / "demo"
@@ -42,7 +42,7 @@ def record(path: Path) -> None:
     subprocess.run(["b2b-skills", "init", str(ws), "--yes"], check=True, capture_output=True)
     shutil.copy(DEMO_DIR / "company.md", ws / "company.md")
     shutil.copy(DEMO_DIR / "icp.json", ws / "gtm" / "icp.json")
-    for name in ("win-loss-and-homepage.md", "leads.csv"):
+    for name in ("win-loss-and-homepage.md", "leads.csv", "answers.txt", "homepage.txt"):
         shutil.copy(DEMO_DIR / name, ws / name)
     lines: list[str] = []
     for i, cmd in enumerate(DEMO_COMMANDS):
@@ -68,6 +68,13 @@ def _color(line: str) -> list[tuple[str, str]]:
 
     if line.startswith("$ "):
         return [("$ ", PROMPT), (line[2:], FG)]
+    if TAG in line:
+        chunks: list[tuple[str, str]] = []
+        parts = line.split(TAG)
+        chunks.append((parts[0], FG))
+        for part in parts[1:]:
+            chunks += [(part[1], DOT_COLOR.get(part[0], FG)), (part[2:], FG)]
+        return chunks
     if line.lstrip().startswith("#"):
         return [(line, PROMPT if line.startswith("## ") else KEY)]
     m = re.match(r'^(\s*)("[^"]+")(:\s*)(.*)$', line)
@@ -76,6 +83,58 @@ def _color(line: str) -> list[tuple[str, str]]:
     indent, key, colon, rest = m.groups()
     value_color = STR if rest.startswith('"') else NUM if re.match(r"^-?\d", rest) else FG
     return [(indent, FG), (key, KEY), (colon, FG), (rest, value_color)]
+
+
+TAG = "\x00"
+DOTS = {
+    "🟢": ("G", "●", "#a6e3a1"),
+    "🟡": ("Y", "●", "#f9e2af"),
+    "🟠": ("O", "●", "#fab387"),
+    "🔴": ("R", "●", "#f38ba8"),
+    "⚪": ("W", "○", "#7f849c"),
+}
+DOT_COLOR = {code: color for code, _, color in DOTS.values()}
+
+
+def _tagged(cell: str) -> str:
+    for emoji, (code, dot, _) in DOTS.items():
+        cell = cell.replace(emoji, f"{TAG}{code}{dot}")
+    return cell
+
+
+def _visible_len(s: str) -> int:
+    return len(re.sub(TAG + ".", "", s))
+
+
+def _layout_tables(lines: list[str]) -> list[str]:
+    """Markdown tables -> aligned columns that fit the terminal; emoji dots -> colored circles (tagged for _color)."""
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        if not lines[i].lstrip().startswith("|"):
+            out.append(lines[i])
+            i += 1
+            continue
+        rows = []
+        while i < len(lines) and lines[i].lstrip().startswith("|"):
+            cells = [c.strip() for c in lines[i].strip().strip("|").split("|")]
+            if not all(set(c) <= set("-: ") for c in cells):
+                rows.append([_tagged(c) for c in cells])
+            i += 1
+        ncol = max(len(r) for r in rows)
+        rows = [r + [""] * (ncol - len(r)) for r in rows]
+        natural = [max(_visible_len(r[c]) for r in rows) for c in range(ncol)]
+        widths = [min(n, 23) for n in natural]
+        widest = max(range(ncol), key=lambda c: natural[c])  # the column with the most text gets the spare width
+        widths[widest] = max(10, COLS - (sum(widths) - widths[widest]) - 2 * (ncol - 1))
+        for r in rows:
+            cells = []
+            for c, cell in enumerate(r):
+                if TAG not in cell and len(cell) > widths[c]:
+                    cell = cell[: widths[c] - 1] + "…"
+                cells.append(cell + " " * max(0, widths[c] - _visible_len(cell)))
+            out.append("  ".join(cells).rstrip())
+    return out
 
 
 def _theme_palette() -> Any:
@@ -106,8 +165,12 @@ def render(session: Path, out: Path) -> None:
     raw = session.read_text(encoding="utf-8").splitlines()
     lines = [ln.encode().decode("unicode_escape") if "\\u" in ln else ln for ln in raw]
     lines = [ln if ln.startswith("$ ") else ln.replace("**", "") for ln in lines]  # show markdown as a terminal would
+    lines = _layout_tables(lines)
     wrapped: list[str] = []
     for ln in lines:
+        if TAG in ln:  # laid-out table rows already fit; slicing would count the invisible color tags
+            wrapped.append(ln)
+            continue
         if len(ln) <= COLS or ln.startswith("$ "):
             wrapped.append(ln[:COLS])
             continue

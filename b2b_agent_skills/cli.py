@@ -157,6 +157,8 @@ def cmd_playbook(args: argparse.Namespace) -> int:
         return _playbook_icp(args)
     if spec["kind"] == "review":
         return _playbook_review(args)
+    if spec["kind"] == "checkup":
+        raise SkillsError("run the checkup with `b2b-skills checkup [yourcompany.com]`")
     if not args.notes and not args.website:
         raise SkillsError(f"give the material to work from, e.g. b2b-skills playbook {args.name} --notes call.txt")
     sources = _read_notes(args.notes) if args.notes else []
@@ -375,6 +377,41 @@ def cmd_batch(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_checkup(args: argparse.Namespace) -> int:
+    from .checkup import QUESTIONS, parse_answers, run_checkup
+
+    answers: dict[str, str] = parse_answers(Path(args.answers).read_text(encoding="utf-8")) if args.answers else {}
+    if not args.answers and not args.website_only and _interactive(args):
+        print("Ten quick questions about your go-to-market (about 3 minutes). Press Enter to skip any.\n", file=sys.stderr)
+        for i, q in enumerate(QUESTIONS, 1):
+            a = input(f"{i}. {q}\n> ").strip()
+            if a:
+                answers[f"q{i}"] = a
+        print("", file=sys.stderr)
+    page_text = Path(args.text).read_text(encoding="utf-8") if args.text else None
+    ws = _workspace(args)
+    result = run_checkup(
+        args.website,
+        answers=answers,
+        page_text=page_text,
+        survey_csv=args.survey,
+        pipeline_csv=args.pipeline,
+        competitors=args.competitor,
+        provider=_provider(args),
+        workspace=ws,
+    )
+    if args.json:
+        print(json.dumps(result.to_dict(), indent=2, ensure_ascii=False))
+    else:
+        report = result.report
+        if args.brief and "\n## Evidence" in report:
+            report = report.split("\n## Evidence")[0].rstrip() + "\n"
+        print(report)
+    if result.saved_to:
+        print(f"(saved to {result.saved_to})", file=sys.stderr)
+    return 0
+
+
 def cmd_init(args: argparse.Namespace) -> int:
     from .init_wizard import create_workspace
 
@@ -444,6 +481,21 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("-y", "--yes", action="store_true", help="don't ask questions; accept drafts")
     _provider_args(p)
     p.set_defaults(func=cmd_init)
+
+    p = sub.add_parser("checkup", help="GTM checkup: score your go-to-market across 8 areas, with the top 3 fixes")
+    p.add_argument("website", nargs="?", help="your website (optional, but scores positioning, messaging, and proof)")
+    p.add_argument("--answers", help="answers to the 10 questions, as JSON or 'q1: ...' lines (otherwise asked interactively)")
+    p.add_argument("--text", help="homepage text from a file, if the site can't be fetched")
+    p.add_argument("--survey", help="Sean Ellis PMF survey responses (CSV)")
+    p.add_argument("--pipeline", help="open deals export (CSV)")
+    p.add_argument("--competitor", action="append", help="a main competitor (repeatable)")
+    p.add_argument("--website-only", action="store_true", help="skip the questions")
+    p.add_argument("--no-questions", action="store_true", help="don't ask anything interactively")
+    p.add_argument("--no-context", action="store_true", help="ignore the workspace's company.md")
+    p.add_argument("--json", action="store_true", help="print the full result as JSON")
+    p.add_argument("--brief", action="store_true", help="scorecard and fixes only (the saved report keeps the evidence)")
+    _provider_args(p)
+    p.set_defaults(func=cmd_checkup)
 
     p = sub.add_parser("list", help="list available skills")
     p.add_argument("-v", "--verbose", action="store_true", help="include descriptions")

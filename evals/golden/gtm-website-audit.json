@@ -1,0 +1,47 @@
+{
+  "skill": "gtm-website-audit",
+  "cases": [
+    {
+      "id": "generic-homepage-no-proof",
+      "description": "Features without customer, problem, alternative, or proof: low ICP clarity, failed swap test, zero proof.",
+      "source": "Worked example in b2b-agent-skills-gtm/skills/gtm-website-audit/README.md",
+      "readme_example": true,
+      "input": {
+        "website": "northwind.example",
+        "page_text": "The all-in-one revenue platform.\nOur platform empowers revenue teams to unlock their full potential with AI-powered insights.\nReal-time CRM sync · Explainable AI risk scoring · No-code rule builder · 15-minute setup\nBook a demo",
+        "known_competitors": [
+          "Clari",
+          "spreadsheets"
+        ]
+      },
+      "assertions": [
+        {
+          "path": "icp_clarity.score",
+          "lte": 25
+        },
+        {
+          "path": "icp_clarity.items[criterion=target_customer_named].points",
+          "equals": 0,
+          "why": "no company type or size on the page"
+        },
+        {
+          "path": "differentiation.items[criterion=swap_test].points",
+          "equals": 0,
+          "why": "any competitor could publish 'The all-in-one revenue platform'"
+        },
+        {
+          "path": "proof.score",
+          "equals": 0
+        },
+        {
+          "path": "positioning.score",
+          "lte": 40
+        },
+        {
+          "path": "biggest_gap",
+          "matches": "who|customer|replace|alternative|problem"
+        }
+      ]
+    }
+  ]
+}

@@ -121,9 +121,33 @@ def fetch_website_text(url: str, limit: int = 15000) -> str:
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (b2b-agent-skills init)"})
     with urllib.request.urlopen(req, timeout=20) as resp:
         raw = resp.read(2_000_000).decode("utf-8", errors="replace")
-    raw = re.sub(r"(?is)<(script|style|noscript|svg)[^>]*>.*?</\1>", " ", raw)
-    text = html.unescape(re.sub(r"(?s)<[^>]+>", " ", raw))
-    return re.sub(r"\s+", " ", text).strip()[:limit]
+    return html_to_text(raw)[:limit]
+
+
+_SKIP_ALT = re.compile(r"avatar|icon|logo of the page|arrow|chevron|placeholder|^image$|^photo$|^\W*$", re.I)
+
+
+def html_to_text(raw: str) -> str:
+    """Visible text plus what a buyer sees but tag-stripping loses: title, meta description, and image alt text
+    (customer logos are usually images). Avatars and decorative images are skipped."""
+    title = re.search(r"(?is)<title[^>]*>(.*?)</title>", raw)
+    meta = re.search(r'(?is)<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']+)', raw)
+    alts: list[str] = []
+    for alt in re.findall(r'(?is)<img[^>]+alt=["\']([^"\']{2,60})["\']', raw):
+        alt = html.unescape(alt).strip()
+        if not _SKIP_ALT.search(alt) and alt not in alts:
+            alts.append(alt)
+    body = re.sub(r"(?is)<(script|style|noscript|svg|head)[^>]*>.*?</\1>", " ", raw)
+    text = re.sub(r"\s+", " ", html.unescape(re.sub(r"(?s)<[^>]+>", " ", body))).strip()
+    header = []
+    if title:
+        page_title = re.sub(r"\s+", " ", html.unescape(title.group(1))).strip()
+        header.append(f"Page title: {page_title}")
+    if meta:
+        header.append(f"Meta description: {html.unescape(meta.group(1)).strip()}")
+    if alts:
+        header.append("Images on the page (alt text, e.g. customer logos): " + ", ".join(alts[:40]))
+    return "\n".join([*header, text])
 
 
 def draft_answers(website_text: str, provider: Provider) -> dict[str, str]:

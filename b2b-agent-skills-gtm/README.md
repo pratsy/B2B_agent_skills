@@ -11,6 +11,7 @@ Open-source AI playbooks for strategic go-to-market intelligence, competitive aw
 - signal interpretation
 - opportunity sizing
 - product-market fit measurement
+- GTM diagnostics (founder interview and website audit)
 
 ## Featured skills
 
@@ -23,6 +24,8 @@ Open-source AI playbooks for strategic go-to-market intelligence, competitive aw
 - market-shift-monitor
 - competitor-signal-clusterer
 - pmf-survey-analyzer
+- gtm-founder-diagnostic
+- gtm-website-audit
 
 ## Standard skill format
 
@@ -38,6 +41,8 @@ Every skill in this library follows the same operational structure — see [`mem
 
 - **TAM/SAM/SOM sizing, reconciled top-down and bottom-up** — `market-sizing-modeler`
 - **Sean Ellis 40% product-market-fit test, segmented** — `pmf-survey-analyzer`
+- **First-meeting GTM diagnostic, scored on evidence from the founder's answers** — `gtm-founder-diagnostic`
+- **Dunford positioning components, swap test, and proof check on the website** — `gtm-website-audit`
 - **Frequency/decisiveness/win-rate-delta theme scoring** — `win-loss-theme-clusterer`
 - **Move-type taxonomy with overlap/confirmation/pattern materiality scoring** — `competitor-monitor`
 - **Strategic-theme clustering with trajectory (accelerating/stable/fading) scoring** — `competitor-signal-clusterer`

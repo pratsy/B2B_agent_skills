@@ -2,17 +2,19 @@
 
 ## [Unreleased]
 
-### Changed
-
-- The repository is now `pratsy/B2B_agent_skills` (was `pratsy/skills-AI`). GitHub redirects old repo and clone URLs; the docs site moved to https://pratsy.github.io/B2B_agent_skills/.
-
 ### Added
 
+- **GTM checkup** (`b2b-skills checkup [yourcompany.com]`): the new front door. Ten quick questions plus the website produce a scorecard across 8 areas (ICP, product-market fit, positioning and messaging, proof, demand and channels, pricing, sales motion, pipeline), each owned by a GTM role, with the biggest risk, the top 3 fixes, and what would unlock unknown areas. Optional `--survey` and `--pipeline` data deepen it. Rubric points and every score are computed in code; every point quotes the founder's answers or the page; unknown is never scored as zero; one answered criterion can't make an area strong; a website alone gets a website score, not a GTM score. Passes its evals on Claude Sonnet 4.5, and was checked on two real startup websites.
+- **`gtm-founder-diagnostic`** and **`gtm-website-audit`** skills (now 48): the founder interview scored on six rubrics, and the website scored on ICP clarity, Dunford positioning components, the swap test, and proof.
+- The page reader now keeps the page title, meta description, and image alt text (customer logos are often images).
 - **`fix-my-message` playbook** (marketing): `b2b-skills playbook fix-my-message --website <url> --notes win-loss.md` turns your current copy and win/loss evidence into a positioning statement, claim-by-claim clarity scores, a rewritten headline and subhead, three outbound angles, and the proof you still need. Never invents proof points: gaps become bracketed placeholders. Evals fail on invented customer counts or unsupported generalizations. Passes 3/3 on Claude Sonnet 4.5.
 - `--website` on notes playbooks reads a web page as source material.
 
 ### Changed
 
+- The README leads with the checkup and presents the skills as a GTM team: CMO, Head of Sales, RevOps lead, Strategy advisor.
+- Evidence gathered from several places on a page is accepted when every fragment is verbatim.
+- The repository is now `pratsy/B2B_agent_skills` (was `pratsy/skills-AI`). GitHub redirects old repo and clone URLs; the docs site moved to https://pratsy.github.io/B2B_agent_skills/.
 - The README and docs present the workspace for sales, marketing, and RevOps, with jobs by team; previously they pitched founder-led sales only.
 - New demo GIF of real playbook runs.
 
