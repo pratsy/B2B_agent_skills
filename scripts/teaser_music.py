@@ -54,11 +54,19 @@ def env(n: int, attack: float, decay: float) -> np.ndarray:
     return np.minimum(1.0, t / max(attack, 1e-4)) * np.exp(-t / decay)
 
 
-def render(seconds: float, seed: int = 7) -> np.ndarray:
+def render(
+    seconds: float,
+    seed: int = 7,
+    drop: float = DROP,
+    break_start: float = BREAK_START,
+    break_end: float = BREAK_END,
+    claps_from: float = 18.2,
+) -> np.ndarray:
+    """Cue points come from the video's scene timings: the drop, the drum break, and where claps join."""
     rng = np.random.default_rng(seed)
     n = int(seconds * SR)
     pad, arp, bass, kick, hats, clap, fx = (np.zeros(n) for _ in range(7))
-    drums_on = lambda s: DROP <= s < BREAK_START or s >= BREAK_END  # noqa: E731
+    drums_on = lambda s: drop <= s < break_start or s >= break_end  # noqa: E731
 
     bars = int(np.ceil(seconds / BAR))
     for b in range(bars):
@@ -101,20 +109,20 @@ def render(seconds: float, seed: int = 7) -> np.ndarray:
             place(kick, np.sin(sweep) * env(q, 0.001, 0.12) * 0.75, at)
             hq = int(0.05 * SR)
             place(hats, highpass(rng.standard_normal(hq), 7000) * env(hq, 0.001, 0.015) * 0.12, at + BEAT / 2)
-            if k in (1, 3) and start >= 18.2:  # claps join at the scorecard
+            if k in (1, 3) and start >= claps_from:  # claps join at the scorecard
                 cq = int(0.18 * SR)
                 c = lowpass(highpass(rng.standard_normal(cq), 900), 3500) * env(cq, 0.001, 0.05)
                 place(clap, c * 0.25, at)
 
     # risers into the drop and out of the breakdown: noise swelling over one bar
-    for end in (DROP, BREAK_END):
+    for end in (drop, break_end):
         q = int(BAR * SR)
         swell = np.linspace(0, 1, q) ** 2
         place(fx, highpass(rng.standard_normal(q), 2500) * swell * 0.12, end - BAR)
     # an impact on the drop
     q = int(1.2 * SR)
     tq = np.arange(q) / SR
-    place(fx, np.sin(2 * np.pi * 45 * tq) * env(q, 0.002, 0.4) * 0.5, DROP)
+    place(fx, np.sin(2 * np.pi * 45 * tq) * env(q, 0.002, 0.4) * 0.5, drop)
 
     left = pad + kick + bass + clap + fx + 0.75 * arp + 1.15 * hats
     right = pad + kick + bass + clap + fx + 1.15 * arp + 0.75 * hats

@@ -107,7 +107,6 @@ def s_reveal(d, t):
 QA = [
     ("2/10", "Who are your best customers, and why did they buy?", "Mid-market fintech. The VP Sales buys after a forecast miss."),
     ("4/10", "Where do your leads and customers come from today?", "Mostly my network and a few LinkedIn posts."),
-    ("7/10", "How do you price, and how often do you discount?", "$500/month flat. I discount for almost everyone."),
 ]
 
 
@@ -119,8 +118,8 @@ def terminal(d, top: int, bottom: int) -> None:
 
 def s_terminal(d, t):
     text(d, t, 0.0, (90, 170), "1. Answer 10 questions", font(64, True))
-    text(d, t, 0.0, (90, 250), "About 3 minutes. Plus your website.", font(40), DIM)
-    terminal(d, 360, 1240)
+    text(d, t, 0.0, (90, 250), "About 3 minutes. Skip any you like.", font(40), DIM)
+    terminal(d, 360, 1000)
     cmd = "b2b-skills checkup northwind.example"
     typed = cmd[: max(0, min(len(cmd), int((t - 0.4) * 32)))]
     d.text((110, 430), "$ ", font=font(34, mono=True), fill=ACCENT)
@@ -137,35 +136,69 @@ def s_terminal(d, t):
             y += 46
         text(d, t, start + 0.5, (110, y - 46 * len(wrap(a, font(32, mono=True), W - 270))), ">", font(32, mono=True), ACCENT, bg=PANEL)
         y += 24
-    text(d, t, 6.0, (110, y + 10), "Reading northwind.example ...", font(32, mono=True), DIM, bg=PANEL)
 
 
+# What the checkup printed for the demo files (examples/demo/docs), shortened to fit
+DOCS = [
+    ("hubspot-deals.csv", "deal export, 39 deals"),
+    ("leads.csv", "lead sheet, 60 leads"),
+    ("call-notes-ledgerly.md", "call notes"),
+]
+FACTS = [
+    "Win rate on closed deals: 9 of 31 (29%)",
+    "Lead source: Founder referral 41 of 60 (68%)",
+    "Open deals overdue or silent: 4 of 8 (50%)",
+]
+
+
+def s_docs(d, t):
+    text(d, t, 0.0, (90, 170), "2. Point it at your files", font(64, True))
+    text(d, t, 0.0, (90, 250), "CRM export, lead sheet, call notes, deck.", font(40), DIM)
+    terminal(d, 360, 1120)
+    cmd = "b2b-skills checkup --docs docs/"
+    typed = cmd[: max(0, min(len(cmd), int((t - 0.3) * 30)))]
+    d.text((110, 430), "$ ", font=font(34, mono=True), fill=ACCENT)
+    d.text((160, 430), typed + ("▌" if t < 1.6 and int(t * 3) % 2 == 0 else ""), font=font(34, mono=True), fill=FG)
+    mono = font(30, mono=True)
+    for i, (name, kind) in enumerate(DOCS):
+        start = 1.4 + 0.4 * i
+        text(d, t, start, (110, 530 + 52 * i), name, mono, BLUE, bg=PANEL)
+        text(d, t, start, (560, 530 + 52 * i), kind, mono, FG, bg=PANEL)
+    text(d, t, 3.0, (110, 740), "Computed in code, quoted as evidence:", mono, DIM, bg=PANEL)
+    for i, fact in enumerate(FACTS):
+        text(d, t, 3.4 + 0.5 * i, (110, 800 + 60 * i), fact, font(32, mono=True), YELLOW, bg=PANEL)
+    text(d, t, 5.2, (110, 1020), "The model never does the math.", font(34, True), ACCENT, bg=PANEL)
+
+
+# The real checkup of the demo company with answers, documents, and homepage (docs/assets/demo-session.txt)
+SCORE = 35
 AREAS = [
-    ("ICP", "CMO", 62),
+    ("ICP", "CMO", 55),
     ("Product-market fit", "Strategy", 60),
-    ("Positioning", "CMO", 43),
+    ("Positioning", "CMO", 40),
     ("Proof", "CMO", 0),
-    ("Demand & channels", "Growth", 0),
+    ("Demand & channels", "Growth", 30),
     ("Pricing & value", "Strategy", 0),
-    ("Sales motion", "Head of Sales", 29),
-    ("Pipeline & RevOps", "RevOps", 0),
+    ("Sales motion", "Head of Sales", 57),
+    ("Pipeline & RevOps", "RevOps", 40),
 ]
 
 
 def band(score: int) -> str:
-    return GREEN if score >= 70 else YELLOW if score >= 50 else ORANGE if score >= 30 else RED
+    # the checkup's own bands: 80+ strong, 60-79 decent, 40-59 weak, <40 missing
+    return GREEN if score >= 80 else YELLOW if score >= 60 else ORANGE if score >= 40 else RED
 
 
 def s_scorecard(d, t):
-    text(d, t, 0.0, (90, 150), "2. Get an honest scorecard", font(62, True))
+    text(d, t, 0.0, (90, 150), "3. Get an honest scorecard", font(62, True))
     a = ease((t - 0.4) / 1.6)
     if t > 0.4:
         d.text((90, 250), "GTM score", font=font(44), fill=DIM)
-        d.text((90, 300), f"{round(24 * a)}", font=font(150, True), fill=RED)
-        d.text((90 + font(150, True).getlength(f"{round(24 * a)}") + 14, 395), "/100", font=font(52), fill=DIM)
+        d.text((90, 300), f"{round(SCORE * a)}", font=font(150, True), fill=band(SCORE))
+        d.text((90 + font(150, True).getlength(f"{round(SCORE * a)}") + 14, 395), "/100", font=font(52), fill=DIM)
     text(d, t, 1.6, (480, 330), "Biggest risk: growth depends on", font(34), FG)
     text(d, t, 1.6, (480, 376), "the founder's network and", font(34), FG)
-    text(d, t, 1.6, (480, 422), "discounted, low-priced deals.", font(34), FG)
+    text(d, t, 1.6, (480, 422), "underpriced, founder-sold deals.", font(34), FG)
     x0, bar_x, bar_w, y = 90, 520, 380, 560
     for i, (name, owner, score) in enumerate(AREAS):
         start = 0.8 + 0.22 * i
@@ -181,13 +214,13 @@ def s_scorecard(d, t):
 
 FIXES = [
     ("Proof", "CMO", "Add one named customer result, a before/after number and a quote, next to the headline."),
-    ("Pricing & value", "Strategy", "Stop default discounting. Tie price to the cost of a forecast miss."),
-    ("Pipeline & RevOps", "RevOps", "Build roughly 3x pipeline coverage before the quarter ends."),
+    ("Positioning", "CMO", "Rewrite the headline to name who it's for, what it replaces, and the outcome."),
+    ("ICP", "CMO", "Turn your ICP (mid-market fintech, VP Sales, forecast-miss trigger) into a checklist. Disqualify agencies before the first call."),
 ]
 
 
 def s_fixes(d, t):
-    text(d, t, 0.0, (90, 170), "3. Fix the top 3 things", font(64, True))
+    text(d, t, 0.0, (90, 170), "4. Fix the top 3 things", font(64, True))
     text(d, t, 0.0, (90, 252), "Each with the next step to take.", font(40), DIM)
     y = 380
     for i, (area, owner, fix) in enumerate(FIXES):
@@ -207,7 +240,7 @@ def s_fixes(d, t):
 
 def s_trust(d, t):
     text(d, t, 0.1, (90, 480), "Every score quotes", font(78, True))
-    text(d, t, 0.1, (90, 580), "your words or your site.", font(78, True))
+    text(d, t, 0.1, (90, 580), "your words, files, or site.", font(78, True))
     text(d, t, 1.0, (90, 760), "Unknown is never scored as zero.", font(52), ACCENT)
     text(d, t, 1.5, (90, 840), "No invented stats. Checked in code.", font(52), DIM)
 
@@ -229,7 +262,8 @@ SCENES: list[tuple[Callable, float]] = [
     (s_hook, 3.6),
     (s_question, 3.4),
     (s_reveal, 3.6),
-    (s_terminal, 7.6),
+    (s_terminal, 5.0),
+    (s_docs, 7.0),
     (s_scorecard, 6.8),
     (s_fixes, 5.4),
     (s_trust, 3.8),
@@ -274,7 +308,16 @@ def main() -> None:
         from teaser_music import render, write_wav
 
         wav = str(Path(tempfile.mkdtemp()) / "music.wav")
-        write_wav(wav, render(sum(dur for _, dur in SCENES)))
+        starts, at = {}, 0.0
+        for draw, dur in SCENES:
+            starts[draw.__name__], at = (at, at + dur), at + dur
+        cues = {
+            "drop": starts["s_reveal"][0],
+            "break_start": starts["s_trust"][0],
+            "break_end": starts["s_trust"][1],
+            "claps_from": starts["s_scorecard"][0],
+        }
+        write_wav(wav, render(at, **cues))
         audio = ["-i", wav, "-c:a", "aac", "-b:a", "192k", "-shortest"]
     cmd = [imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
            *audio, "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", "-preset", "slow", "-movflags", "+faststart", args.output]  # fmt: skip
