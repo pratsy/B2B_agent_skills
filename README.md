@@ -130,9 +130,13 @@ From Python: `run_skill("pipeline-health-monitor", data, provider="anthropic")` 
 
 Full documentation: **https://pratsy.github.io/B2B_agent_skills/**
 
-## Contributing
+## Get help or contribute
 
-The most useful contributions right now are real-world playbook feedback, more golden eval cases, and fixes to skill methodology. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues privately ([SECURITY.md](SECURITY.md)).
+- **Want it running for your company?** Open a [setup request](https://github.com/pratsy/B2B_agent_skills/issues/new?template=deployment_help.yml) and I'll help you get the checkup, a workspace, or your HubSpot, Slack, and call-recorder connections working. It's free while the project is early.
+- **Want to contribute?** The most useful contributions right now are checkup results from real companies (anonymized), more golden eval cases, and fixes to skill methodology. See [CONTRIBUTING.md](CONTRIBUTING.md) (start with the [good first contributions](CONTRIBUTING.md#good-first-contributions)) and the [Code of Conduct](CODE_OF_CONDUCT.md).
+- **Found a skill giving a wrong answer?** [Report it](https://github.com/pratsy/B2B_agent_skills/issues/new?template=skill_quality.yml); good reports become new eval cases.
+
+Report security issues privately ([SECURITY.md](SECURITY.md)).
 
 ## License
 
