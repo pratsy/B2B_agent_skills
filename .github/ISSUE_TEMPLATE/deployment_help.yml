@@ -1,0 +1,53 @@
+name: Help me set it up for my company
+description: Get free help running the checkup, setting up a workspace, or connecting HubSpot, Slack, or your call recorder
+labels: [deployment-help]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tell us where you are and what you want working. The maintainer replies here, and can set up a short call if that's faster.
+        Don't paste customer names, deal details, or API keys. Describe them instead.
+  - type: input
+    id: company
+    attributes:
+      label: Company and website (optional)
+      placeholder: Acme, acme.com
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Stage
+      options:
+        - Pre-seed / idea
+        - Seed
+        - Series A
+        - Series B or later
+        - Not a startup (agency, consultant, student)
+    validations:
+      required: true
+  - type: checkboxes
+    id: goal
+    attributes:
+      label: What do you want working?
+      options:
+        - label: Run the GTM checkup on my company
+        - label: A workspace for my team (company context, deals, weekly review)
+        - label: HubSpot connection
+        - label: Call recorder or Slack connection
+        - label: Inside Claude Code, Claude Desktop, or Cursor (plugin or MCP)
+        - label: Running it on a server or in CI
+  - type: textarea
+    id: details
+    attributes:
+      label: Where are you stuck, or what are you trying to do?
+      description: Include the command you ran and the error, if there was one.
+    validations:
+      required: true
+  - type: dropdown
+    id: provider
+    attributes:
+      label: How will you run the model?
+      options:
+        - Claude subscription (Claude Code)
+        - Anthropic API key
+        - OpenAI API key
+        - Not sure yet
