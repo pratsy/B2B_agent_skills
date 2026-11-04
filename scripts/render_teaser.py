@@ -4,8 +4,9 @@
 The scorecard shown is the real checkup result for the fictional demo company in
 examples/demo/ (see docs/assets/demo-session.txt).
 
-    pip install pillow imageio-ffmpeg
-    python scripts/render_teaser.py -o teaser.mp4
+    pip install pillow imageio-ffmpeg numpy scipy
+    python scripts/render_teaser.py -o teaser.mp4            # with the soundtrack from teaser_music.py
+    python scripts/render_teaser.py -o teaser.mp4 --silent   # video only
 """
 
 from __future__ import annotations
@@ -253,6 +254,7 @@ def frames():
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("-o", "--output", default="teaser.mp4")
+    ap.add_argument("--silent", action="store_true", help="leave out the soundtrack")
     ap.add_argument("--still", type=float, help="write a PNG of the frame at this second instead")
     args = ap.parse_args()
     if args.still is not None:
@@ -260,10 +262,22 @@ def main() -> None:
             if i == round(args.still * FPS):
                 img.save(args.output)
                 return
+    import tempfile
+
     import imageio_ffmpeg
 
+    audio: list[str] = []
+    if not args.silent:
+        import sys
+
+        sys.path.insert(0, str(Path(__file__).parent))
+        from teaser_music import render, write_wav
+
+        wav = str(Path(tempfile.mkdtemp()) / "music.wav")
+        write_wav(wav, render(sum(dur for _, dur in SCENES)))
+        audio = ["-i", wav, "-c:a", "aac", "-b:a", "192k", "-shortest"]
     cmd = [imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-           "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", "-preset", "slow", "-movflags", "+faststart", args.output]  # fmt: skip
+           *audio, "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", "-preset", "slow", "-movflags", "+faststart", args.output]  # fmt: skip
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     assert proc.stdin
     for img in frames():
