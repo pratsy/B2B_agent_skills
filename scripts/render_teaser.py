@@ -215,7 +215,11 @@ def s_scorecard(d, t):
 FIXES = [
     ("Proof", "CMO", "Add one named customer result, a before/after number and a quote, next to the headline."),
     ("Positioning", "CMO", "Rewrite the headline to name who it's for, what it replaces, and the outcome."),
-    ("ICP", "CMO", "Turn your ICP (mid-market fintech, VP Sales, forecast-miss trigger) into a checklist. Disqualify agencies before the first call."),
+    (
+        "ICP",
+        "CMO",
+        "Turn your ICP (mid-market fintech, VP Sales, forecast-miss trigger) into a checklist. Disqualify agencies before the first call.",
+    ),
 ]
 
 
