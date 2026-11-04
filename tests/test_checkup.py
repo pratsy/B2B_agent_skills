@@ -174,3 +174,12 @@ def test_answered_area_that_comes_back_unknown_is_retried():
     result = run_checkup(answers=ANSWERS, provider=ForgetsPmfOnce())
     assert ForgetsPmfOnce.calls == 2
     assert {a.key: a for a in result.areas}["pmf"].score is not None
+
+
+def test_question_labels_do_not_count_as_numbers_in_fixes():
+    from b2b_agent_skills.checkup import numbers_supported
+
+    answers = {"q3": "Two agencies who never set it up.", "q5": "I run every call, no set process."}
+    assert numbers_supported("write down your process", ["\n".join(answers.values())])
+    assert not numbers_supported("write down your 3-stage process", ["\n".join(answers.values())])
+    assert numbers_supported("write down your 3-stage process", [answers_text(answers)])  # why labels must stay out

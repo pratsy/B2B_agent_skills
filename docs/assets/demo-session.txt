@@ -1,31 +1,36 @@
-$ head -4 answers.txt
-q1: Seed stage, 12 paying customers.
-q2: Mid-market fintech companies, the VP Sales buys after a forecast miss in front of the board.
-q3: Two agencies who never set it up.
-q4: Mostly from my network and a few LinkedIn posts.
-$ b2b-skills checkup northwind.example --text homepage.txt --answers answers.txt --brief --provider claude-code
+$ ls docs/
+call-notes-ledgerly.md
+hubspot-deals.csv
+leads.csv
+$ b2b-skills checkup northwind.example --text homepage.txt --answers answers.txt --docs docs/ --brief --provider claude-code
 # GTM checkup: northwind.example
 
-**GTM score: 24/100** (missing), from 8 of 8 areas.
+**GTM score: 35/100** (missing), from 8 of 8 areas.
 
-**Biggest risk:** growth depends on the founder's network and discounted, low-priced deals
+**Biggest risk:** growth depends on the founder's network and underpriced, founder-sold deals with no repeatable channel to replace referrals
 
 | Area | Owner | Score | What we found | Based on |
 |---|---|---|---|---|
-| ICP | CMO | 🟡 62 | solid on what you described | your answers, website |
+| ICP | CMO | 🟠 55 | solid on what you described; the site doesn't say who it's for | your answers, leads.csv, hubspot-deals.csv, website |
 | Product-market fit | Strategy | 🟡 60 | provisional (1 of 3 criteria answered; unknown: pull signals, must have evidence); solid on what you described | your answers |
-| Positioning & messaging | CMO | 🟠 43 | weak on: alternative addressed, value tied to customer, swap test; headline ('all-in-one revenue platform') describes category, not what Northwind actually does (forecast risk scoring) | website |
+| Positioning & messaging | CMO | 🟠 40 | weak on: alternative addressed, value tied to customer, swap test | website |
 | Proof | CMO | 🔴 0 | missing: customer evidence, quantified results, third party credibility | website |
-| Demand & channels | Growth | 🔴 0 | weak on: repeatable channel, beyond founder network | your answers |
-| Pricing & value | Strategy | 🔴 0 | weak on: deal size fits motion, discount discipline | your answers |
-| Sales motion | Head of Sales | 🔴 29 | weak on: defined process | your answers |
-| Pipeline & RevOps | RevOps | 🔴 0 | provisional (1 of 3 criteria answered; unknown: tracked in crm, next steps on deals); weak on: coverage | your answers |
+| Demand & channels | Growth | 🔴 30 | weak on: repeatable channel, beyond founder network | your answers, hubspot-deals.csv, leads.csv |
+| Pricing & value | Strategy | 🔴 0 | weak on: deal size fits motion, discount discipline | hubspot-deals.csv, your answers |
+| Sales motion | Head of Sales | 🟠 57 | weak on: defined process | your answers, hubspot-deals.csv |
+| Pipeline & RevOps | RevOps | 🟠 40 | 4 of 8 open deals are overdue, silent 14+ days, or stuck 45+ days | your answers, hubspot-deals.csv |
 
 ## Top 3 fixes
 
 1. **Proof** (CMO): Add one named customer result (a before/after number and a quote) next to the headline.
    - Next: Ask your two happiest customers for a before/after number and a quote you can use.
-2. **Pricing & value** (Strategy): stop default discounting; tie price to the cost of a forecast miss
-   - Next: `b2b-skills run pricing-justification-builder --notes pricing.md`
-3. **Pipeline & RevOps** (RevOps): build roughly 3x pipeline coverage before the quarter ends
-   - Next: `b2b-skills playbook monday-review --csv deals.csv`
+2. **Positioning & messaging** (CMO): Rewrite the headline to name who it's for, what it replaces, and the outcome; run fix-my-message for drafts.
+   - Next: `b2b-skills playbook fix-my-message --website northwind.example`
+3. **ICP** (CMO): write the ICP definition (mid-market fintech, VP Sales/RevOps, forecast-miss trigger) into your qualification checklist and use it to disqualify agencies and ecommerce leads before first call
+   - Next: `b2b-skills playbook find-icp --customers accounts.csv`
+
+## What we read
+
+- `call-notes-ledgerly.md`: notes, 101 words
+- `hubspot-deals.csv`: deal export, 8 open and 31 closed deals
+- `leads.csv`: lead sheet, 60 leads

@@ -487,7 +487,8 @@ def run_checkup(
     website_score = _mean(
         [a.score for a in ordered if a.sources == ["website"]] + ([site["icp_clarity"][0]] if "icp_clarity" in site else [])
     )
-    grounding = [s for s in (page_text, founder_src) if s]
+    # Numbers in fixes are checked against what the founder said and shared, not the question labels ("Q3.", "10 questions").
+    grounding = [s for s in (page_text, "\n".join(answers.values()), docs.evidence_text()) if s]
     fixes = build_fixes(ordered, raw, sources=grounding)
     risk = _grounded(str(fdx.get("biggest_risk") or ""), grounding) or _grounded(str(audit_out.get("biggest_gap") or ""), grounding)
     report = render_report(

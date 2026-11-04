@@ -13,12 +13,13 @@
 
 ### Changed
 
+- Numbers in suggested fixes are checked against the founder's answers, not the question labels ("Q3.", "Q5." no longer let "3-stage" or "5 questions" through).
 - Numbers in suggested fixes must appear whole in the sources, with their "$" and unit: "$200/seat" no longer passes because "51-200" is in a lead sheet, and "60 days" needs "60 days".
 - The README leads with the checkup and presents the skills as a GTM team: CMO, Head of Sales, RevOps lead, Strategy advisor.
 - Evidence gathered from several places on a page is accepted when every fragment is verbatim.
 - The repository is now `pratsy/B2B_agent_skills` (was `pratsy/skills-AI`). GitHub redirects old repo and clone URLs; the docs site moved to https://pratsy.github.io/B2B_agent_skills/.
 - The README and docs present the workspace for sales, marketing, and RevOps, with jobs by team; previously they pitched founder-led sales only.
-- New demo GIF of real playbook runs.
+- New demo GIF of a real checkup with answers, documents, and the homepage; the teaser video shows documents too.
 
 ## [0.5.0] - Unreleased
 

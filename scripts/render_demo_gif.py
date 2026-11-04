@@ -23,10 +23,12 @@ from pathlib import Path
 from typing import Any
 
 DEMO_COMMANDS = [
-    "head -4 answers.txt",
-    "b2b-skills checkup northwind.example --text homepage.txt --answers answers.txt --brief --provider claude-code",
+    "ls docs/",
+    "b2b-skills checkup northwind.example --text homepage.txt --answers answers.txt --docs docs/ --brief --provider claude-code",
 ]
 DISPLAY_AS: dict[int, str] = {}
+# The scorecard is wider than the GIF; the fixes already say what's wrong, so show the sources instead.
+GIF_HIDDEN_COLUMNS = {"What we found"}
 DEMO_DIR = Path(__file__).resolve().parents[1] / "examples" / "demo"
 
 BG, FG, PROMPT, DIM, KEY, STR, NUM, BAR = "#1e1e2e", "#cdd6f4", "#a6e3a1", "#7f849c", "#89b4fa", "#f9e2af", "#fab387", "#181825"
@@ -44,6 +46,7 @@ def record(path: Path) -> None:
     shutil.copy(DEMO_DIR / "icp.json", ws / "gtm" / "icp.json")
     for name in ("win-loss-and-homepage.md", "leads.csv", "answers.txt", "homepage.txt"):
         shutil.copy(DEMO_DIR / name, ws / name)
+    shutil.copytree(DEMO_DIR / "docs", ws / "docs")
     lines: list[str] = []
     for i, cmd in enumerate(DEMO_COMMANDS):
         lines.append(f"$ {DISPLAY_AS.get(i, cmd)}")
@@ -123,8 +126,11 @@ def _layout_tables(lines: list[str]) -> list[str]:
             i += 1
         ncol = max(len(r) for r in rows)
         rows = [r + [""] * (ncol - len(r)) for r in rows]
+        keep = [c for c in range(ncol) if rows[0][c] not in GIF_HIDDEN_COLUMNS]
+        rows, ncol = [[r[c] for c in keep] for r in rows], len(keep)
         natural = [max(_visible_len(r[c]) for r in rows) for c in range(ncol)]
         widths = [min(n, 23) for n in natural]
+        widths[-1] = min(natural[-1], 52)  # "Based on": the sources are the point, so show them whole
         widest = max(range(ncol), key=lambda c: natural[c])  # the column with the most text gets the spare width
         widths[widest] = max(10, COLS - (sum(widths) - widths[widest]) - 2 * (ncol - 1))
         for r in rows:
